@@ -3,7 +3,7 @@
 //imports
 //import * as Discord from 'discord.js';
 //import {MessageEmbed} from 'discord.js';
-import {Client, Discord, On, Once} from '@typeit/discord';
+import {Client, Discord, On, Once, ArgsOf, Command, CommandMessage, CommandNotFound} from '@typeit/discord';
 import {config} from './config';
 
 //client
@@ -23,3 +23,16 @@ client.on('ready', ()=>{
   console.log('bot ready')
 })
 
+@Discord('::')
+abstract class AppDiscord {
+  @Command('ping')
+  private ping(command: CommandMessage) {
+    command.reply('bonk')
+  }
+}
+
+client.on('message', message => {
+  if (message.content.startsWith('::ping')) {
+    message.channel.send('bonk!')
+  }
+})
