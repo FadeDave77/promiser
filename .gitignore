@@ -1,1 +1,5 @@
 config.ts
+.vscode
+node_modules
+config.js
+dist
