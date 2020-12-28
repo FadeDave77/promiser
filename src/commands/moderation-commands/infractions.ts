@@ -1,0 +1,50 @@
+import { Command } from 'discord-akairo';
+import { Message, GuildMember, User, MessageEmbed} from 'discord.js';
+import { Repository } from 'typeorm';
+
+import { Warns } from '../../models/warns';
+
+export default class InfractionsCommand extends Command {
+    public constructor() {
+        super('infractions', { //name
+            aliases: ['infractions', 'infraq'], //aliases
+            category: 'moderation-commands', //category of command
+            description: {
+                content: 'Check for use infractions', //description
+                usage: 'infractions <member>', //how to use
+                examples: ['infractions @FadeDave#7005', 'infractions FadeDave'] //exampleArray
+            },
+            ratelimit: 6, //how many times can you execute / minute
+            userPermissions: ['MANAGE_MESSAGES'],
+            args: [
+                {
+                    id:'member',
+                    type: 'member',
+                    default: (msg: Message) => msg.member
+                }
+            ]
+        });
+    }
+    public async exec(message: Message, {member}: {member: GuildMember}): Promise<Message> {
+        const warnRepo: Repository<Warns> = this.client.db.getRepository(Warns);
+        const warns: Warns[] = await warnRepo.find({ user: member.id, guild: message.guild.id});
+
+        if (!warns.length) return message.util.reply(`No infractions found for ${member} `);
+
+        const infractions = await Promise.all(warns.map(async (v: Warns, i: number) => {
+            const mod: User = await this.client.users.fetch(v.moderator).catch(() => null);
+            if (mod) return {
+                index: i+1,
+                moderator: mod.tag,
+                time: (new Date(v.time * 1000)).toString().substr(4, 27),
+                reason: v.reason
+            }
+        }));
+
+        return message.util.send(new MessageEmbed()
+            .setAuthor(`Infractions | ${member.user.username}`, member.user.displayAvatarURL())
+            .setColor(0xff0000)
+            .setDescription(infractions.map(v => `\`#${v.index}\` | Moderator: **${v.moderator}** | Recorded at: **${v.time}**\nReason: **\`${v.reason}\`**\n`))
+        ).catch(() => message.util.send('An unknown error has occurred.'));
+    }
+}

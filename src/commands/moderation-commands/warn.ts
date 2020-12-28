@@ -5,7 +5,7 @@ import { OwnerId } from '../../config';
 
 import { Warns } from '../../models/warns';
 
-export default class Warn extends Command {
+export default class WarnCommand extends Command {
     public constructor() {
         super('warn', { //name
             aliases: ['warn', 'warning'], //aliases
@@ -43,6 +43,7 @@ export default class Warn extends Command {
             guild: message.guild.id,
             user: member.id,
             moderator: message.author.id,
+            time: (Math.round((Date.now()) / 1000)),
             reason: reason
         });
         return message.util.send(`**${member.user.tag}** has been warned by **${message.author.tag}**, with reason \`${reason}\`.`);

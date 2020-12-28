@@ -5,6 +5,9 @@ export class Warns {
     @PrimaryGeneratedColumn()
     id!: number;
 
+    @Column()
+    time!: number;
+
     @Column({type: 'varchar', length: 22})
     guild!:string;
 
