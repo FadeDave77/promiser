@@ -9,10 +9,10 @@ export default class WarnCommand extends Command {
     public constructor() {
         super('warn', { //name
             aliases: ['warn', 'warning'], //aliases
-            category: 'moderation-commands', //category of command
+            category: 'moderation', //category of command
             description: {
                 content: 'Warn users who are doing bad things.', //description
-                usage: 'warn (member) <reason>', //how to use
+                usage: 'warn <member> <reason>', //how to use
                 examples: ['warn @FadeDave#7005 he is a naughty boi'] //exampleArray
             },
             ratelimit: 3, //how many times can you execute / minute

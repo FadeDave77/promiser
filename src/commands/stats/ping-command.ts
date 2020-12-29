@@ -5,7 +5,7 @@ export default class PingCommand extends Command {
     public constructor() {
         super('ping', {
             aliases: ['ping', 'bonk', 'latency', 'ms'],
-            category: 'public-commands',
+            category: 'stats',
             description: {
                 content: "Check the DiscordAPI latency.",
                 usage: 'ping',

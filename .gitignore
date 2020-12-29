@@ -53,3 +53,6 @@ node_modules/**
 node_modules
 config.js
 dist
+package-lock.json
+.git
+#i know the .git folder is ignored by git, but it look weird in vscode

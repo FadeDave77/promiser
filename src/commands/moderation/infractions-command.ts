@@ -8,7 +8,7 @@ export default class InfractionsCommand extends Command {
     public constructor() {
         super('infractions', { //name
             aliases: ['infractions', 'infraq'], //aliases
-            category: 'moderation-commands', //category of command
+            category: 'moderation', //category of command
             description: {
                 content: 'Check for use infractions', //description
                 usage: 'infractions <member>', //how to use
@@ -43,7 +43,7 @@ export default class InfractionsCommand extends Command {
 
         return message.util.send(new MessageEmbed()
             .setAuthor(`Infractions | ${member.user.username}`, member.user.displayAvatarURL())
-            .setColor(0xff0000)
+            .setColor('RANDOM')
             .setDescription(infractions.map(v => `\`#${v.index}\` | Moderator: **${v.moderator}** | Recorded at: **${v.time}**\nReason: **\`${v.reason}\`**\n`))
         ).catch(() => message.util.send('An unknown error has occurred.'));
     }

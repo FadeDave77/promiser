@@ -5,10 +5,10 @@ export default class AvatarCommand extends Command {
     public constructor() {
         super('avatar', { //name
             aliases: ['avatar', 'pfp'], //aliases
-            category: 'public-commands', //category of command
+            category: 'stats', //category of command
             description: {
                 content: 'Get a user\'s avatar', //description
-                usage: 'avatar tag/id', //how to use
+                usage: 'avatar <user>', //how to use
                 examples: ['avatar @FadeDave#7005', 'pfp 347822600136949763'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute

@@ -10,10 +10,10 @@ export default class GiveawayCommand extends Command {
     public constructor() {
         super('giveaway', { //name
             aliases: ['giveaway', 'gaway'], //aliases
-            category: 'public-commands', //category of command
+            category: 'utility', //category of command
             description: {
                 content: 'Start a giveaway', //description
-                usage: 'giveaway (time) (item)', //how to use
+                usage: 'giveaway <time> <item>', //how to use
                 examples: ['giveaway 5d flush plush'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
