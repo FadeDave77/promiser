@@ -1,6 +1,6 @@
 import { Message, MessageEmbed, MessageReaction, User } from 'discord.js';
 import { Repository } from 'typeorm';
-import { Giveaways } from '../../models/giveaways';
+import { Giveaways } from '../models/giveaways';
 import { endianness } from 'os';
 
 export default {

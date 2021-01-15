@@ -21,9 +21,9 @@ export default class MessageDeleteListener extends Listener {
         let entry = logs.entries.find(a =>
             new User(this.client, a.target).id === message.author.id && Date.now() - a.createdTimestamp <= 200000
         )
-        const executor = entry ? entry.executor : message.author;
-        const executortag = entry ? entry.executor.tag : message.author.tag;
-        const executorid = entry ? entry.executor.id : message.author.id;
+        const executor = entry ? entry.executor : null;
+        const executortag = entry ? entry.executor.tag : null;
+        const executorid = entry ? entry.executor.id : null;
 
         const channel: TextChannel = message.guild.channels.cache.find(c=> c.name.toLowerCase() === 'dev-zero') as TextChannel;
 

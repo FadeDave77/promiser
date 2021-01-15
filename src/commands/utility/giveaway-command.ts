@@ -4,7 +4,7 @@ import ms from 'ms';
 import { Repository} from 'typeorm';
 
 import { Giveaways } from '../../models/giveaways';
-import GiveawayManager from '../../structures/giveaways/giveawaymanager';
+import GiveawayManager from '../../structures/giveawaymanager';
 
 export default class GiveawayCommand extends Command {
     public constructor() {

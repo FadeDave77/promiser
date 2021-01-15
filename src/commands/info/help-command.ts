@@ -49,7 +49,7 @@ export default class HelpCommand extends Command {
             .setAuthor(`Help | ${this.client.user.username}`, this.client.user.displayAvatarURL())
             .setColor('RANDOM')
             .setFooter(`${this.client.commandHandler.prefix}help [command] for more info on a specific command`)
-            .setDescription(`**Current prefix is:**\n\`${this.client.commandHandler.prefix}\`\n\n**Available Commands:**\n`);
+            .setDescription(`**Current guild prefix is:**\n\`${this.client.commandHandler.prefix}\`\n\n**Available command categories & commands:**\n`);
 
         for (const category of this.handler.categories.values()) {
             if (['default'].includes(category.id)) continue;

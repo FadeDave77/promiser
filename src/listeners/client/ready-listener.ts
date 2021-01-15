@@ -2,7 +2,7 @@ import {Listener} from 'discord-akairo';
 import { TextChannel, Message} from 'discord.js';
 import { Repository } from 'typeorm';
 import { Giveaways } from '../../models/giveaways';
-import GiveawayManager from '../../structures/giveaways/giveawaymanager';
+import GiveawayManager from '../../structures/giveawaymanager';
 
 
 export default class ReadyListener extends Listener {

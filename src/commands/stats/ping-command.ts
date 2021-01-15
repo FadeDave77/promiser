@@ -14,11 +14,13 @@ export default class PingCommand extends Command {
             ratelimit: 4
         });
     }
-    public exec(message: Message): Promise<Message> {
+    public async exec(message: Message): Promise<Message> {
+        const sent = await message.util.reply('Just wait a moment...');
+        const timeDiff = (Number(sent.editedAt) || Number(sent.createdAt)) - (Number(message.editedAt) || Number(message.createdAt));
         return message.util.send(new MessageEmbed()
         .setTitle('Bonk!')
         .setColor('RANDOM')
-        .setDescription(`DiscordAPI latency: \n **${this.client.ws.ping}ms**`)
+        .setDescription(`Message return time: **${timeDiff}**ms\nDiscordAPI latency:**${this.client.ws.ping}ms**`)
         .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/twitter/53/flushed-face_1f633.png')
         );
     }
