@@ -17,7 +17,7 @@ export default class ReadyListener extends Listener {
     public exec(): void {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
 
-        console.log(`[nodemon] Up on ${this.client.user.tag}`);
+        console.log(`promiser is up on ${this.client.user.tag}`);
         this.client.setMaxListeners(30)
         setTimeout(() => {this.client.user.setStatus('dnd')}, 2000);
         setTimeout(() => {this.client.user.setActivity(`for ${Prefix}help`, { type: 'WATCHING' })}, 2000);

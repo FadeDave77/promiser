@@ -1,5 +1,3 @@
-#!/usr/bin/nodemon
-
 import {Token, OwnerId, Prefix} from './config';
 import BotClient from './client/botclient';
 
