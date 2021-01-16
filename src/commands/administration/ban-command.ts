@@ -2,17 +2,18 @@ import { Command } from 'discord-akairo';
 import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
 import {OwnerId} from '../../config';
 
-export default class Ban extends Command {
+export default class BanCommand extends Command {
     public constructor() {
         super('ban', { //name
             aliases: ['ban', 'yeet'], //aliases
-            category: 'moderation', //category of command
+            category: 'administration', //category of command
             description: {
                 content: 'Ban a member from the guild.', //description
-                usage: 'ban <user> <reason>', //how to use
-                examples: ['ban @FadeDave#7005 too hot\n ban 347822600136949763 not cool bro'] //exampleArray
+                usage: 'ban <user> (reason)', //how to use
+                examples: ['ban @FadeDave#7005 too hot','ban 347822600136949763 not cool bro'] //exampleArray
             },
             userPermissions: ['BAN_MEMBERS'],
+            channel: 'guild',
             ratelimit: 6, //how many times can you execute / minute
             args: [
                 {

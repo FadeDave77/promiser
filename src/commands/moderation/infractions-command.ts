@@ -16,6 +16,7 @@ export default class InfractionsCommand extends Command {
             },
             ratelimit: 6, //how many times can you execute / minute
             userPermissions: ['MANAGE_MESSAGES'],
+            channel: 'guild',
             args: [
                 {
                     id:'member',

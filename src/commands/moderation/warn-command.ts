@@ -12,10 +12,11 @@ export default class WarnCommand extends Command {
             category: 'moderation', //category of command
             description: {
                 content: 'Warn users who are doing bad things.', //description
-                usage: 'warn <member> <reason>', //how to use
+                usage: 'warn <member> (reason)', //how to use
                 examples: ['warn @FadeDave#7005 he is a naughty boi'] //exampleArray
             },
             ratelimit: 3, //how many times can you execute / minute
+            channel: 'guild',
             userPermissions: ['MANAGE_MESSAGES'],
             args: [
                 {

@@ -1,17 +1,18 @@
 import { Command } from 'discord-akairo';
 import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
 
-export default class Purge extends Command {
+export default class PurgeCommand extends Command {
     public constructor() {
         super('purge', { //name
             aliases: ['purge', 'rm', 'clean', 'prune', 'delete', 'remove'], //aliases
             category: 'moderation', //category of command
             description: {
                 content: 'Deletes specified amount of messages up to 999.', //description
-                usage: 'rm <amount>', //how to use
+                usage: 'rm <amount> (member)', //how to use
                 examples: ['rm 420', 'rm 19', 'rm 19 @FadeDave#7005'] //exampleArray
             },
             userPermissions: ['MANAGE_MESSAGES'],
+            channel: 'guild',
             ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
@@ -39,7 +40,7 @@ export default class Purge extends Command {
                         if (amount < 2) await message.util.send(`Removed one message from ${member}.`);
                         if (amount >= 2) await message.util.send(`Removed ${originalamount} messages from ${member}.`);
                         let toDelete = await channel.lastMessageID;
-                        setTimeout(() => {message.util.lastResponse.delete().catch(err => null); message.delete().catch(err => null)}, 5000)});
+                        setTimeout(() => {message.util.lastResponse.delete().catch(() => null); message.delete().catch(() => null)}, 5000)});
                         amount -= amount
                         continue;
                     }

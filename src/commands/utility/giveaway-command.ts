@@ -17,6 +17,7 @@ export default class GiveawayCommand extends Command {
                 examples: ['giveaway 5d flush plush'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
+            channel: 'guild',
             args: [
                 {
                     id: 'time',

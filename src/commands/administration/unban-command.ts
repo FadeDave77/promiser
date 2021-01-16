@@ -3,17 +3,18 @@ import { User } from 'discord.js';
 import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
 import {OwnerId} from '../../config';
 
-export default class UnBan extends Command {
+export default class UnbanCommand extends Command {
     public constructor() {
         super('unban', { //name
             aliases: ['unban', 'unyeet'], //aliases
-            category: 'moderation', //category of command
+            category: 'administration', //category of command
             description: {
                 content: 'Remove a previous ban.', //description
                 usage: 'unban <user>', //how to use
                 examples: ['unban 347822600136949763'] //exampleArray
             },
             userPermissions: ['BAN_MEMBERS'],
+            channel: 'guild',
             ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
