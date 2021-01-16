@@ -1,7 +1,9 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import { stripIndents } from 'common-tags';
-import { OwnerId } from '../../config';
+import { OwnerId, Prefix as defaultPrefix } from '../../config';
+import { Prefix } from '../../models/prefix';
+import {Repository } from 'typeorm';
 
 export default class HelpCommand extends Command {
     public constructor() {
@@ -23,7 +25,8 @@ export default class HelpCommand extends Command {
             ]
         });
     }
-    public exec(message: Message, {command}: {command: Command}): Promise<Message> {
+    public async exec(message: Message, {command}: {command: Command}): Promise<Message> {
+        const newPrefix = await this.client.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e.value}).catch(()=> null)
         if (command) {
             return message.channel.send(new MessageEmbed()
                 .setAuthor(`Help for ${command}`, this.client.user.displayAvatarURL())
@@ -49,9 +52,9 @@ export default class HelpCommand extends Command {
         const embed = new MessageEmbed()
             .setAuthor(`Help | ${this.client.user.username}`, this.client.user.displayAvatarURL())
             .setColor('RANDOM')
-            .setFooter(`${this.client.commandHandler.prefix}help [command] for more info on a specific command`)
+            .setFooter(`${newPrefix ? newPrefix : defaultPrefix}help [command] for more info on a specific command`)
             .setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
-            \nUse commands in this guild like:\n\`${this.client.commandHandler.prefix} [command] <required arg> (optional arg)\`\n\n**Available commands:**\n`)
+            \nUse commands in this guild like:\n\`${newPrefix ? newPrefix : defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Available commands:**\n`)
             .setThumbnail('https://cdn.discordapp.com/avatars/347822600136949763/996a7e41aa19262bfb82cbbae2821f45.png?size=4096');
 
         for (const category of this.handler.categories.values()) {

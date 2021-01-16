@@ -3,6 +3,7 @@ import { TextChannel, Message} from 'discord.js';
 import { Repository } from 'typeorm';
 import { Giveaways } from '../../models/giveaways';
 import GiveawayManager from '../../structures/giveawaymanager';
+import { Prefix }  from '../../config'
 
 
 export default class ReadyListener extends Listener {
@@ -17,7 +18,9 @@ export default class ReadyListener extends Listener {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
 
         console.log(`[nodemon] Up on ${this.client.user.tag}`);
-
+        this.client.setMaxListeners(30)
+        setTimeout(() => {this.client.user.setStatus('dnd')}, 2000);
+        setTimeout(() => {this.client.user.setActivity(`for ${Prefix}help`, { type: 'WATCHING' })}, 2000);
         setInterval(async () => {
             const giveaways: Giveaways[] = await giveawayRepo.find();
             giveaways.filter(g => g.end <= Math.round(Date.now()) / 1000).map(async g => {

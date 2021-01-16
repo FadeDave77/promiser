@@ -1,9 +1,11 @@
 import {AkairoClient, CommandHandler, ListenerHandler} from 'discord-akairo';
 import {User, Message} from 'discord.js';
 import {join} from 'path';
-import { Connection } from 'typeorm';
-import {Prefix, Token, OwnerId, dbName} from '../config';
+import { Connection, Repository } from 'typeorm';
+import {Token, OwnerId, dbName} from '../config';
+import {Prefix as defaultPrefix} from '../config';
 import Database from '../structures/database';
+import { Prefix } from '../models/prefix'
 
 declare module "discord-akairo" {
     interface AkairoClient {
@@ -26,7 +28,13 @@ export default class BotClient extends AkairoClient {
     });
     public commandHandler: CommandHandler = new CommandHandler(this, {
         directory: join(__dirname, '..', 'commands'),
-        prefix: Prefix,
+        prefix: async (message) => {
+            if (message.guild) {
+                const newPrefix = await this.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e.value}).catch(()=> null)
+                return newPrefix ? newPrefix : defaultPrefix
+            }
+            return defaultPrefix;
+        },
         allowMention: true,
         handleEdits: true,
         commandUtil: true,

@@ -3,6 +3,7 @@ import {dbName} from '../config';
 
 import { Warns } from '../models/warns';
 import { Giveaways } from '../models/giveaways';
+import { Prefix } from '../models/prefix';
 
 const connectionManager: ConnectionManager = new ConnectionManager();
 connectionManager.create({
@@ -10,7 +11,7 @@ connectionManager.create({
     type: 'sqlite',
     database: './db.sqlite',
     entities: [
-        Warns, Giveaways
+        Warns, Giveaways, Prefix
     ]
 })
 
