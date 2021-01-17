@@ -1,6 +1,6 @@
 {
   "name": "@fadedave/promiser",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "An all rounder discord bot by FadeDave#7005, written in TypeScript.",
   "main": "bot.ts",
   "scripts": {
