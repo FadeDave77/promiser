@@ -50,7 +50,9 @@ Thumbs.db
 config.ts
 .vscode
 config.js
-dist
+node_modules/**
+node_modules
+#dist
 package-lock.json
 .git
 #i know the .git folder is ignored by git, but it look weird in vscode
