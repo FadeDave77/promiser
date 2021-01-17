@@ -27,7 +27,7 @@ export default class MessageDeleteListener extends Listener {
 
         const channel: TextChannel = message.guild.channels.cache.find(c=> c.name.toLowerCase() === 'dev-zero') as TextChannel;
 
-        return channel.send(new MessageEmbed()
+        let embed = new MessageEmbed()
             .setAuthor(`Message Deleted | Content:`, message.author.displayAvatarURL({dynamic: true}))
             .setDescription(message.content)
             .setColor(0xff0000)
@@ -35,6 +35,6 @@ export default class MessageDeleteListener extends Listener {
             .addField('Channel:', `${message.channel} \`${message.channel.id}\``)
             .addField('Executor:', executor ? `${executor} *${executortag}* \`${executorid}\`` : `Executor unknown.`)
             .setThumbnail(message.author.displayAvatarURL({dynamic:true}))
-        );
+        return message.util.send(embed).catch(()=> null);
     }
 }
