@@ -49,8 +49,6 @@ Thumbs.db
 ##################
 config.ts
 .vscode
-node_modules/**
-node_modules
 config.js
 dist
 package-lock.json
