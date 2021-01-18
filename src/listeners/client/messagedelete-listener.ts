@@ -25,7 +25,7 @@ export default class MessageDeleteListener extends Listener {
         const executortag = entry ? entry.executor.tag : null;
         const executorid = entry ? entry.executor.id : null;
 
-        const channel: TextChannel = message.guild.channels.cache.find(c=> c.name.toLowerCase() === 'dev-zero') as TextChannel;
+        const channel: TextChannel = message.guild.channels.cache.find(c=> c.name.toLowerCase() === 'promiser-beta') as TextChannel;
 
         let embed = new MessageEmbed()
             .setAuthor(`Message Deleted | Content:`, message.author.displayAvatarURL({dynamic: true}))
@@ -33,8 +33,9 @@ export default class MessageDeleteListener extends Listener {
             .setColor(0xff0000)
             .addField('Author:', `${message.author} *${message.author.tag}* \`${message.author.id}\``)
             .addField('Channel:', `${message.channel} \`${message.channel.id}\``)
-            .addField('Executor:', executor ? `${executor} *${executortag}* \`${executorid}\`` : `Executor unknown.`)
+            if (executor) embed.addField('Executor:', `${executor} *${executortag}* \`${executorid}\``)
             .setThumbnail(message.author.displayAvatarURL({dynamic:true}))
-        return message.util.send(embed).catch(()=> null);
+            .setFooter(new Date().toString().substr(4, 27))
+        return channel ? channel.send(embed).catch(()=> null) : null;
     }
 }

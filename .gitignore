@@ -52,6 +52,7 @@ config.ts
 config.js
 node_modules/**
 node_modules
+botlog
 dist
 package-lock.json
 .git
