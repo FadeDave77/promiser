@@ -36,6 +36,7 @@ export default class BotClient extends AkairoClient {
             return defaultPrefix;
         },
         allowMention: true,
+        blockBots: true,
         handleEdits: true,
         commandUtil: true,
         commandUtilLifetime: 3e5,

@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed} from 'discord.js';
+import Discord from 'discord.js';
 
 export default class PingCommand extends Command {
     public constructor() {
@@ -15,15 +16,23 @@ export default class PingCommand extends Command {
         });
     }
     public async exec(message: Message): Promise<Message> {
-        const sent = await message.util.reply('Just wait a moment...');
+        let sstart = Date.now();
+        const sent = await message.util.reply('The embed will be here in any moment... just wait a moment... just wait a moment sir!');
         const timeDiff = (Number(sent.editedAt) || Number(sent.createdAt)) - (Number(message.editedAt) || Number(message.createdAt));
         let embed = new MessageEmbed()
-        .setTitle('Bonk!')
+        .setTitle('Bonk! :flushed:')
         .setColor('RANDOM')
-        let timestart = await Date.now()
-        await embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/twitter/53/flushed-face_1f633.png')
-        let emojilate = `${Date.now() - timestart}ms`
-        embed.setDescription(`Message return time: **${timeDiff}**ms\nDiscordAPI latency: **${this.client.ws.ping}ms**\nFlushed WebSocket ping: **${emojilate}**`)
+        let start = Date.now();
+        await Discord.Util.delayFor(100);
+        let end = Date.now() - start - 100 + 'ms';
+        let eend = Date.now() - sstart - 100 + 'ms';
+        embed.setDescription(`
+        Message return time: **${timeDiff}ms**
+        DiscordAPI latency: **${this.client.ws.ping}ms**
+        Exec function exec time: **${eend}**
+        Simple code exec time: **${end}**
+        
+        These numbers probably don't mean anything...`)
         return message.util.send(embed);
     }
 }

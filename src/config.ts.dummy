@@ -1,0 +1,6 @@
+export const Token: string = 'uwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowouwuowo';
+export const Prefix: string = ';';
+export const OwnerId: string = '347822600136949763';
+export const OwnerAvatar: string = 'https://cdn.discordapp.com/avatars/347822600136949763/996a7e41aa19262bfb82cbbae2821f45.png?size=4096';
+export const dbName : string = 'FadeBase';
+// rename to config.ts
