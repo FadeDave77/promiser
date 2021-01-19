@@ -25,9 +25,12 @@ export default class GuildCommand extends Command {
         **Created at:** ${guild.createdAt.toString().substr(4, 27)}\n
         **GuildID:** ${guild.id}\n
         **Description:** ${guild.description ? guild.description : 'Guild has no description.'}\n
-        **Emojis:** ${guild.emojis.cache.map(emoji => emoji.toString()).join(' | ')}
 
-        **Icon:**`)
+        `)
+        .addField('**Normal emojis**','\u2192' + guild.emojis.cache.filter(em=> !em.animated).map(emoji => emoji.toString()).join('').slice(0, 1023)
+        .slice(0,guild.emojis.cache.filter(em=> !em.animated).map(emoji => emoji.toString()).join('').slice(0, 1023).lastIndexOf('>') +1 ))
+        .addField('**Animated emojis**','\u2192' + guild.emojis.cache.filter(em=> em.animated).map(emoji => emoji.toString()).join('').slice(0,1023)
+        .slice(0,guild.emojis.cache.filter(em=> em.animated).map(emoji => emoji.toString()).join('').slice(0, 1023).lastIndexOf('>') +1 ))
         .setImage(guild.iconURL());
         return message.util.send(embed);
     }
