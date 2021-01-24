@@ -17,7 +17,7 @@ export default class MessageDeleteListener extends Listener {
         if (message.partial || message.author.bot) return;
         await Discord.Util.delayFor(1000);
 
-        let logs = await message.guild.fetchAuditLogs({type: 72, limit: 6});
+        let logs = await message.guild.fetchAuditLogs({type: 72, limit: 6}).catch(()=> null);
         let entry = logs.entries.find(a =>
             new User(this.client, a.target).id === message.author.id && Date.now() - a.createdTimestamp <= 200000
         )
