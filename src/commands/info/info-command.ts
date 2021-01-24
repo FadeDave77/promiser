@@ -23,7 +23,7 @@ export default class InfoCommand extends Command {
         .setColor("RANDOM")
         .setDescription(`
         Creator: **FadeDave#7005(${OwnerId})**
-        Version: **0.5.3**
+        Version: **0.6.1**
 
 
         Shards: **${this.client.ws.shards.size}**
