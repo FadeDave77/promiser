@@ -36,7 +36,7 @@ export default class PurgeCommand extends Command {
                 while (amount>0) {
                     if (amount <= 100) {
                         await channel.messages.fetch().then(messages => messages.filter(author => author.author.id == member.user.id)).then(e=> e.firstKey(amount)).then(async messages => {
-                        await channel.bulkDelete(messages);
+                        await channel.bulkDelete(messages).catch(()=> null);
                         if (amount < 2) await message.util.send(`Removed one message from ${member}.`);
                         if (amount >= 2) await message.util.send(`Removed ${originalamount} messages from ${member}.`);
                         let toDelete = await channel.lastMessageID;
@@ -46,7 +46,7 @@ export default class PurgeCommand extends Command {
                     }
                     else {
                         await channel.messages.fetch().then(messages => messages.filter(author => author.author.id == member.user.id)).then(e=> e.firstKey(100)).then(async messages => {
-                        await channel.bulkDelete(messages)});
+                        await channel.bulkDelete(messages).catch(()=> null)});
                         amount -= 100
                         continue;
                     }

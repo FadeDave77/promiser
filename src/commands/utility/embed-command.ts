@@ -8,8 +8,8 @@ export default class EmbedCommand extends Command {
             category: 'utility', //category of command
             description: {
                 content: 'Make an embed. (If your option includes spaces, you should put it in quotation marks.', //description
-                usage: 'embed (-o) (--options)', //how to use
-                examples: ['embed -t Title -c Color -d Description -i Image -T Thumbnail', 'embed -t "My epic title owo" --color 00ffee -d "Woah this is a cool description" --image localhost:///home/fadedave/flushed.png'] //exampleArray
+                usage: 'embed -t, --title; -c --color; -d --description; -i --image; -th --thumbnail;', //how to use
+                examples: ['embed -t owo -d "uwu owo this is an epic description" -c 7700ff', 'embed -i "localhost:///home/fadedave/flushed.png"'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
             args: [
