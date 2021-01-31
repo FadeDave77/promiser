@@ -24,7 +24,9 @@ export default class PingCommand extends Command {
         .setColor('RANDOM')
         let start = Date.now();
         await Discord.Util.delayFor(100);
-        let end = Date.now() - start - 100 + 'ms';
+        let nd = Date.now() - start - 100;
+        if (nd < 0) nd = 0;
+        let end = nd + 'ms'; 
         let eend = Date.now() - sstart - 100 + 'ms';
         embed.setDescription(`
         Message return time: **${timeDiff}ms**

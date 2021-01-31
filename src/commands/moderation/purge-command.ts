@@ -7,9 +7,9 @@ export default class PurgeCommand extends Command {
             aliases: ['purge', 'rm', 'clean', 'prune', 'delete', 'remove'], //aliases
             category: 'moderation', //category of command
             description: {
-                content: 'Deletes specified amount of messages up to 999.', //description
+                content: 'Deletes specified amount of messages up to 1000.', //description
                 usage: 'rm <amount> (member)', //how to use
-                examples: ['rm 420', 'rm 19', 'rm 19 @FadeDave#7005'] //exampleArray
+                examples: ['rm 420', 'rm 69', 'rm 19 @FadeDave#7005'] //exampleArray
             },
             userPermissions: ['MANAGE_MESSAGES'],
             channel: 'guild',
@@ -17,7 +17,8 @@ export default class PurgeCommand extends Command {
             args: [
                 {
                     id: 'amount',
-                    type: 'number'
+                    type: 'number',
+                    default: 1
                 },
                 {
                     id: 'member',
@@ -29,20 +30,15 @@ export default class PurgeCommand extends Command {
     public async exec(message: Message, {amount, member}: {amount: number, member: GuildMember}): Promise<Message> {
         let channel = message.channel as TextChannel
         if (member) {
-            if (amount < 1 || amount > 999 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-999 range.')
+            if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
             else {
-                let originalamount = amount
+                const original = amount
                 amount++
                 while (amount>0) {
                     if (amount <= 100) {
                         await channel.messages.fetch().then(messages => messages.filter(author => author.author.id == member.user.id)).then(e=> e.firstKey(amount)).then(async messages => {
-                        await channel.bulkDelete(messages).catch(()=> null);
-                        if (amount < 2) await message.util.send(`Removed one message from ${member}.`);
-                        if (amount >= 2) await message.util.send(`Removed ${originalamount} messages from ${member}.`);
-                        let toDelete = await channel.lastMessageID;
-                        setTimeout(() => {message.util.lastResponse.delete().catch(() => null); message.delete().catch(() => null)}, 5000)});
-                        amount -= amount
-                        continue;
+                        await channel.bulkDelete(messages).catch(()=> null)});
+                        break;
                     }
                     else {
                         await channel.messages.fetch().then(messages => messages.filter(author => author.author.id == member.user.id)).then(e=> e.firstKey(100)).then(async messages => {
@@ -51,31 +47,32 @@ export default class PurgeCommand extends Command {
                         continue;
                     }
                 };
+                if  (original == 1) await message.util.send(`Removed one message from ${member}.`);
+                else await message.util.send(`Removed ${original} messages from ${member}.`);
+                setTimeout(() => {message.util.lastResponse.delete().catch(() => null); message.delete().catch(() => null)}, 5000);
             }
         }
         else {
-            if (amount < 1 || amount > 999 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-999 range.')
+            if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
             else {
-                let originalamount = amount
+                const original = amount
                 amount++
                 while (amount>0) {
                     if (amount <= 100) {
                         await channel.messages.fetch({limit: amount}).then(async messages => {
-                        await channel.bulkDelete(messages);
-                        if (amount < 2) await message.util.send(`Removed one message.`);
-                        if (amount >= 2) await message.util.send(`Removed ${originalamount} messages.`);
-                        let toDelete = await channel.lastMessageID;
-                        setTimeout(() => {message.util.lastResponse.delete().catch(err => null)}, 5000)});
-                        amount -= amount
-                        continue;
+                        await channel.bulkDelete(messages).catch(()=> null)});
+                       break;
                     }
                     else {
                         await channel.messages.fetch({limit: 100}).then(async messages => {
-                        await channel.bulkDelete(messages)});
+                        await channel.bulkDelete(messages).catch(()=> null)});
                         amount -= 100
                         continue;
                     }
                 };
+                if (original == 1) await message.util.send(`Removed one message.`);
+                else await message.util.send(`Removed ${original} messages.`);
+                setTimeout(() => {message.util.lastResponse.delete().catch(() => null)}, 5000);
             }
         }
     }
