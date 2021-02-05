@@ -53,6 +53,7 @@ export default class EmbedCommand extends Command {
             if (image) embed.setImage(`${image}`)
             if (color) embed.setColor(`${color}`)
             if (thumbnail) embed.setThumbnail(`${thumbnail}`);
+        setTimeout(() => {message.delete().catch(() => null)}, 5000);
         return message.util.send(embed).catch(() => message.util.reply('You made an error in your embed, and it threw an exception. Make sure that your embed is less than 2048 characters, that is a common problem.'));
     }
 }
