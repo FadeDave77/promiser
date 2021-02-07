@@ -25,6 +25,7 @@ export default class RandomReaction extends Command {
         });
     }
     public async exec(message: Message, {msg}: {msg: Message}): Promise<Message> {
+        try {msg.reactions.cache.first().fetch()} catch{return message.util.send('Message doesn\'t exist, or is missing reactions.')}
         const reaction: MessageReaction = await msg.reactions.cache.first().fetch();
         await reaction.users.fetch();
         const winner: User = reaction.users.cache.filter(w => !w.bot).random();
