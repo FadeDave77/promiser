@@ -9,7 +9,7 @@ const connectionManager: ConnectionManager = new ConnectionManager();
 connectionManager.create({
     name: dbName,
     type: 'sqlite',
-    database: './db.sqlite',
+    database: 'db.sqlite',
     entities: [
         Warns, Giveaways, Prefix
     ]
