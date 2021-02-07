@@ -24,9 +24,7 @@ export default class ReadyListener extends Listener {
         setInterval(async () => {
             const giveaways: Giveaways[] = await giveawayRepo.find();
             giveaways.filter(g => g.end <= Math.round(Date.now()) / 1000).map(async g => {
-                const msg: Message = await (this.client.channels.cache.get(g.channel) as TextChannel).messages.fetch(g.message)
-                    .catch(() => msg.channel.send('An unknown error has occurred.'));
-                msg.id
+                const msg: Message = await ((await this.client.channels.fetch(g.channel) as TextChannel).messages.fetch(g.message).catch(() => msg.channel.send('An unknown error has occurred.')));
                 if (!msg) return giveawayRepo.delete(g);
                 GiveawayManager.end(giveawayRepo, msg);
             });

@@ -19,7 +19,8 @@ export default class UnbanCommand extends Command {
             args: [
                 {
                     id:'user',
-                    type:'bigint',
+                    type:'string',
+                    match: 'rest',
                     prompt: {
                         start: (msg: Message) => `Provide a user to unban, ${msg.author}:`,
                         retry: (msg: Message) => `Provide a valid user to unban, ${msg.author}:`
@@ -30,10 +31,11 @@ export default class UnbanCommand extends Command {
     }
     public async exec(message: Message, user: string): Promise<any> {
         let User = String(user['user'])
+        console.log(User)
         await message.guild.fetchBans().then(async bans=> {
             if(bans.size == 0) return message.util.send('This guild doesn\'t have any bans.')
             else if (bans.find(u=> u.user.id === User)) {message.guild.members.unban(User); return message.channel.send(`${User} unbanned successfully.`)}
-            else return message.util.send('No ban with the specified ID exists.');
+            else return message.util.send('No ban with the specified search term exists.');
         });
 
     };

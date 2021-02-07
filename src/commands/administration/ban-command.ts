@@ -37,7 +37,7 @@ export default class BanCommand extends Command {
         if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
             return message.util.reply('The member you are trying to ban, has higher or equal roles to you!');
         else if (member.bannable) {
-            member.ban({reason: reason}).catch(() => null);
+            member.ban({reason: reason + ', Executor: ' + message.author.tag}).catch(() => null);
             return message.util.send(`User "${member}" has been banned, with reason "${reason}".`);
         }
         else {
