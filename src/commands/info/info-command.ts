@@ -13,6 +13,7 @@ export default class InfoCommand extends Command {
                 usage: 'info', //how to use
                 examples: ['info'] //exampleArray
             },
+            channel: 'guild',
             ratelimit: 6 //how many times can you execute / minute
         });
     }

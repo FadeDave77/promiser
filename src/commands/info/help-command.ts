@@ -16,6 +16,7 @@ export default class HelpCommand extends Command {
                 examples: ['help', 'help ping'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
+            channel: 'guild',
             args: [
                 {
                     id: 'command',

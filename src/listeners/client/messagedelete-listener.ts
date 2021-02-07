@@ -25,7 +25,7 @@ export default class MessageDeleteListener extends Listener {
         const executortag = entry ? entry.executor.tag : null;
         const executorid = entry ? entry.executor.id : null;
 
-        const channel: TextChannel = message.guild.channels.cache.find(c=> c.name.toLowerCase() === 'promiser-beta') as TextChannel;
+        const channel: TextChannel = message.guild.channels.cache.find(c=> c.name.toLowerCase() === 'bot-log') as TextChannel;
 
         let embed = new MessageEmbed()
             .setAuthor(`Message Deleted | Content:`, message.author.displayAvatarURL({dynamic: true}))
