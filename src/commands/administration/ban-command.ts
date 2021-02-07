@@ -9,8 +9,8 @@ export default class BanCommand extends Command {
             category: 'administration', //category of command
             description: {
                 content: 'Ban a member from the guild.', //description
-                usage: 'ban <user> (reason)', //how to use
-                examples: ['ban @FadeDave#7005 too hot','ban 347822600136949763 not cool bro'] //exampleArray
+                usage: 'ban <user> (reason) --days (delete messages going back x days)', //how to use
+                examples: ['ban @FadeDave#7005 too hot','ban 347822600136949763 not cool bro -d 7'] //exampleArray
             },
             userPermissions: ['BAN_MEMBERS'],
             channel: 'guild',
@@ -25,6 +25,13 @@ export default class BanCommand extends Command {
                     }
                 },
                 {
+                    id:'days',
+                    type:'number',
+                    default: 0,
+                    match: 'option',
+                    flag: ['-d', '--days']
+                },
+                {
                     id: 'reason',
                     type: 'string',
                     match: 'rest',
@@ -33,11 +40,12 @@ export default class BanCommand extends Command {
             ]
         });
     }
-    public exec(message: Message, {member, reason}: { member: GuildMember, reason : string }): Promise<Message> {
+    public exec(message: Message, {member, reason, days}: { member: GuildMember, reason : string, days: number }): Promise<Message> {
+        if (days > 7) days = 7
         if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
             return message.util.reply('The member you are trying to ban, has higher or equal roles to you!');
         else if (member.bannable) {
-            member.ban({reason: reason + ', Executor: ' + message.author.tag}).catch(() => null);
+            member.ban({reason: 'Reason: ' + reason + ', Executor: ' + message.author.tag, days: days}).catch(() => null);
             return message.util.send(`User "${member}" has been banned, with reason "${reason}".`);
         }
         else {

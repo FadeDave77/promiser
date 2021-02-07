@@ -33,8 +33,8 @@ export default class UnbanCommand extends Command {
         let User = String(user['user'])
         await message.guild.fetchBans().then(async bans=> {
             if(bans.size == 0) return message.util.send('This guild doesn\'t have any bans.')
-            else if (bans.find(u=> u.user.id === User)) {message.guild.members.unban(User); return message.channel.send(`${User} unbanned successfully.`)}
-            else if (bans.find(u=> u.user.tag == User)) {message.guild.members.unban(bans.find(u=> u.user.tag == User).user.id); return message.channel.send(`${User} unbanned successfully.`)}
+            else if (bans.find(u=> u.user.id === User)) {message.guild.members.unban(User); return message.channel.send(`${bans.find(u=> u.user.id === User).user.tag} unbanned successfully.`)}
+            else if (bans.find(u=> u.user.tag == User)) {message.guild.members.unban(bans.find(u=> u.user.tag == User).user.id); return message.channel.send(`${bans.find(u=> u.user.tag == User).user.tag} unbanned successfully.`)}
             else return message.util.send('No ban with the specified search term exists.');
         });
 

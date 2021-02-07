@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
 import {Repository} from 'typeorm';
-import { OwnerId } from '../../config';
+import { Prefix as defaultPrefix } from '../../config';
 
 import { Prefix } from '../../models/prefix';
 
@@ -21,16 +21,14 @@ export default class PrefixCommand extends Command {
             args: [
                 {
                     id: 'prefix',
-                    type: 'string',
-                    prompt: {
-                        start: (msg: Message) => `Provide a new prefix, ${msg.author}:`,
-                        retry: (msg: Message) => `Provide a new valid prefix, ${msg.author}:`
-                    }
+                    type: 'string'
                 }
             ]
         });
     }
     public async exec(message: Message, {prefix}: { prefix : string }): Promise<Message> {
+        const newPrefix = await this.client.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e.value}).catch(()=> null)
+        if (!prefix) return message.util.send(`Current prefix is "${newPrefix ? newPrefix : defaultPrefix}".`)
         const prefixRepo: Repository<Prefix> = this.client.db.getRepository(Prefix);
         prefixRepo.delete({guild: message.guild.id}).catch(()=> null);
         await prefixRepo.insert({
