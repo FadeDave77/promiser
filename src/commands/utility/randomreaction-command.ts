@@ -1,0 +1,33 @@
+import { Command } from 'discord-akairo';
+import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, MessageReaction, User} from 'discord.js';
+
+export default class RandomReaction extends Command {
+    public constructor() {
+        super('randomreact', { //name
+            aliases: ['randomreact', 'rr'], //aliases
+            category: 'utility', //category of command
+            description: {
+                content: 'Get a random reaction from a message.', //description
+                usage: 'rr <message id>', //how to use
+                examples: ['rr 806927872404881409'] //exampleArray
+            },
+            ratelimit: 6, //how many times can you execute / minute
+            args: [
+                {
+                    id: 'msg',
+                    type: 'message',
+                    prompt: {
+                        start: (msg: Message) => `Provide a message to get a random reaction from, ${msg.author}:`,
+                        retry: (msg: Message) => `Provide a valid message to get a random reaction from, ${msg.author}:`
+                    }
+                }
+            ]
+        });
+    }
+    public async exec(message: Message, {msg}: {msg: Message}): Promise<Message> {
+        const reaction: MessageReaction = await msg.reactions.cache.first().fetch();
+        await reaction.users.fetch();
+        const winner: User = reaction.users.cache.filter(w => !w.bot).random();
+        return message.util.send(`${winner} was randomly selected!`);
+    }
+}
