@@ -32,10 +32,11 @@ export default class UnMuteCommand extends Command {
             return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
         
             if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
-            try{
+
+            await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: null}));
+            await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c. updateOverwrite(member, {SPEAK: null}));
             await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.permissionOverwrites.get(member.id).delete());
             await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c.permissionOverwrites.get(member.id).delete());
-            } catch {()=> null};
             
             return message.util.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
     };
