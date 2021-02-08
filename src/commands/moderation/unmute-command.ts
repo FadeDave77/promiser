@@ -1,9 +1,6 @@
 import { Command } from 'discord-akairo';
 import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, GuildChannelManager, GuildChannel, Guild} from 'discord.js';
 import {OwnerId} from '../../config';
-import { Mutes } from '../../models/mutes';
-import {Repository} from 'typeorm';
-import { ChannelManager } from 'discord.js';
 
 export default class UnMuteCommand extends Command {
     public constructor() {
@@ -31,12 +28,13 @@ export default class UnMuteCommand extends Command {
         });
     }
     public async exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
-        const muteRepo: Repository<Mutes> = this.client.db.getRepository(Mutes);
             if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-                return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+            return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
         
-            message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.permissionOverwrites.get(member.id).delete());
-            message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c.permissionOverwrites.get(member.id).delete());
+            if (!message.guild.me.hasPermission("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
+
+            await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.permissionOverwrites.get(member.id).delete());
+            await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c.permissionOverwrites.get(member.id).delete());
             
             return message.util.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
     };

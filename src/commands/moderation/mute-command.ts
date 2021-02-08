@@ -3,7 +3,6 @@ import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttac
 import {OwnerId} from '../../config';
 import { Mutes } from '../../models/mutes';
 import {Repository} from 'typeorm';
-import { ChannelManager } from 'discord.js';
 
 export default class MuteCommand extends Command {
     public constructor() {
@@ -39,7 +38,13 @@ export default class MuteCommand extends Command {
     public async exec(message: Message, {member, reason}: {member: GuildMember, reason: string} ): Promise<Message> {
         const muteRepo: Repository<Mutes> = this.client.db.getRepository(Mutes);
             if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-                return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+            return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+            
+            if (!message.guild.me.hasPermission("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
+
+            await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
+            await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c. updateOverwrite(member, {SPEAK: false}));
+
             await muteRepo.insert({
                 guild: message.guild.id,
                 user: member.id,
@@ -47,8 +52,6 @@ export default class MuteCommand extends Command {
                 time: (Math.round((Date.now()) / 1000)),
                 reason: reason
             });
-            message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.overwritePermissions([{id: member.id , deny: ['SEND_MESSAGES']}]));
-            message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c.overwritePermissions([{id: member.id , deny: ['SPEAK']}]));
             
             return message.util.send(`**${member.user.tag}** has been muted by **${message.author.tag}**, with reason \`${reason}\`.`);
     };
