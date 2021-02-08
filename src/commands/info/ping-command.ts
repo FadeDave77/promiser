@@ -32,9 +32,7 @@ export default class PingCommand extends Command {
         Message return time: **${timeDiff}ms**
         DiscordAPI latency: **${this.client.ws.ping}ms**
         Exec function exec time: **${eend}**
-        Simple code exec time: **${end}**
-        
-        These numbers probably don't mean anything...`)
+        Simple code exec time: **${end}**`)
         return message.util.send(embed);
     }
 }

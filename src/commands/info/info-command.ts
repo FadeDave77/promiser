@@ -24,13 +24,13 @@ export default class InfoCommand extends Command {
         .setColor("RANDOM")
         .setDescription(`
         Creator: **FadeDave#7005(${OwnerId})**
-        Version: **0.6.1**
+        Version: **0.6.2**
 
 
         Shards: **${this.client.ws.shards.size}**
         `)
         .setThumbnail(OwnerAvatar)
-        .setFooter(newPrefix ? newPrefix : defaultPrefix + 'help to get more info on commands')
+        .setFooter((newPrefix ? newPrefix : defaultPrefix) + 'help to get more info on commands')
         return message.util.send(embed);
     }
 }

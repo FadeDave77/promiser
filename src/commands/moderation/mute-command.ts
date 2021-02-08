@@ -14,7 +14,7 @@ export default class MuteCommand extends Command {
                 usage: 'mute <user> (reason)', //how to use
                 examples: ['mute @FadeDave#7005','mute 347822600136949763 bruh'] //exampleArray
             },
-            userPermissions: ['MANAGE_MESSAGES'],
+            userPermissions: ['MANAGE_CHANNELS'],
             channel: 'guild',
             ratelimit: 6, //how many times can you execute / minute
             args: [
@@ -43,6 +43,7 @@ export default class MuteCommand extends Command {
             if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
 
             await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
+            await message.guild.channels.cache.filter(c=> c.type == 'news').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
             await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c. updateOverwrite(member, {SPEAK: false}));
 
             await muteRepo.insert({
