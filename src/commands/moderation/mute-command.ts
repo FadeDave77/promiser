@@ -40,7 +40,7 @@ export default class MuteCommand extends Command {
             if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
             return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
             
-            if (!message.guild.me.hasPermission("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
+            if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
 
             await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
             await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c. updateOverwrite(member, {SPEAK: false}));
