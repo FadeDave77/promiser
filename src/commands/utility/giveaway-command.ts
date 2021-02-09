@@ -44,7 +44,6 @@ export default class GiveawayCommand extends Command {
     }
     public async exec(message: Message, {time, item}: {time: number, item: string}): Promise<any> {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
-        console.log(time)
         const end: number = Date.now() + time;
         const msg: Message = await message.channel.send(new MessageEmbed()
             .setAuthor(`Giveaway | ${item}`)
