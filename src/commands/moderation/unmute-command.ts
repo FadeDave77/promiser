@@ -29,7 +29,7 @@ export default class UnMuteCommand extends Command {
     }
     public async exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
             if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-            return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+            return message.util.reply('The member you are trying to unmute, has higher or equal roles to you!');
         
             if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
 

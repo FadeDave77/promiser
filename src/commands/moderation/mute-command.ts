@@ -38,7 +38,7 @@ export default class MuteCommand extends Command {
     public async exec(message: Message, {member, reason}: {member: GuildMember, reason: string} ): Promise<Message> {
         const muteRepo: Repository<Mutes> = this.client.db.getRepository(Mutes);
             if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-            return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+            return message.util.reply('The member you are trying to mute, has higher or equal roles to you!');
             
             if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
 
