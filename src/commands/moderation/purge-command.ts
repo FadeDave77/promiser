@@ -33,7 +33,6 @@ export default class PurgeCommand extends Command {
             if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
             else {
                 const original = amount
-                amount++
                 while (amount>0) {
                     if (amount <= 100) {
                         await channel.messages.fetch().then(messages => messages.filter(author => author.author.id == member.user.id)).then(e=> e.firstKey(amount)).then(async messages => {
