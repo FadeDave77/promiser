@@ -60,9 +60,9 @@ export default class GiveawayCommand extends Command {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
         const end: number = Date.now() + time;
         const msg: Message = await message.channel.send(new MessageEmbed()
-            .setAuthor(`Giveaway | ${item}`)
+            .setAuthor(`Giveaway!`)
             .setColor(0x00ff00)
-            .setDescription(`${from} is giving away **${item}**!`)
+            .setDescription(winners == 1 ? `${from} is giving away **${item}**! React below to have a chance to win!` : `${from} is giving away **${item}** to ${winners} winners! React below to have a chance to win!`)
             .setFooter(`Giveaway will end at ${(new Date(end)).toString().substr(4, 27)}`)
         );
         msg.react('🎉');
