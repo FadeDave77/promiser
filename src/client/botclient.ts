@@ -60,7 +60,7 @@ export default class BotClient extends AkairoClient {
     public constructor(config: BotOptions) {
         super({
             ownerID: config.OwnerId,
-            intents: 9999
+            intents: Intents.ALL
         });
         this.config = config;
     }
