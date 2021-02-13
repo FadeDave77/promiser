@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
 
 export default class AvatarCommand extends Command {
     public constructor() {
@@ -12,13 +12,12 @@ export default class AvatarCommand extends Command {
                 examples: ['avatar @FadeDave#7005', 'pfp 347822600136949763 512'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
-            channel: 'guild',
             args: [
                 {
-                    id: 'member',
-                    type: 'member',
+                    id: 'user',
+                    type: 'user',
                     match: 'rest',
-                    default: (msg: Message) => msg.member
+                    default: (msg: Message) => msg.author
                 },
                 {
                     id: 'size',
@@ -33,11 +32,11 @@ export default class AvatarCommand extends Command {
             ]
         });
     }
-    public exec(message: Message, {member, size}: {member: GuildMember, size: number}): Promise<Message> {
+    public exec(message: Message, {user, size}: {user: User, size: number}): Promise<Message> {
         return message.util.send(new MessageEmbed()
-            .setTitle(`Avatar for ${member.user.tag}`)
+            .setTitle(`Avatar for ${user.tag}`)
             .setColor('RANDOM')
-            .setImage(member.user.displayAvatarURL({size: size as ImageSize}))
+            .setImage(user.displayAvatarURL({size: size as ImageSize}))
         );
     }
 }

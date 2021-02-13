@@ -13,12 +13,10 @@ export default class InfoCommand extends Command {
                 usage: 'info', //how to use
                 examples: ['info'] //exampleArray
             },
-            channel: 'guild',
             ratelimit: 6 //how many times can you execute / minute
         });
     }
     public async exec(message: Message): Promise<Message> {
-        const newPrefix = await this.client.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e.value}).catch(()=> null)
         const embed = new MessageEmbed()
         .setAuthor('Info', this.client.user.displayAvatarURL())
         .setColor("RANDOM")
@@ -30,7 +28,6 @@ export default class InfoCommand extends Command {
         Shards: **${this.client.ws.shards.size}**
         `)
         .setThumbnail(OwnerAvatar)
-        .setFooter((newPrefix ? newPrefix : defaultPrefix) + 'help to get more info on commands')
         return message.util.send(embed);
     }
 }

@@ -12,7 +12,8 @@ export default class GuildMemberCommand extends Command {
                 usage: 'members', //how to use
                 examples: ['guildmembers'] //exampleArray
             },
-            ratelimit: 6 //how many times can you execute / minute
+            ratelimit: 6, //how many times can you execute / minute
+            channel: 'guild'
         });
     }
     public async exec(message: Message): Promise<Message> {

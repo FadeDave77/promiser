@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
 
 export default class UserCommand extends Command {
     public constructor() {
@@ -12,29 +12,28 @@ export default class UserCommand extends Command {
                 examples: ['user', 'user @FadeDave#7005'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
-            channel: 'guild',
             args: [
                 {
-                    id: 'member',
-                    type: 'member',
+                    id: 'user',
+                    type: 'user',
                     match: 'rest',
-                    default: (msg: Message) => msg.member
+                    default: (msg: Message) => msg.author
                 }
             ]
         });
     }
-    public exec(message: Message, {member}: {member:GuildMember}): Promise<Message> {
+    public exec(message: Message, {user}: {user: User}): Promise<Message> {
         const embed = new MessageEmbed()
-        .setTitle(`Userinfo for \`${member.user.tag}\``)
+        .setTitle(`Userinfo for \`${user.tag}\``)
         .setColor("RANDOM")
         .setDescription(`
-        **Created at:** ${member.user.createdAt.toString().substr(4, 27)}\n
-        **UserID:** ${member.user.id}\n
-        **IsBot:** ${member.user.bot}\n
-        **Status:** ${member.user.presence.status}
+        **Created at:** ${user.createdAt.toString().substr(4, 27)}\n
+        **UserID:** ${user.id}\n
+        **IsBot:** ${user.bot}\n
+        **Status:** ${user.presence.status}
 
         **Avatar:**`)
-        .setImage(member.user.avatarURL());
+        .setImage(user.avatarURL());
         return message.util.send(embed);
     }
 }

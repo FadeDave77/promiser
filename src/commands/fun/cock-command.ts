@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
 
 export default class CockCommand extends Command {
     public constructor() {
@@ -14,17 +14,17 @@ export default class CockCommand extends Command {
             ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
-                    id: 'member',
-                    type: 'member',
+                    id: 'user',
+                    type: 'user',
                     match: 'rest',
-                    default: (msg: Message) => msg.member
+                    default: (msg: Message) => msg.author
                 }
             ]
         });
     }
-    public exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
+    public exec(message: Message, {user}: {user: User} ): Promise<Message> {
         const embed = new MessageEmbed()
-        .setTitle(`Oh, i see you got a cock there ${member.user.username} :eyes:`)
+        .setTitle(`Oh, i see you got a cock there ${user.username} :eyes:`)
         .setColor('RANDOM')
         .setDescription(`It is **${Math.floor((Math.random()*250))/10}cm** long :hushed:`);
 

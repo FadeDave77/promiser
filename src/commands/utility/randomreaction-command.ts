@@ -12,7 +12,6 @@ export default class RandomReactionCommand extends Command {
                 examples: ['rr 806927872404881409'] //exampleArray
             },
             ratelimit: 6, //how many times can you execute / minute
-            channel: 'guild',
             args: [
                 {
                     id: 'msg',
