@@ -6,6 +6,7 @@ import {Token, OwnerId, dbName} from '../config';
 import {Prefix as defaultPrefix} from '../config';
 import Database from '../structures/database';
 import { Prefix } from '../models/prefix'
+import { Sudo } from '../models/sudo'
 
 declare module "discord-akairo" {
     interface AkairoClient {
@@ -20,12 +21,15 @@ interface BotOptions {
     OwnerId?: string | string[];
 };
 
+const sudoRepo: Repository<Sudo> = this.client.db.getRepository(Sudo)
+
 export default class BotClient extends AkairoClient {
     public config: BotOptions;
     public db!: Connection;
     public listenerHandler: ListenerHandler = new ListenerHandler(this, {
         directory: join(__dirname, '..', 'listeners')
     });
+
     public commandHandler: CommandHandler = new CommandHandler(this, {
         directory: join(__dirname, '..', 'commands'),
         prefix: async (message) => {

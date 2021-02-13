@@ -16,7 +16,7 @@ export default class ReadyListener extends Listener {
     };
     public async exec(): Promise<void> {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
-
+        
         console.log(`promiser is up on ${this.client.user.tag} @ ${new Date().toString().substr(0,31)}`);
         this.client.setMaxListeners(30)
         
