@@ -62,7 +62,7 @@ export default class GiveawayCommand extends Command {
         const msg: Message = await message.channel.send(new MessageEmbed()
             .setAuthor(`Giveaway!`)
             .setColor(0x00ff00)
-            .setDescription(winners == 1 ? `${from} is giving away **${item}**! React below to have a chance to win!` : `${from} is giving away **${item}** to ${winners} winners! React below to have a chance to win!`)
+            .setDescription(winners == 1 ? `${from} is giving away **${item}**! React below for a chance to win!` : `${from} is giving away **${item}** to ${winners} winners! React below for a chance to win!`)
             .setFooter(`Giveaway will end at ${(new Date(end)).toString().substr(4, 27)}`)
         );
         msg.react('🎉');
