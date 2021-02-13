@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, User} from 'discord.js';
 import ms from 'ms';
 import { Repository} from 'typeorm';
 
@@ -38,17 +38,31 @@ export default class GiveawayCommand extends Command {
                     prompt: {
                         start: (msg: Message) => `${msg.author}, provide an item to give away!`
                     }
+                },
+                {
+                    id: 'winners',
+                    match: 'option',
+                    flag: ['-w', '--winners'],
+                    type: 'number',
+                    default: 1
+                },
+                {
+                    id: 'from',
+                    match: 'option',
+                    flag: ['-f', '--from'],
+                    type: 'user',
+                    default: (msg: Message) => msg.author
                 }
             ]
         });
     }
-    public async exec(message: Message, {time, item}: {time: number, item: string}): Promise<any> {
+    public async exec(message: Message, {time, item, winners, from}: {time: number, item: string, winners: number, from: User}): Promise<any> {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
         const end: number = Date.now() + time;
         const msg: Message = await message.channel.send(new MessageEmbed()
             .setAuthor(`Giveaway | ${item}`)
             .setColor(0x00ff00)
-            .setDescription(`${message.author} is giving away **${item}**!`)
+            .setDescription(`${from} is giving away **${item}**!`)
             .setFooter(`Giveaway will end at ${(new Date(end)).toString().substr(4, 27)}`)
         );
         msg.react('🎉');
@@ -56,8 +70,12 @@ export default class GiveawayCommand extends Command {
             channel:msg.channel.id,
             message: msg.id,
             time: (Math.round((Date.now()) / 1000)),
-            end: Math.round(end / 1000)
+            end: Math.round(end / 1000),
+            winners: winners,
+            from: from.id,
+            item: item
         });
+        setTimeout(() => {message.delete().catch(() => null)}, 5000);
         setTimeout(() => {
             GiveawayManager.end(giveawayRepo, msg)
         }, time);

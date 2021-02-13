@@ -16,4 +16,13 @@ export class Giveaways {
 
     @Column({type: 'integer'})
     end!:number;
+
+    @Column({type: 'integer'})
+    winners!:number;
+
+    @Column({type: 'text'})
+    from!:string
+
+    @Column({type: 'text'})
+    item!:string
 }

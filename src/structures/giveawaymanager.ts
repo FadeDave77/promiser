@@ -6,19 +6,20 @@ import { endianness } from 'os';
 export default {
     async end(giveawayRepo: Repository<Giveaways>, msg: Message) {
         await msg.fetch();
-        giveawayRepo.delete({ message: msg.id});
-
+        const entry = await giveawayRepo.findOne({message: msg.id})
+        let winamount = entry.winners
         const reaction: MessageReaction = await msg.reactions.cache.filter(r => r.emoji.name === '🎉').first().fetch();
         await reaction.users.fetch();
-        const winner: User = reaction.users.cache.filter(w => !w.bot).random();
+        if (reaction.users.cache.filter(w => !w.bot).array().length < winamount) winamount=reaction.users.cache.filter(w => !w.bot).array().length
+        const winners = reaction.users.cache.filter(w => !w.bot).random(winamount).map(u=> `<@${u.id}>`).toString()
 
-        const item = msg.embeds[0].author.name.split('| ').slice(1)
         const embed: MessageEmbed = msg.embeds[0];
         embed.setFooter('Giveaway has ended.')
         .setColor(0xff0000)
-        .addField('Winner:', winner ? `${winner} (${winner.tag})` : 'No winners :cry:');
+        .addField('Winners:', winners ? winners : 'No winners :pensive:');
         msg.edit(embed);
 
-        if (winner) msg.channel.send(`Giveaway has ended for the item **${item}**, the winner is: ${winner} (${winner.tag})`)
+        if (winners) msg.channel.send(`Giveaway has ended for the item **${entry.item}** from **<@${entry.from}>**, the winners: ${winners}. https://discord.com/channels/${msg.guild.id}/${entry.channel}/${entry.message}`)
+        giveawayRepo.delete({ message: msg.id});
     }
 }
