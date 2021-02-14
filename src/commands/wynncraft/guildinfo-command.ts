@@ -33,7 +33,7 @@ export default class WynnGuild extends Command {
         const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(res=> res.json())
         let embed = new MessageEmbed()
         .setTitle('Data for '+ guild)
-        .setDescription(`Name: ${data.name} \n Tag: ${data.prefix} \n Xp: ${data.xp}% \n Level: ${data.level} \n Created: ${data.createdFriendly} \n Territories: ${data.territories} \n BannerTier: ${data.banner.tier} \n\n **Members: ${data.members.length}**`)
+        .setDescription(`Name: ${data.name} \n Tag: ${data.prefix} \n Xp: ${data.xp * 10}% \n Level: ${data.level} \n Created: ${data.createdFriendly} \n Territories: ${data.territories} \n BannerTier: ${data.banner.tier} \n\n **Members: ${data.members.length}**`)
         .addField('Rank Name', data.members.map(u=> {switch (u.rank) {case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``;}}).slice(0, Math.floor(data.members.length / 2)), true)
         .addField('Contributed', data.members.map(u=> `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
         .addField('Joined', data.members.map(u=> `\`${u.joined.slice(0,10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
