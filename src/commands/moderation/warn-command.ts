@@ -9,13 +9,11 @@ export default class WarnCommand extends Command {
     public constructor() {
         super('warn', { //name
             aliases: ['warn', 'warning'], //aliases
-            category: 'moderation', //category of command
             description: {
                 content: 'Warn users who are doing bad things.', //description
                 usage: 'warn <member> (reason)', //how to use
                 examples: ['warn @FadeDave#7005 he is a naughty boi'] //exampleArray
             },
-            ratelimit: 3, //how many times can you execute / minute
             channel: 'guild',
             userPermissions: ['MANAGE_MESSAGES'],
             args: [
@@ -38,8 +36,7 @@ export default class WarnCommand extends Command {
     }
     public async exec(message: Message, {member, reason}: { member: GuildMember, reason : string }): Promise<Message> {
         const warnRepo: Repository<Warns> = this.client.db.getRepository(Warns);
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-            return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
         await warnRepo.insert({
             guild: message.guild.id,
             user: member.id,

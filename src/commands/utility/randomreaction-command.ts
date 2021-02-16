@@ -5,13 +5,11 @@ export default class RandomReactionCommand extends Command {
     public constructor() {
         super('randomreact', { //name
             aliases: ['randomreact', 'rr'], //aliases
-            category: 'utility', //category of command
             description: {
                 content: 'Get a random reaction from a message\'s first reaction.', //description
                 usage: 'rr <message id>', //how to use
                 examples: ['rr 806927872404881409'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id: 'msg',

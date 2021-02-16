@@ -6,7 +6,6 @@ export default class BanCommand extends Command {
     public constructor() {
         super('ban', { //name
             aliases: ['ban', 'yeet'], //aliases
-            category: 'administration', //category of command
             description: {
                 content: 'Ban a member from the guild.', //description
                 usage: 'ban <user> (reason) --days (delete messages going back x days)', //how to use
@@ -14,7 +13,6 @@ export default class BanCommand extends Command {
             },
             userPermissions: ['BAN_MEMBERS'],
             channel: 'guild',
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id:'member',
@@ -42,8 +40,7 @@ export default class BanCommand extends Command {
     }
     public exec(message: Message, {member, reason, days}: { member: GuildMember, reason : string, days: number }): Promise<Message> {
         if (days > 7) days = 7
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-            return message.util.reply('The member you are trying to ban, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to ban, has higher or equal roles to you!');
         else if (member.bannable) {
             member.ban({reason: 'Reason: ' + reason + ', Executor: ' + message.author.tag, days: days}).catch(() => null);
             return message.util.send(`User "${member}" has been banned, with reason "${reason}".`);

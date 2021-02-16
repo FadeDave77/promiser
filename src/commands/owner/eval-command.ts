@@ -1,18 +1,17 @@
 import { Command } from 'discord-akairo';
 import {Message} from 'discord.js';
 import util from 'util';
+import { OwnerId, OwnerAvatar, Prefix } from '../../config';
 
 export default class EvalCommand extends Command {
     public constructor() {
         super('eval', { //name
             aliases: ['eval'], //aliases
-            category: 'owner', //category of command
             description: {
                 content: 'Evaluate an expression', //description
                 usage: '', //how to use
                 examples: [] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             ownerOnly: true,
             args: [
                 {

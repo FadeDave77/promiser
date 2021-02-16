@@ -8,13 +8,11 @@ export default class InfractionsCommand extends Command {
     public constructor() {
         super('infractions', { //name
             aliases: ['infractions', 'infraq'], //aliases
-            category: 'moderation', //category of command
             description: {
                 content: 'Check for use infractions', //description
                 usage: 'infractions <member>', //how to use
                 examples: ['infractions @FadeDave#7005', 'infractions FadeDave'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             userPermissions: ['MANAGE_MESSAGES'],
             channel: 'guild',
             args: [

@@ -5,7 +5,6 @@ export default class PurgeCommand extends Command {
     public constructor() {
         super('purge', { //name
             aliases: ['purge', 'rm', 'clean', 'prune', 'delete', 'remove'], //aliases
-            category: 'moderation', //category of command
             description: {
                 content: 'Deletes specified amount of messages up to 1000.', //description
                 usage: 'rm <amount> (member)', //how to use
@@ -13,7 +12,6 @@ export default class PurgeCommand extends Command {
             },
             userPermissions: ['MANAGE_MESSAGES'],
             channel: 'guild',
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id: 'amount',

@@ -8,7 +8,7 @@ export default {
         await msg.fetch();
         const entry = await giveawayRepo.findOne({message: msg.id})
         let winamount = entry.winners
-        const reaction: MessageReaction = await msg.reactions.cache.filter(r => r.emoji.name === '🎉').first().fetch();
+        const reaction: MessageReaction = await msg.reactions.cache.filter(r => r.emoji.name === '🎉').first().fetch().catch(()=> null);
         await reaction.users.fetch();
         if (reaction.users.cache.filter(w => !w.bot).array().length < winamount) winamount=reaction.users.cache.filter(w => !w.bot).array().length;
         const winnera = reaction.users.cache.filter(w => !w.bot).random(winamount).map(u=> `<@${u.id}>`);

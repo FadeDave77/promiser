@@ -7,7 +7,6 @@ export default class UnbanCommand extends Command {
     public constructor() {
         super('unban', { //name
             aliases: ['unban', 'unyeet'], //aliases
-            category: 'administration', //category of command
             description: {
                 content: 'Remove a previous ban.', //description
                 usage: 'unban <user>', //how to use
@@ -15,7 +14,6 @@ export default class UnbanCommand extends Command {
             },
             userPermissions: ['BAN_MEMBERS'],
             channel: 'guild',
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id:'user',

@@ -5,13 +5,11 @@ export default class UserCommand extends Command {
     public constructor() {
         super('user', { //name
             aliases: ['user', 'member'], //aliases
-            category: 'stats', //category of command
             description: {
                 content: 'Get the stats of a user.', //description
                 usage: 'user (user)', //how to use
                 examples: ['user', 'user @FadeDave#7005'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id: 'user',

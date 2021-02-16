@@ -9,13 +9,11 @@ export default class HelpCommand extends Command {
     public constructor() {
         super('help', { //name
             aliases: ['help', 'halp', 'commands', 'cmds'], //aliases
-            category: 'info', //category of command
             description: {
                 content: 'View available commands', //description
                 usage: 'help (command)', //how to use
                 examples: ['help', 'help ping'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id: 'command',
@@ -55,7 +53,7 @@ export default class HelpCommand extends Command {
             .setColor('RANDOM')
             .setFooter(`${newPrefix ? newPrefix : defaultPrefix}help [command] for more info on a specific command`)
             .setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
-            \nUse commands in this guild like:\n\`${newPrefix ? newPrefix : defaultPrefix} [command] <required arg> (optional arg)\`\n\n**If you don't get a response from the bot, you are missing permissions to execute the command**\n\n**Available commands:**\n`)
+            \nUse commands in this guild like:\n\`${newPrefix ? newPrefix : defaultPrefix} [command] <required arg> (optional arg)\`\n\n**If you don't get a response from the bot, you are missing permissions to execute the command, or you are sending commands too fast.**\n\n**Available commands:**\n`)
             .setThumbnail(OwnerAvatar);
 
         for (const category of this.handler.categories.values()) {

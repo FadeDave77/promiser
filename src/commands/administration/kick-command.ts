@@ -6,7 +6,6 @@ export default class KickCommand extends Command {
     public constructor() {
         super('kick', { //name
             aliases: ['kick'], //aliases
-            category: 'administration', //category of command
             description: {
                 content: 'Kick a member from the guild.', //description
                 usage: 'Kick <user>', //how to use
@@ -14,7 +13,6 @@ export default class KickCommand extends Command {
             },
             userPermissions: ['KICK_MEMBERS'],
             channel: 'guild',
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id:'member',
@@ -28,8 +26,7 @@ export default class KickCommand extends Command {
         });
     }
     public exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== (message.guild.ownerID && OwnerId))
-            return message.util.reply('The member you are trying to kick, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to kick, has higher or equal roles to you!');
         else if (member.kickable) {
             member.kick().catch(() => null);
             return message.util.send(`"${member}" has been kicked.`);

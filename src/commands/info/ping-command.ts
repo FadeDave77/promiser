@@ -6,13 +6,11 @@ export default class PingCommand extends Command {
     public constructor() {
         super('ping', {
             aliases: ['ping', 'bonk', 'latency', 'ms'],
-            category: 'info',
             description: {
                 content: "Check the DiscordAPI latency.",
                 usage: 'ping',
                 examples: ['ping']
-            },
-            ratelimit: 4
+            }
         });
     }
     public async exec(message: Message): Promise<Message> {

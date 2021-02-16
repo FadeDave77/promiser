@@ -9,13 +9,12 @@ export default class PrefixCommand extends Command {
     public constructor() {
         super('prefix', { //name
             aliases: ['prefix'], //aliases
-            category: 'administration', //category of command
             description: {
                 content: 'Change the prefix of the bot on the server.', //description
                 usage: 'prefix <newprefix>', //how to use
                 examples: ['prefix !'] //exampleArray
             },
-            ratelimit: 3, //how many times can you execute / minute
+            cooldown: 10000,
             channel: 'guild',
             userPermissions: ['ADMINISTRATOR'],
             args: [

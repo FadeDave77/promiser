@@ -5,13 +5,11 @@ export default class CockCommand extends Command {
     public constructor() {
         super('cock', { //name
             aliases: ['cock', 'coq'], //aliases
-            category: 'fun', //category of command
             description: {
                 content: 'Get the size of cock :flushed:', //description
                 usage: 'cock (member)', //how to use
                 examples: ['cock', 'cock @FadeDave#7005'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id: 'user',

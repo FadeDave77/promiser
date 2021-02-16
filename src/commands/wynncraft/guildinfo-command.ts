@@ -7,13 +7,11 @@ export default class WynnGuild extends Command {
     public constructor() {
         super('wynnguild', { //name
             aliases: ['wguild', 'wynnguild'], //aliases
-            category: 'wynncraft', //category of command
             description: {
                 content: 'Get info on a wynncraft guild', //description
                 usage: 'wguild <guild name or tag>', //how to use
                 examples: ['wguild Eden', 'wguild Goose'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id: 'guild',

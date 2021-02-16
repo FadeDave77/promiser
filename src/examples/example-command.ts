@@ -3,15 +3,13 @@ import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttac
 
 export default class /*command*/ extends Command {
     public constructor() {
-        super('', { //name
-            aliases: ['', ''], //aliases
-            category: '', //category of command
+        super('', {
+            aliases: ['', ''],
             description: {
-                content: '', //description
-                usage: '', //how to use
-                examples: [''] //exampleArray
-            },
-            ratelimit: 6 //how many times can you execute / minute
+                content: '',
+                usage: '',
+                examples: ['']
+            }
         });
     }
     public exec(message: Message): Promise<Message> {

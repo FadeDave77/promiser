@@ -6,13 +6,11 @@ export default class GuildCommand extends Command {
     public constructor() {
         super('guild', { //name
             aliases: ['guild', 'server'], //aliases
-            category: 'stats', //category of command
             description: {
                 content: 'Get the stats of the guild.', //description
                 usage: 'guild', //how to use
                 examples: ['guild'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             channel: 'guild',
         });
     }

@@ -5,13 +5,11 @@ export default class EmbedCommand extends Command {
     public constructor() {
         super('embed', { //name
             aliases: ['embed', 'mkembed'], //aliases
-            category: 'utility', //category of command
             description: {
                 content: 'Make an embed. (If your option includes spaces, you should put it in quotation marks.', //description
                 usage: 'embed -t, --title; -c --color; -d --description; -i --image; -th --thumbnail;', //how to use
                 examples: ['embed -t owo -d "uwu owo this is an epic description" -c 7700ff', 'embed -i "localhost:///home/fadedave/flushed.png"'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
             args: [
                 {
                     id:'title',

@@ -7,13 +7,11 @@ export default class InfoCommand extends Command {
     public constructor() {
         super('info', { //name
             aliases: ['info'], //aliases
-            category: 'info', //category of command
             description: {
                 content: 'Verbose info on the bot & client.', //description
                 usage: 'info', //how to use
                 examples: ['info'] //exampleArray
-            },
-            ratelimit: 6 //how many times can you execute / minute
+            }
         });
     }
     public async exec(message: Message): Promise<Message> {

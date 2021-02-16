@@ -10,13 +10,12 @@ export default class GiveawayCommand extends Command {
     public constructor() {
         super('giveaway', { //name
             aliases: ['giveaway', 'gaway'], //aliases
-            category: 'utility', //category of command
             description: {
                 content: 'Start a giveaway', //description
                 usage: 'giveaway <time> <item>', //how to use
                 examples: ['giveaway 5d flush plush'] //exampleArray
             },
-            ratelimit: 6, //how many times can you execute / minute
+            cooldown: 10000,
             channel: 'guild',
             args: [
                 {
