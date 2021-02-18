@@ -5,7 +5,7 @@ import { endianness } from 'os';
 
 export default {
     async end(giveawayRepo: Repository<Giveaways>, msg: Message) {
-        await msg.fetch();
+        await msg.fetch().catch(()=> null);
         const entry = await giveawayRepo.findOne({message: msg.id})
         let winamount = entry.winners
         const reaction: MessageReaction = await msg.reactions.cache.filter(r => r.emoji.name === '🎉').first().fetch().catch(()=> null);
