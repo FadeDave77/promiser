@@ -26,12 +26,12 @@ export default class InfractionsCommand extends Command {
     }
     public async exec(message: Message, {member}: {member: GuildMember}): Promise<Message> {
         const warnRepo: Repository<Warns> = this.client.db.getRepository(Warns);
-        const warns: Warns[] = await warnRepo.find({ user: member.id, guild: message.guild.id});
+        const warns: Warns[] = await warnRepo.find({ user: member.id, guild: message.guild!.id});
 
-        if (!warns.length) return message.util.reply(`No infractions found for ${member} `);
+        if (!warns.length) return message.util!.reply(`No infractions found for ${member} `);
 
         const infractions = await Promise.all(warns.map(async (v: Warns, i: number) => {
-            const mod: User = await this.client.users.fetch(v.moderator).catch(() => null);
+            const mod: User | undefined = await this.client.users.fetch(v.moderator).catch(()=> undefined);
             if (mod) return {
                 index: i+1,
                 moderator: mod.tag,
@@ -40,10 +40,10 @@ export default class InfractionsCommand extends Command {
             }
         }));
 
-        return message.util.send(new MessageEmbed()
+        return message.util!.send(new MessageEmbed()
             .setAuthor(`Infractions | ${member.user.username}`, member.user.displayAvatarURL())
             .setColor('RANDOM')
-            .setDescription(infractions.map(v => `\`#${v.index}\` | Moderator: **${v.moderator}** | Recorded at: **${v.time}**\nReason: **\`${v.reason}\`**\n`))
-        ).catch(() => message.util.send('An unknown error has occurred.'));
+            .setDescription(infractions.map(v => `\`#${v!.index}\` | Moderator: **${v!.moderator}** | Recorded at: **${v!.time}**\nReason: **\`${v!.reason}\`**\n`))
+        ).catch(() => message.util!.send('An unknown error has occurred.'));
     }
 }

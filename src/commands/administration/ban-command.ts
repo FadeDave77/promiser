@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, GuildMember} from 'discord.js';
 import {OwnerId} from '../../config';
 
 export default class BanCommand extends Command {
@@ -40,13 +40,13 @@ export default class BanCommand extends Command {
     }
     public exec(message: Message, {member, reason, days}: { member: GuildMember, reason : string, days: number }): Promise<Message> {
         if (days > 7) days = 7
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to ban, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to ban, has higher or equal roles to you!');
         else if (member.bannable) {
             member.ban({reason: 'Reason: ' + reason + ', Executor: ' + message.author.tag, days: days}).catch(() => null);
-            return message.util.send(`User "${member}" has been banned, with reason "${reason}".`);
+            return message.util!.send(`User "${member}" has been banned, with reason "${reason}".`);
         }
         else {
-            return message.util.reply('That member is not bannable. The bot is missing permissions, or the member is a server owner.');
+            return message.util!.reply('That member is not bannable. The bot is missing permissions, or the member is a server owner.');
         }
     };
 }

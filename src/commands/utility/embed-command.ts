@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, MessageEmbed} from 'discord.js';
 
 export default class EmbedCommand extends Command {
     public constructor() {
@@ -52,6 +52,6 @@ export default class EmbedCommand extends Command {
             if (color) embed.setColor(`${color}`)
             if (thumbnail) embed.setThumbnail(`${thumbnail}`);
         setTimeout(() => {message.delete().catch(() => null)}, 5000);
-        return message.util.send(embed).catch(() => message.util.reply('You made an error in your embed, and it threw an exception. Make sure that your embed is less than 2048 characters, that is a common problem.'));
+        return message.util!.send(embed).catch(() => message.util!.reply('You made an error in your embed, and it threw an exception. Make sure that your embed is less than 2048 characters, that is a common problem.'));
     }
 }

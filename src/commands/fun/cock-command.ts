@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
+import {Message, MessageEmbed, User} from 'discord.js';
 
 export default class CockCommand extends Command {
     public constructor() {
@@ -26,6 +26,6 @@ export default class CockCommand extends Command {
         .setColor('RANDOM')
         .setDescription(`It is **${Math.floor((Math.random()*250))/10}cm** long :hushed:`);
 
-        return message.util.send(embed);
+        return message.util!.send(embed);
     }
 }

@@ -1,6 +1,5 @@
 import { Command } from 'discord-akairo';
-import { GuildEmoji } from 'discord.js';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, MessageEmbed} from 'discord.js';
 
 export default class GuildCommand extends Command {
     public constructor() {
@@ -15,7 +14,7 @@ export default class GuildCommand extends Command {
         });
     }
     public exec(message: Message): Promise<Message> {
-        let guild = message.guild;
+        let guild = message.guild!;
         const embed = new MessageEmbed()
         .setTitle(`Guildinfo for \`${guild.name}\``)
         .setColor("RANDOM")
@@ -29,7 +28,7 @@ export default class GuildCommand extends Command {
         .slice(0,guild.emojis.cache.filter(em=> !em.animated).map(emoji => emoji.toString()).join('').slice(0, 1023).lastIndexOf('>') +1 ))
         .addField('**Animated emojis**','\u2192' + guild.emojis.cache.filter(em=> em.animated).map(emoji => emoji.toString()).join('').slice(0,1023)
         .slice(0,guild.emojis.cache.filter(em=> em.animated).map(emoji => emoji.toString()).join('').slice(0, 1023).lastIndexOf('>') +1 ))
-        .setImage(guild.iconURL());
-        return message.util.send(embed);
+        .setImage(guild.iconURL() as string);
+        return message.util!.send(embed);
     }
 }

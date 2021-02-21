@@ -15,7 +15,7 @@ export default class PingCommand extends Command {
     }
     public async exec(message: Message): Promise<Message> {
         let sstart = Date.now();
-        const sent = await message.util.reply('The embed will be here in any moment... just wait a moment... just wait a moment sir!');
+        const sent = await message.util!.reply('The embed will be here in any moment... just wait a moment... just wait a moment sir!');
         const timeDiff = (Number(sent.editedAt) || Number(sent.createdAt)) - (Number(message.editedAt) || Number(message.createdAt));
         let embed = new MessageEmbed()
         .setTitle('Bonk! :flushed:')
@@ -31,6 +31,6 @@ export default class PingCommand extends Command {
         DiscordAPI latency: **${this.client.ws.ping}ms**
         Exec function exec time: **${eend}**
         Simple code exec time: **${end}**`)
-        return message.util.send(embed);
+        return message.util!.send(embed);
     }
 }

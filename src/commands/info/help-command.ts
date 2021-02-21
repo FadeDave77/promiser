@@ -1,9 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import { stripIndents } from 'common-tags';
-import { OwnerId, OwnerAvatar, Prefix as defaultPrefix } from '../../config';
+import { OwnerAvatar, Prefix as defaultPrefix } from '../../config';
 import { Prefix } from '../../models/prefix';
-import {Repository } from 'typeorm';
 
 export default class HelpCommand extends Command {
     public constructor() {
@@ -26,7 +25,7 @@ export default class HelpCommand extends Command {
     public async exec(message: Message, {command}: {command: Command}): Promise<Message> {
         if (command) {
             return message.channel.send(new MessageEmbed()
-                .setAuthor(`Help for ${command}`, this.client.user.displayAvatarURL())
+                .setAuthor(`Help for ${command}`, this.client.user!.displayAvatarURL())
                 .setColor('RANDOM')
                 .setDescription(stripIndents`
                     **Description:**
@@ -42,14 +41,14 @@ export default class HelpCommand extends Command {
                     ${command.description.usage || '*No usage provided.*'}
 
                     **Examples:**
-                    ${command.description.examples ? command.description.examples.map(p => `\`${p}\``).join('\n') : '*No examples provided*.'}
+                    ${command.description.examples ? command.description.examples.map((p: string) => `\`${p}\``).join('\n') : '*No examples provided*.'}
                 `)
             );
         }
         if (message.guild) {
-        const newPrefix = await this.client.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e.value}).catch(()=> null);
+        const newPrefix = await this.client.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e!.value}).catch(()=> null);
         const embed = new MessageEmbed()
-            .setAuthor(`Help | ${this.client.user.username}`, this.client.user.displayAvatarURL())
+            .setAuthor(`Help | ${this.client.user!.username}`, this.client.user!.displayAvatarURL())
             .setColor('RANDOM')
             .setFooter(`${newPrefix ? newPrefix : defaultPrefix}help [command] for more info on a specific command`)
             .setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
@@ -66,12 +65,12 @@ export default class HelpCommand extends Command {
                 );
         }
         embed.addField('Invite the bot to your own server' , `Remember that this is an administration bot, so you need to give it all the permissions, else it won\'t work correctly.
-        [Click me](https://discord.com/oauth2/authorize?client_id=${this.client.user.id}&permissions=2147483647&scope=bot)`)
+        [Click me](https://discord.com/oauth2/authorize?client_id=${this.client.user!.id}&permissions=2147483647&scope=bot)`)
         return message.channel.send(embed);
         }
         else {
             const embed = new MessageEmbed()
-            .setAuthor(`Help | ${this.client.user.username}`, this.client.user.displayAvatarURL())
+            .setAuthor(`Help | ${this.client.user!.username}`, this.client.user!.displayAvatarURL())
             .setColor('RANDOM')
             .setFooter(`${defaultPrefix}help [command] for more info on a specific command`)
             .setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
@@ -88,7 +87,7 @@ export default class HelpCommand extends Command {
                 );
         }
         embed.addField('Invite the bot to your own server' , `Remember that this is an administration bot, so you need to give it all the permissions, else it won\'t work correctly.
-        [Click me](https://discord.com/oauth2/authorize?client_id=${this.client.user.id}&permissions=2147483647&scope=bot)`)
+        [Click me](https://discord.com/oauth2/authorize?client_id=${this.client.user!.id}&permissions=2147483647&scope=bot)`)
         return message.channel.send(embed);
         }
     }

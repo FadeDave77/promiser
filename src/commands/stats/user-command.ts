@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
+import {Message, MessageEmbed, User} from 'discord.js';
 
 export default class UserCommand extends Command {
     public constructor() {
@@ -31,7 +31,7 @@ export default class UserCommand extends Command {
         **Status:** ${user.presence.status}
 
         **Avatar:**`)
-        .setImage(user.avatarURL());
-        return message.util.send(embed);
+        .setImage(user.avatarURL() as string);
+        return message.util!.send(embed);
     }
 }

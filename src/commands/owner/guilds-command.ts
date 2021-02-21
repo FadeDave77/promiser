@@ -1,6 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
-import {OwnerId} from '../../config';
+import {Message} from 'discord.js';
 
 export default class GuildsCommand extends Command {
     public constructor() {
@@ -15,10 +14,10 @@ export default class GuildsCommand extends Command {
         });
     }
     public async exec(message: Message): Promise<Message> {
-        message.util.send('### START SERVER ECHO ###')
+        message.util!.send('### START SERVER ECHO ###')
         await this.client.guilds.cache.forEach(guild => {
-        message.util.send(`${guild.name} | ${guild.id}`)
+        message.util!.send(`${guild.name} | ${guild.id}`)
         })
-        return message.util.send('### END SERVER ECHO ###');
+        return message.util!.send('### END SERVER ECHO ###');
     }
 }

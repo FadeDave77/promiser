@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, User} from 'discord.js';
+import {Message, GuildMember, TextChannel} from 'discord.js';
 
 export default class PurgeCommand extends Command {
     public constructor() {
@@ -28,7 +28,7 @@ export default class PurgeCommand extends Command {
     public async exec(message: Message, {amount, member}: {amount: number, member: GuildMember}): Promise<Message> {
         let channel = message.channel as TextChannel
         if (member) {
-            if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
+            if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util!.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
             else {
                 const original = amount
                 while (amount>0) {
@@ -44,13 +44,13 @@ export default class PurgeCommand extends Command {
                         continue;
                     }
                 };
-                if  (original == 1) await message.util.send(`Removed one message from ${member}.`);
-                else await message.util.send(`Removed ${original} messages from ${member}.`);
-                setTimeout(() => {message.util.lastResponse.delete().catch(() => null); message.delete().catch(() => null)}, 5000);
+                setTimeout(() => {message.util!.lastResponse?.delete().catch(() => null); message.delete().catch(() => null)}, 5000);
+                if  (original == 1) return message.util!.send(`Removed one message from ${member}.`);
+                else return message.util!.send(`Removed ${original} messages from ${member}.`);
             }
         }
         else {
-            if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
+            if (amount < 1 || amount > 1000 || isNaN(amount) || !amount) return message.util!.send('Please provide a valid amount of messages to delete in the 1-1000 range.')
             else {
                 const original = amount
                 amount++
@@ -67,9 +67,9 @@ export default class PurgeCommand extends Command {
                         continue;
                     }
                 };
-                if (original == 1) await message.util.send(`Removed one message.`);
-                else await message.util.send(`Removed ${original} messages.`);
-                setTimeout(() => {message.util.lastResponse.delete().catch(() => null)}, 5000);
+                setTimeout(() => {message.util!.lastResponse?.delete().catch(() => null)}, 5000);
+                if (original == 1) return message.util!.send(`Removed one message.`);
+                else return message.util!.send(`Removed ${original} messages.`);
             }
         }
     }

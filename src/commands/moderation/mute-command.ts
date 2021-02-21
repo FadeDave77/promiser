@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, GuildChannelManager, GuildChannel, Guild} from 'discord.js';
+import {Message, GuildMember} from 'discord.js';
 import {OwnerId} from '../../config';
 import { Mutes } from '../../models/mutes';
 import {Repository} from 'typeorm';
@@ -37,22 +37,22 @@ export default class MuteCommand extends Command {
     public async exec(message: Message, {member, reason}: {member: GuildMember, reason: string} ): Promise<Message> {
         const muteRepo: Repository<Mutes> = this.client.db.getRepository(Mutes);
         
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to mute, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to mute, has higher or equal roles to you!');
             
-        if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
+        if (!message.guild!.me!.permissions.has("ADMINISTRATOR")) return message.util!.send("The bot needs administrator privileges to execute this command.")
 
-        await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
-        await message.guild.channels.cache.filter(c=> c.type == 'news').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
-        await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c. updateOverwrite(member, {SPEAK: false}));
+        await message.guild!.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
+        await message.guild!.channels.cache.filter(c=> c.type == 'news').forEach(c=> c.updateOverwrite(member, {SEND_MESSAGES: false}));
+        await message.guild!.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c. updateOverwrite(member, {SPEAK: false}));
 
         await muteRepo.insert({
-            guild: message.guild.id,
+            guild: message.guild!.id,
             user: member.id,
             moderator: message.author.id,
             time: (Math.round((Date.now()) / 1000)),
             reason: reason
         });
             
-        return message.util.send(`**${member.user.tag}** has been muted by **${message.author.tag}**, with reason \`${reason}\`.`);
+        return message.util!.send(`**${member.user.tag}** has been muted by **${message.author.tag}**, with reason \`${reason}\`.`);
     };
 }

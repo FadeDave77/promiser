@@ -30,15 +30,16 @@ export default class EvalCommand extends Command {
         });
     }
     public async exec(message: Message, {code, noout}: {code: string, noout: string}): Promise<void|Message> {
-        if (code.toLowerCase().includes('token')) return message.util.send('bro you think I would give you my token? fuck off')
-        const clean = text => {
+        if (code.toLowerCase().includes('token')) return message.util!.send('bro you think I would give you my token? fuck off');
+        if (!OwnerId && !OwnerAvatar && !Prefix) return console.log('oeuf');
+        const clean = (text: string) => {
             if (typeof(text) === "string") return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
             else return text;
         }
         try {
         let evaled = await eval(code);
         if (typeof evaled !== "string") evaled = util.inspect(evaled);
-        if (noout !== 'n') return message.util.send(clean(evaled), {code:"xl"}).catch((err)=>{message.util.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)});
-        } catch (err) {message.util.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)};
+        if (noout !== 'n') return message.util!.send(clean(evaled), {code:"xl"}).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)});
+        } catch (err) {message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)};
     }
 }

@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, GuildMember} from 'discord.js';
 import {Repository} from 'typeorm';
 import { OwnerId } from '../../config';
 
@@ -36,14 +36,14 @@ export default class WarnCommand extends Command {
     }
     public async exec(message: Message, {member, reason}: { member: GuildMember, reason : string }): Promise<Message> {
         const warnRepo: Repository<Warns> = this.client.db.getRepository(Warns);
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to warn, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to warn, has higher or equal roles to you!');
         await warnRepo.insert({
-            guild: message.guild.id,
+            guild: message.guild!.id,
             user: member.id,
             moderator: message.author.id,
             time: (Math.round((Date.now()) / 1000)),
             reason: reason
         });
-        return message.util.send(`**${member.user.tag}** has been warned by **${message.author.tag}**, with reason \`${reason}\`.`);
+        return message.util!.send(`**${member.user.tag}** has been warned by **${message.author.tag}**, with reason \`${reason}\`.`);
     };
 };

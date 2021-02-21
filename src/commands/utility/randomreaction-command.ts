@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, MessageReaction, User} from 'discord.js';
+import {Message, MessageReaction, User} from 'discord.js';
 
 export default class RandomReactionCommand extends Command {
     public constructor() {
@@ -23,10 +23,9 @@ export default class RandomReactionCommand extends Command {
         });
     }
     public async exec(message: Message, {msg}: {msg: Message}): Promise<Message> {
-        try {msg.reactions.cache.first().fetch()} catch{return message.util.send('Message doesn\'t exist, or is missing reactions.')}
-        const reaction: MessageReaction = await msg.reactions.cache.first().fetch();
+        const reaction: MessageReaction | undefined = await msg.reactions.cache.first()?.fetch(); if (!reaction) return message.util!.send('Message doesn\'t exist, or is missing reactions.');
         await reaction.users.fetch();
         const winner: User = reaction.users.cache.filter(w => !w.bot).random();
-        return message.util.send(`${winner} was randomly selected from the first reaction!`);
+        return message.util!.send(`${winner} was randomly selected from the first reaction!`);
     }
 }

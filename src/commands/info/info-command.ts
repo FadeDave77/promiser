@@ -1,7 +1,6 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
-import {Prefix as defaultPrefix, OwnerAvatar, OwnerId} from '../../config';
-import { Prefix } from '../../models/prefix';
+import {Message, MessageEmbed} from 'discord.js';
+import {OwnerId, OwnerAvatar} from '../../config';
 
 export default class InfoCommand extends Command {
     public constructor() {
@@ -16,7 +15,7 @@ export default class InfoCommand extends Command {
     }
     public async exec(message: Message): Promise<Message> {
         const embed = new MessageEmbed()
-        .setAuthor('Info', this.client.user.displayAvatarURL())
+        .setAuthor('Info', this.client.user!.displayAvatarURL())
         .setColor("RANDOM")
         .setDescription(`
         Creator: **FadeDave#7005(${OwnerId})**
@@ -26,6 +25,6 @@ export default class InfoCommand extends Command {
         Shards: **${this.client.ws.shards.size}**
         `)
         .setThumbnail(OwnerAvatar)
-        return message.util.send(embed);
+        return message.util!.send(embed);
     }
 }

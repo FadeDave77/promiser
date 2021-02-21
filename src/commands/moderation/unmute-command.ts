@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment, GuildChannelManager, GuildChannel, Guild} from 'discord.js';
+import {Message, GuildMember} from 'discord.js';
 import {OwnerId} from '../../config';
 
 export default class UnMuteCommand extends Command {
@@ -26,15 +26,15 @@ export default class UnMuteCommand extends Command {
             ]
         });
     }
-    public async exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to unmute, has higher or equal roles to you!');
+    public exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
+        if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to unmute, has higher or equal roles to you!');
         
-        if (!message.guild.me.permissions.has("ADMINISTRATOR")) return message.util.send("The bot needs administrator privileges to execute this command.")
+        if (!message.guild!.me!.permissions.has("ADMINISTRATOR")) return message.util!.send("The bot needs administrator privileges to execute this command.")
 
-        await message.guild.channels.cache.filter(c=> c.type == 'text').forEach(c=> {try{c.permissionOverwrites.get(member.id).delete()} catch{()=> null}});
-        await message.guild.channels.cache.filter(c=> c.type == 'news').forEach(c=> {try{c.permissionOverwrites.get(member.id).delete()} catch{()=> null}});
-        await message.guild.channels.cache.filter(c=> c.type == 'voice').forEach(c=> {try{c.permissionOverwrites.get(member.id).delete()} catch{()=> null}});
+        message.guild!.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
+        message.guild!.channels.cache.filter(c=> c.type == 'news').forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
+        message.guild!.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
             
-        return message.util.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
+        return message.util!.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
     };
 }

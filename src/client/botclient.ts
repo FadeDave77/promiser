@@ -1,8 +1,8 @@
-import {AkairoClient, CommandHandler, ListenerHandler, InhibitorHandler} from 'discord-akairo';
-import {User, Message, Intents} from 'discord.js';
+import {AkairoClient, CommandHandler, ListenerHandler} from 'discord-akairo';
+import {Message, Intents} from 'discord.js';
 import {join} from 'path';
-import { Connection, Repository } from 'typeorm';
-import {Token, OwnerId, dbName} from '../config';
+import { Connection} from 'typeorm';
+import {OwnerId, dbName} from '../config';
 import {Prefix as defaultPrefix} from '../config';
 import Database from '../structures/database';
 import { Prefix } from '../models/prefix';
@@ -31,7 +31,7 @@ export default class BotClient extends AkairoClient {
         directory: join(__dirname, '..', 'commands'),
         prefix: async (message) => {
             if (message.guild) {
-                const newPrefix = await this.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e.value}).catch(()=> null)
+                const newPrefix = await this.db.getRepository(Prefix).findOne({guild: message.guild.id}).then(e=> {return e!.value}).catch(()=> null)
                 return newPrefix ? newPrefix : defaultPrefix
             }
             return defaultPrefix;

@@ -1,7 +1,5 @@
 import { Command } from 'discord-akairo';
-import { User } from 'discord.js';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
-import {OwnerId} from '../../config';
+import {Message} from 'discord.js';
 
 export default class UnbanCommand extends Command {
     public constructor() {
@@ -28,12 +26,12 @@ export default class UnbanCommand extends Command {
         });
     }
     public async exec(message: Message, user: string): Promise<any> {
-        let User = String(user['user'])
-        await message.guild.fetchBans().then(async bans=> {
-            if(bans.size == 0) return message.util.send('This guild doesn\'t have any bans.')
-            else if (bans.find(u=> u.user.id === User)) {message.guild.members.unban(User); return message.channel.send(`${bans.find(u=> u.user.id === User).user.tag} unbanned successfully.`)}
-            else if (bans.find(u=> u.user.tag == User)) {message.guild.members.unban(bans.find(u=> u.user.tag == User).user.id); return message.channel.send(`${bans.find(u=> u.user.tag == User).user.tag} unbanned successfully.`)}
-            else return message.util.send('No ban with the specified search term exists.');
+        let User = user[<any>"user"]!.toString();
+        await message.guild!.fetchBans().then(async bans=> {
+            if(bans.size == 0) return message.util!.send('This guild doesn\'t have any bans.')
+            else if (bans.find(u=> u.user.id === User)) {message.guild!.members.unban(User); return message.channel.send(`${bans.find(u=> u.user.id === User)!.user.tag} unbanned successfully.`)}
+            else if (bans.find(u=> u.user.tag == User)) {message.guild!.members.unban(bans.find(u=> u.user.tag == User)!.user.id); return message.channel.send(`${bans.find(u=> u.user.tag == User)!.user.tag} unbanned successfully.`)}
+            else return message.util!.send('No ban with the specified search term exists.');
         });
 
     };

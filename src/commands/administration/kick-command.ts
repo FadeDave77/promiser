@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import {Message, GuildMember, MessageEmbed, ImageSize, TextChannel, MessageAttachment} from 'discord.js';
+import {Message, GuildMember} from 'discord.js';
 import {OwnerId} from '../../config';
 
 export default class KickCommand extends Command {
@@ -26,13 +26,13 @@ export default class KickCommand extends Command {
         });
     }
     public exec(message: Message, {member}: {member: GuildMember} ): Promise<Message> {
-        if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID && message.author.id !== OwnerId) return message.util.reply('The member you are trying to kick, has higher or equal roles to you!');
+        if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to kick, has higher or equal roles to you!');
         else if (member.kickable) {
             member.kick().catch(() => null);
-            return message.util.send(`"${member}" has been kicked.`);
+            return message.util!.send(`"${member}" has been kicked.`);
         }
         else {
-            return message.util.reply('That member is not kickable. The bot is missing permissions, or the member is a server owner.');
+            return message.util!.reply('That member is not kickable. The bot is missing permissions, or the member is a server owner.');
         }
     };
 }
