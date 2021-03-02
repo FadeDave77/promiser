@@ -6,8 +6,7 @@ export default class MessageDeleteListener extends Listener {
     public constructor() {
         super('messageDelete', {
             event: 'messageDelete',
-            emitter: 'client',
-            category: 'client'
+            emitter: 'client'
         });
     }
 

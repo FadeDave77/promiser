@@ -18,8 +18,7 @@ export default class EvalCommand extends Command {
                     id: 'noout',
                     type:'string',
                     match: 'option',
-                    flag: '-',
-                    default: ''
+                    flag: '-n',
                 },
                 {
                     id: 'code',
@@ -39,7 +38,7 @@ export default class EvalCommand extends Command {
         try {
         let evaled = await eval(code);
         if (typeof evaled !== "string") evaled = util.inspect(evaled);
-        if (noout !== 'n') return message.util!.send(clean(evaled), {code:"xl"}).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)});
+        if (noout) return message.util!.send(clean(evaled), {code:"xl"}).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)});
         } catch (err) {message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)};
     }
 }

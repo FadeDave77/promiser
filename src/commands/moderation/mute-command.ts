@@ -14,6 +14,7 @@ export default class MuteCommand extends Command {
                 examples: ['mute @FadeDave#7005','mute 347822600136949763 bruh'] //exampleArray
             },
             userPermissions: ['MANAGE_CHANNELS'],
+			clientPermissions: ['ADMINISTRATOR'],
             channel: 'guild',
             cooldown: 10000,
             args: [

@@ -10,8 +10,7 @@ export default class ReadyListener extends Listener {
     public constructor() {
         super('ready', {
             emitter: 'client',
-            event: 'ready',
-            category: 'client'
+            event: 'ready'
         });
     };
     public async exec(): Promise<void> {

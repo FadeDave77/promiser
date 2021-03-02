@@ -24,7 +24,7 @@ export default class CockCommand extends Command {
         const embed = new MessageEmbed()
         .setTitle(`Oh, i see you got a cock there ${user.username} :eyes:`)
         .setColor('RANDOM')
-        .setDescription(`It is **${Math.floor((Math.random()*250))/10}cm** long :hushed:`);
+        .setDescription(`It is **${Math.floor((Math.random() * 250)) / 10}cm** long :hushed:`);
 
         return message.util!.send(embed);
     }

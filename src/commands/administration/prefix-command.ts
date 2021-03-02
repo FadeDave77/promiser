@@ -9,6 +9,7 @@ export default class PrefixCommand extends Command {
     public constructor() {
         super('prefix', { //name
             aliases: ['prefix'], //aliases
+			regex: /<*776129398834331700>/gi,
             description: {
                 content: 'Change the prefix of the bot on the server.', //description
                 usage: 'prefix <newprefix>', //how to use

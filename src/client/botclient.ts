@@ -1,4 +1,4 @@
-import {AkairoClient, CommandHandler, ListenerHandler} from 'discord-akairo';
+import {AkairoClient, CommandHandler, ListenerHandler, InhibitorHandler} from 'discord-akairo';
 import {Message, Intents} from 'discord.js';
 import {join} from 'path';
 import { Connection} from 'typeorm';
@@ -11,6 +11,7 @@ declare module "discord-akairo" {
     interface AkairoClient {
         commandHandler: CommandHandler;
         listenerHandler: ListenerHandler;
+        inhibitorHandler: InhibitorHandler; 
         db: Connection;
     }
 };
@@ -23,10 +24,14 @@ interface BotOptions {
 export default class BotClient extends AkairoClient {
     public config: BotOptions;
     public db!: Connection;
+
+    public inhibitorHandler: InhibitorHandler = new InhibitorHandler(this, {
+        directory: join(__dirname, '..', 'inhibitors') 
+    })
     public listenerHandler: ListenerHandler = new ListenerHandler(this, {
         directory: join(__dirname, '..', 'listeners')
     });
-   
+
     public commandHandler: CommandHandler = new CommandHandler(this, {
         directory: join(__dirname, '..', 'commands'),
         prefix: async (message) => {
@@ -65,17 +70,21 @@ export default class BotClient extends AkairoClient {
     public constructor(config: BotOptions) {
         super({
             ownerID: config.OwnerId,
-            intents: Intents.ALL
+            intents: Intents.ALL,
+            
         });
         this.config = config;
     }
     private async _init(): Promise<void> {
+        this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
         this.commandHandler.useListenerHandler(this.listenerHandler);
         this.listenerHandler.setEmitters({
+            inhibitorHandler: this.inhibitorHandler,
             commandHandler: this.commandHandler,
             listenerHandler: this.listenerHandler,
             process
         });
+        this.inhibitorHandler.loadAll();
         this.commandHandler.loadAll();
         this.listenerHandler.loadAll();
 
