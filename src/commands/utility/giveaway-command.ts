@@ -31,19 +31,21 @@ export default class GiveawayCommand extends Command {
                     }
                 },
                 {
+                    id: 'winners',
+                    type: /[0-9]*w/gi,
+                    default: 1,
+                    prompt: {
+                        start: (msg: Message) => `${msg.author}, please provide how many winners you would like!`,
+                        retry: (msg: Message) => `${msg.author}, please provide a valid amount of winners!`
+                    }
+                },
+                {
                     id: 'item',
                     type: 'string',
                     match: 'rest',
                     prompt: {
                         start: (msg: Message) => `${msg.author}, provide an item to give away!`
                     }
-                },
-                {
-                    id: 'winners',
-                    match: 'option',
-                    flag: ['-w', '--winners'],
-                    type: 'number',
-                    default: 1
                 },
                 {
                     id: 'from',
@@ -55,9 +57,10 @@ export default class GiveawayCommand extends Command {
             ]
         });
     }
-    public async exec(message: Message, {time, item, winners, from}: {time: number, item: string, winners: number, from: User}): Promise<any> {
+    public async exec(message: Message, {time, item, winners, from}: {time: number, item: string, winners: any, from: User}): Promise<any> {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
         const end: number = Date.now() + time;
+        winners = Number(winners[<any>'match'].toString().replace('w', ''));
         const msg: Message = await message.channel.send(new MessageEmbed()
             .setAuthor(`Giveaway!`)
             .setColor(0x00ff00)
