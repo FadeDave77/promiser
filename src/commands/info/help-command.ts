@@ -52,7 +52,7 @@ export default class HelpCommand extends Command {
             .setColor('RANDOM')
             .setFooter(`${newPrefix ? newPrefix : defaultPrefix}help [command] for more info on a specific command`)
             .setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
-            \nUse commands in this guild like:\n\`${newPrefix ? newPrefix : defaultPrefix} [command] <required arg> (optional arg)\`\n\n**If you don't get a response from the bot, you are missing permissions to execute the command, or you are sending commands too fast.**\n\n**Available commands:**\n`)
+            \nUse commands in this guild like:\n\`${newPrefix ? newPrefix : defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Available commands:**\n`)
             .setThumbnail(OwnerAvatar);
         for (const category of this.handler.categories.values()) {
             if (['default'].includes(category.id)) continue;
@@ -72,7 +72,7 @@ export default class HelpCommand extends Command {
             .setColor('RANDOM')
             .setFooter(`${defaultPrefix}help [command] for more info on a specific command`)
             .setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
-            \nUse commands in this guild like:\n\`${defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Not all commands are available in a DMchannel, so please move to a guildchannel if you don't get a response.**\n\n**Commands:**\n`)
+            \nUse commands in this guild like:\n\`${defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Commands:**\n`)
             .setThumbnail(OwnerAvatar);
         for (const category of this.handler.categories.values()) {
             if (['default'].includes(category.id)) continue;
