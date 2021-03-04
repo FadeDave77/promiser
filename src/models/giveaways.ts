@@ -8,21 +8,21 @@ export class Giveaways {
     @Column()
     time!:number;
 
-    @Column({type: 'varchar', length: 22})
+    @Column({ type: 'varchar', length: 22 })
     channel!:string;
 
-    @Column({type: 'varchar', length: 22})
+    @Column({ type: 'varchar', length: 22 })
     message!:string;
 
-    @Column({type: 'integer'})
+    @Column({ type: 'integer' })
     end!:number;
 
-    @Column({type: 'integer'})
+    @Column({ type: 'integer' })
     winners!:number;
 
-    @Column({type: 'text'})
+    @Column({ type: 'text' })
     from!:string
 
-    @Column({type: 'text'})
+    @Column({ type: 'text' })
     item!:string
 }

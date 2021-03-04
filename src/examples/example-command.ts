@@ -1,19 +1,19 @@
 import { Command } from 'discord-akairo';
-import {Message} from 'discord.js';
+import { Message } from 'discord.js';
 
-export default class /*command*/ extends Command {
+export default class /* command*/ extends Command {
     public constructor() {
         super('', {
             aliases: ['', ''],
             description: {
                 content: '',
                 usage: '',
-                examples: ['']
-            }
+                examples: [''],
+            },
         });
     }
     public exec(message: Message): Promise<Message> {
-
+        
         return message.util.send();
     }
 }

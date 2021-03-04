@@ -1,5 +1,5 @@
 import { ConnectionManager }from 'typeorm';
-import {dbName} from '../config';
+import { dbName } from '../config';
 
 import { Warns } from '../models/warns';
 import { Giveaways } from '../models/giveaways';
@@ -12,8 +12,8 @@ connectionManager.create({
     type: 'sqlite',
     database: 'db.sqlite',
     entities: [
-        Warns, Giveaways, Prefix, Mutes
-    ]
-})
+        Warns, Giveaways, Prefix, Mutes,
+    ],
+});
 
 export default connectionManager;

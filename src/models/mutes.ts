@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('mutes')
 export class Mutes {
@@ -8,15 +8,15 @@ export class Mutes {
     @Column()
     time!: number;
 
-    @Column({type: 'varchar', length: 22})
+    @Column({ type: 'varchar', length: 22 })
     guild!:string;
 
-    @Column({type: 'varchar', length: 22})
+    @Column({ type: 'varchar', length: 22 })
     user!:string;
 
-    @Column({type: 'varchar', length: 22})
+    @Column({ type: 'varchar', length: 22 })
     moderator!:string;
 
-    @Column({type: 'text'})
+    @Column({ type: 'text' })
     reason!:string;
 }

@@ -1,5 +1,5 @@
-import {Command} from 'discord-akairo';
-import {Message, MessageEmbed} from 'discord.js';
+import { Command } from 'discord-akairo';
+import { Message, MessageEmbed } from 'discord.js';
 import Discord from 'discord.js';
 
 export default class PingCommand extends Command {
@@ -7,30 +7,30 @@ export default class PingCommand extends Command {
         super('ping', {
             aliases: ['ping', 'bonk', 'latency', 'ms'],
             description: {
-                content: "Check the DiscordAPI latency.",
+                content: 'Check the DiscordAPI latency.',
                 usage: 'ping',
-                examples: ['ping']
-            }
+                examples: ['ping'],
+            },
         });
     }
     public async exec(message: Message): Promise<Message> {
-        let sstart = Date.now();
+        const sstart = Date.now();
         const sent = await message.util!.reply('The embed will be here in any moment... just wait a moment... just wait a moment sir!');
         const timeDiff = (Number(sent.editedAt) || Number(sent.createdAt)) - (Number(message.editedAt) || Number(message.createdAt));
-        let embed = new MessageEmbed()
+        const embed = new MessageEmbed()
         .setTitle('Bonk! :flushed:')
-        .setColor('RANDOM')
-        let start = Date.now();
+        .setColor('RANDOM');
+        const start = Date.now();
         await Discord.Util.delayFor(100);
         let nd = Date.now() - start - 100;
         if (nd < 0) nd = 0;
-        let end = nd + 'ms'; 
-        let eend = Date.now() - sstart - 100 + 'ms';
+        const end = nd + 'ms';
+        const eend = Date.now() - sstart - 100 + 'ms';
         embed.setDescription(`
         Message return time: **${timeDiff}ms**
         DiscordAPI latency: **${this.client.ws.ping}ms**
         Exec function exec time: **${eend}**
-        Simple code exec time: **${end}**`)
+        Simple code exec time: **${end}**`);
         return message.util!.send(embed);
     }
 }

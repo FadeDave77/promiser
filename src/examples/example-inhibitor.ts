@@ -4,12 +4,12 @@ import { Message } from 'discord.js';
 export default class /* name */ extends Inhibitor {
     public constructor() {
         super('', {
-            reason: ''
-        })
+            reason: '',
+        });
     }
-	
+
     public exec(message: Message) {
-    
+        
         return true;
     }
 }

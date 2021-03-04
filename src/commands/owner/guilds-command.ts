@@ -1,23 +1,23 @@
 import { Command } from 'discord-akairo';
-import {Message} from 'discord.js';
+import { Message } from 'discord.js';
 
 export default class GuildsCommand extends Command {
     public constructor() {
-        super('guilds', { //name
-            aliases: ['guilds', 'servers'], //aliases
+        super('guilds', { // name
+            aliases: ['guilds', 'servers'], // aliases
             description: {
-                content: 'Get the all joined guilds..', //description
-                usage: 'guilds', //how to use
-                examples: ['servers'] //exampleArray
+                content: 'Get the all joined guilds..', // description
+                usage: 'guilds', // how to use
+                examples: ['servers'], // exampleArray
             },
-            ownerOnly: true
+            ownerOnly: true,
         });
     }
     public async exec(message: Message): Promise<Message> {
-        message.util!.send('### START SERVER ECHO ###')
+        message.util!.send('### START SERVER ECHO ###');
         await this.client.guilds.cache.forEach(guild => {
-        message.util!.send(`${guild.name} | ${guild.id}`)
-        })
+        message.util!.send(`${guild.name} | ${guild.id}`);
+        });
         return message.util!.send('### END SERVER ECHO ###');
     }
 }

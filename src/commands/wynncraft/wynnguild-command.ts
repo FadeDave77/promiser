@@ -1,16 +1,16 @@
 import { Command } from 'discord-akairo';
-import {Message, MessageEmbed} from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
 import query from 'querystring';
 
 export default class WynnGuild extends Command {
     public constructor() {
-        super('wynnguild', { //name
-            aliases: ['wguild', 'wynnguild'], //aliases
+        super('wynnguild', { // name
+            aliases: ['wguild', 'wynnguild'], // aliases
             description: {
-                content: 'Get info on a wynncraft guild', //description
-                usage: 'wguild <guild name or tag>', //how to use
-                examples: ['wguild Eden', 'wguild Goose'] //exampleArray
+                content: 'Get info on a wynncraft guild', // description
+                usage: 'wguild <guild name or tag>', // how to use
+                examples: ['wguild Eden', 'wguild Goose'], // exampleArray
             },
             args: [
                 {
@@ -19,27 +19,27 @@ export default class WynnGuild extends Command {
                     match: 'rest',
                     prompt: {
                         start: (msg: Message) => `${msg.author}, please specify a guild!`,
-                        retry: (msg: Message) => `${msg.author}, please specify a valid guild!`
-                    }
+                        retry: (msg: Message) => `${msg.author}, please specify a valid guild!`,
+                    },
                 },
-            ]
+            ],
         });
     }
-    public async exec(message: Message, {guild}: {guild: string}): Promise<Message> {
-        const search = query.stringify({command:guild});
+    public async exec(message: Message, { guild }: {guild: string}): Promise<Message> {
+        const search = query.stringify({ command:guild });
         try {
-        const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(res=> res.json())
-        let embed = new MessageEmbed()
-        .setTitle('Data for '+ guild)
-        .setDescription(`Name: ${data.name} \n Tag: ${data.prefix} \n Xp: ${data.xp * 10}% \n Level: ${data.level} \n Created: ${data.createdFriendly} \n Territories: ${data.territories} \n BannerTier: ${data.banner.tier} \n\n **Members: ${data.members.length}**`)
-        .addField('Rank Name', data.members.map((u: any )=> {switch (u.rank) {case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``;}}).slice(0, Math.floor(data.members.length / 2)), true)
-        .addField('Contributed', data.members.map((u: any )=> `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
-        .addField('Joined', data.members.map((u: any )=> `\`${u.joined.slice(0,10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
-        .addField('Rank Names', data.members.map((u: any )=> {switch (u.rank) {case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``;}}).slice(Math.floor(data.members.length / 2)), true)
-        .addField('Contributed', data.members.map((u: any )=> `\`${u.contributed}\``).slice(Math.floor(data.members.length / 2)), true)
-        .addField('Joined', data.members.map((u: any )=> `\`${u.joined.slice(0,10).replaceAll('-', '/')}\``).slice(Math.floor(data.members.length / 2)), true)
+            const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(res => res.json());
+            const embed = new MessageEmbed()
+                .setTitle('Data for ' + guild)
+                .setDescription(`Name: ${data.name} \n Tag: ${data.prefix} \n Xp: ${data.xp * 10}% \n Level: ${data.level} \n Created: ${data.createdFriendly} \n Territories: ${data.territories} \n BannerTier: ${data.banner.tier} \n\n **Members: ${data.members.length}**`)
+                .addField('Rank Name', data.members.map((u: any) => { switch (u.rank) { case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``; } }).slice(0, Math.floor(data.members.length / 2)), true)
+                .addField('Contributed', data.members.map((u: any) => `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
+                .addField('Joined', data.members.map((u: any) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
+                .addField('Rank Names', data.members.map((u: any) => { switch (u.rank) { case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``; } }).slice(Math.floor(data.members.length / 2)), true)
+                .addField('Contributed', data.members.map((u: any) => `\`${u.contributed}\``).slice(Math.floor(data.members.length / 2)), true)
+                .addField('Joined', data.members.map((u: any) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(Math.floor(data.members.length / 2)), true);
         return message.util!.send(embed);
-        } 
-        catch { return message.util!.send('This guild does not exist. Please use the full name of the guild.')}
+        }
+        catch { return message.util!.send('This guild does not exist. Please use the full name of the guild.');}
     }
 }
