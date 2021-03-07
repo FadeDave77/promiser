@@ -29,11 +29,8 @@ export default class UnMuteCommand extends Command {
     }
     public exec(message: Message, { member }: {member: GuildMember}): Promise<Message> {
         if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to unmute, has higher or equal roles to you!');
-        
-        message.guild!.channels.cache.filter(c=> c.type == 'text').forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
-        message.guild!.channels.cache.filter(c=> c.type == 'news').forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
-        message.guild!.channels.cache.filter(c=> c.type == 'voice').forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
-        
+        message.guild!.channels.cache.forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
+
         return message.util!.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
     }
 }

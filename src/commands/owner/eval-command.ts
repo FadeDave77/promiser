@@ -15,12 +15,6 @@ export default class EvalCommand extends Command {
             ownerOnly: true,
             args: [
                 {
-                    id: 'noout',
-                    type:'string',
-                    match: 'option',
-                    flag: '-n',
-                },
-                {
                     id: 'code',
                     type: 'string',
                     match: 'rest',
@@ -28,7 +22,7 @@ export default class EvalCommand extends Command {
             ],
         });
     }
-    public async exec(message: Message, { code, noout }: {code: string, noout: string}): Promise<void|Message> {
+    public async exec(message: Message, code : string): Promise<void|Message> {
         if (code.toLowerCase().includes('token')) return message.util!.send('bro you think I would give you my token? fuck off');
         if (!OwnerId && !OwnerAvatar && !Prefix) return console.log('oeuf');
         const clean = (text: string) => {
@@ -38,7 +32,7 @@ export default class EvalCommand extends Command {
         try {
         let evaled = await eval(code);
         if (typeof evaled !== 'string') evaled = util.inspect(evaled);
-        if (noout) return message.util!.send(clean(evaled), { code:'xl' }).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);});
+        if (!message.content.includes('-n')) return message.util!.send(clean(evaled), { code:'xl' }).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);});
         }
         catch (err) {message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);}
     }
