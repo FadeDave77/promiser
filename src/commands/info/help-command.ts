@@ -62,7 +62,7 @@ export default class HelpCommand extends Command {
                 .join('  ') || 'No commands in this category.'
                 );
         }
-        embed.addField('Invite the bot to your own server', `Remember that this is an administration bot, so you need to give it all the permissions, else it won't work correctly.
+        embed.addField('Invite the bot to your own server', `Remember that this is an administration bot, so you need to give it all the necessary permissions, else it won't work correctly.
         [Click me](https://discord.com/oauth2/authorize?client_id=${this.client.user!.id}&permissions=2147483647&scope=bot)`);
         return message.channel.send(embed);
         }
@@ -82,7 +82,7 @@ export default class HelpCommand extends Command {
                 .join('  ') || 'No commands in this category.'
                 );
         }
-        embed.addField('Invite the bot to your own server', `Remember that this is an administration bot, so you need to give it all the permissions, else it won't work correctly.
+        embed.addField('Invite the bot to your own server', `Remember that this is an administration bot, so you need to give it all the necessary permissions, else it won't work correctly.
         [Click me](https://discord.com/oauth2/authorize?client_id=${this.client.user!.id}&permissions=2147483647&scope=bot)`);
         return message.channel.send(embed);
         }

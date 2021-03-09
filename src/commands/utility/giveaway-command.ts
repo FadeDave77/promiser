@@ -12,8 +12,8 @@ export default class GiveawayCommand extends Command {
             aliases: ['giveaway', 'gaway'], // aliases
             description: {
                 content: 'Start a giveaway', // description
-                usage: 'giveaway <time> <item>', // how to use
-                examples: ['giveaway 5d flush plush'], // exampleArray
+                usage: 'giveaway <time> <winners> <item> -f (who is giving it away)', // how to use
+                examples: ['giveaway 5d 3 uwuw owo', 'gaway 1w 69 nice -f @Wumpus#6969'], // exampleArray
             },
             cooldown: 10000,
             channel: 'guild',
@@ -32,8 +32,7 @@ export default class GiveawayCommand extends Command {
                 },
                 {
                     id: 'winners',
-                    type: /[0-9]*w/gi,
-                    default: 1,
+                    type: 'number',
                     prompt: {
                         start: (msg: Message) => `${msg.author}, please provide how many winners you would like!`,
                         retry: (msg: Message) => `${msg.author}, please provide a valid amount of winners!`,
@@ -60,7 +59,6 @@ export default class GiveawayCommand extends Command {
     public async exec(message: Message, { time, item, winners, from }: {time: number, item: string, winners: any, from: User}): Promise<any> {
         const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
         const end: number = Date.now() + time;
-        winners = Number(winners[<any>'match'].toString().replace('w', ''));
         const msg: Message = await message.channel.send(new MessageEmbed()
             .setAuthor('Giveaway!')
             .setColor(0x00ff00)

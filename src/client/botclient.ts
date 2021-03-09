@@ -2,8 +2,7 @@ import { AkairoClient, CommandHandler, ListenerHandler, InhibitorHandler } from 
 import { Message, Intents } from 'discord.js';
 import { join } from 'path';
 import { Connection } from 'typeorm';
-import { OwnerId, dbName } from '../config';
-import { Prefix as defaultPrefix } from '../config';
+import { OwnerId, dbName, Prefix as defaultPrefix } from '../config';
 import Database from '../structures/database';
 import { Prefix } from '../models/prefix';
 
@@ -27,9 +26,11 @@ export default class BotClient extends AkairoClient {
     
     public inhibitorHandler: InhibitorHandler = new InhibitorHandler(this, {
         directory: join(__dirname, '..', 'inhibitors'),
+		automateCategories: true,
     })
     public listenerHandler: ListenerHandler = new ListenerHandler(this, {
         directory: join(__dirname, '..', 'listeners'),
+        automateCategories: true,
     });
     
     public commandHandler: CommandHandler = new CommandHandler(this, {
@@ -70,7 +71,8 @@ export default class BotClient extends AkairoClient {
     public constructor(config: BotOptions) {
         super({
             ownerID: config.OwnerId,
-            intents: Intents.ALL,         
+            intents: Intents.ALL,
+            presence: { status: 'dnd', activity: { type: 'LISTENING', name: `${defaultPrefix}help` } },
         });
         this.config = config;
     }
