@@ -23,7 +23,6 @@ interface BotOptions {
 export default class BotClient extends AkairoClient {
 	public config: BotOptions;
 	public db!: Connection;
-
 	public inhibitorHandler: InhibitorHandler = new InhibitorHandler(this, {
 		directory: join(__dirname, '..', 'inhibitors'),
 		automateCategories: true,
@@ -32,7 +31,6 @@ export default class BotClient extends AkairoClient {
 		directory: join(__dirname, '..', 'listeners'),
 		automateCategories: true,
 	});
-
 	public commandHandler: CommandHandler = new CommandHandler(this, {
 		directory: join(__dirname, '..', 'commands'),
 		prefix: async (message) => {
@@ -72,6 +70,7 @@ export default class BotClient extends AkairoClient {
 		super({
 			ownerID: config.OwnerId,
 			intents: Intents.ALL,
+			partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
 			presence: { status: 'dnd', activity: { type: 'LISTENING', name: `${defaultPrefix}help` } },
 		});
 		this.config = config;

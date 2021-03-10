@@ -22,7 +22,7 @@ export default class EvalCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, code : string): Promise<void|Message> {
+	public async exec(message: Message, { code }: {code: string}): Promise<void|Message> {
 		if (code.toLowerCase().includes('token')) return message.util!.send('bro you think I would give you my token? fuck off');
 		if (!OwnerId && !OwnerAvatar && !Prefix) return console.log('oeuf');
 		const clean = (text: string) => {

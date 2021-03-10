@@ -28,6 +28,7 @@ export default class PlayCommand extends Command {
 		const input = inpu[<any>'inpu']!;
 		if (!message.member?.voice.channel) return message.util!.send('Please join a voice channel first!');
 		const connection = await message.member.voice.channel.join();
+		if (!ytdl.validateURL(input)) return message.util!.send('For now only links work, please use a link.');
 		await connection.play(await ytdl(input, { filter: 'audioonly', highWaterMark: 50, liveBuffer: 50 }), { type: 'opus', highWaterMark: 50, volume: false, fec: true });
         
 		const embed = new MessageEmbed;
