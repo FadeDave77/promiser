@@ -7,12 +7,12 @@ import { Prefix } from '../models/prefix';
 
 const connectionManager: ConnectionManager = new ConnectionManager();
 connectionManager.create({
-    name: dbName,
-    type: 'sqlite',
-    database: 'db.sqlite',
-    entities: [
-        Warns, Giveaways, Prefix,
-    ],
+	name: dbName,
+	type: 'sqlite',
+	database: 'db.sqlite',
+	entities: [
+		Warns, Giveaways, Prefix,
+	],
 });
 
 export default connectionManager;
