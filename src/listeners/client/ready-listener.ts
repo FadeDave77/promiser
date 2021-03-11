@@ -17,7 +17,9 @@ export default class ReadyListener extends Listener {
         
 		console.log(`promiser is up on ${this.client.user!.tag} @ ${new Date().toString().substr(0, 31)}`);
 		this.client.setMaxListeners(30);
-        
+		
+		setTimeout(() => { this.client.user!.setActivity({ name: ';help', type: 'LISTENING' });}, 3000);
+		
 		setInterval(async () => {
 			const giveaways: Giveaways[] = await giveawayRepo.find();
 			giveaways.filter(g => g.end <= Math.round(Date.now()) / 1000).map(async g => {

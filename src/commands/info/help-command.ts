@@ -72,7 +72,7 @@ export default class HelpCommand extends Command {
 				.setColor('RANDOM')
 				.setFooter(`${defaultPrefix}help [command] for more info on a specific command`)
 				.setDescription(`\n**An all rounder discord bot written by FadeDave#7005**\n
-            \nUse commands in this guild like:\n\`${defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Commands:**\n`)
+            \nUse commands like:\n\`${defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Commands:**\n`)
 				.setThumbnail(OwnerAvatar);
 			for (const category of this.handler.categories.values()) {
 				if (['default'].includes(category.id)) continue;

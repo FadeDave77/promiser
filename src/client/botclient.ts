@@ -71,7 +71,7 @@ export default class BotClient extends AkairoClient {
 			ownerID: config.OwnerId,
 			intents: Intents.ALL,
 			partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
-			presence: { status: 'dnd', activity: { type: 'LISTENING', name: `${defaultPrefix}help` } },
+			presence: { status: 'dnd' },
 		});
 		this.config = config;
 	}
