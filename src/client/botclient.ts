@@ -87,7 +87,7 @@ export default class BotClient extends AkairoClient {
 		this.inhibitorHandler.loadAll();
 		this.commandHandler.loadAll();
 		this.listenerHandler.loadAll();
-		
+
 		this.db = Database.get(dbName);
 		await this.db.connect();
 		await this.db.synchronize();

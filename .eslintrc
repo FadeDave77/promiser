@@ -12,6 +12,7 @@
 	"rules": {
 		"@typescript-eslint/no-explicit-any": 0,
 		"@typescript-eslint/no-non-null-assertion": 0,
+		"@typescript-eslint/ban-ts-comment": 0,
 		"brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
 		"comma-dangle": ["error", "always-multiline"],
 		"comma-spacing": "error",
@@ -27,7 +28,7 @@
 		"no-lonely-if": "error",
 		"no-multi-spaces": "error",
 		"no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
-		"indent": [2, "tab"],	
+		"indent": [2, "tab"],
 		"no-var": "error",
 		"object-curly-spacing": ["error", "always"],
 		"prefer-const": "error",

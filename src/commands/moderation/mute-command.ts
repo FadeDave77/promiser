@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
-import { OwnerId } from '../../config';
+import { checkHierarchy } from '../../structures/custom-modules';
 
 export default class MuteCommand extends Command {
 	public constructor() {
@@ -27,8 +27,8 @@ export default class MuteCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { member }: {member: GuildMember }): Promise<Message> {
-		if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to mute, has higher or equal roles to you!');
+	public async exec(message: Message, { member }: {member: GuildMember }): Promise<Message | void> {
+		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
 		await message.guild!.channels.cache.forEach(c=> c.updateOverwrite(member, { SEND_MESSAGES: false, SPEAK: false }));
 
 		return message.util!.send(`**${member.user.tag}** has been muted by **${message.author.tag}**.`);

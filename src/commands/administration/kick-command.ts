@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
-import { OwnerId } from '../../config';
+import { checkHierarchy } from '../../structures/custom-modules';
 
 export default class KickCommand extends Command {
 	public constructor() {
@@ -25,9 +25,9 @@ export default class KickCommand extends Command {
 			],
 		});
 	}
-	public exec(message: Message, { member }: {member: GuildMember}): Promise<Message> {
-		if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) {return message.util!.reply('The member you are trying to kick, has higher or equal roles to you!');}
-		else if (member.kickable) {
+	public exec(message: Message, { member }: {member: GuildMember}): Promise<Message | void> {
+		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
+		if (member.kickable) {
 			member.kick().catch(() => null);
 			return message.util!.send(`"${member}" has been kicked.`);
 		}

@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
 import { Repository } from 'typeorm';
-import { OwnerId } from '../../config';
+import { checkHierarchy } from '../../structures/custom-modules';
 
 import { Warns } from '../../models/warns';
 
@@ -34,9 +34,9 @@ export default class WarnCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { member, reason }: { member: GuildMember, reason : string }): Promise<Message> {
+	public async exec(message: Message, { member, reason }: { member: GuildMember, reason : string }): Promise<Message | void> {
 		const warnRepo: Repository<Warns> = this.client.db.getRepository(Warns);
-		if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) return message.util!.reply('The member you are trying to warn, has higher or equal roles to you!');
+		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
 		await warnRepo.insert({
 			guild: message.guild!.id,
 			user: member.id,

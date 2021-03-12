@@ -11,6 +11,7 @@ export default class MissingPermissionsCommand extends Listener {
 	public async exec(message: Message, command: Message, reason: string): Promise<Message> {
 		if (reason == 'client') return message.util!.reply('The bot is missing permissions to execute the command!');
 		if (reason == 'user') return message.util!.reply('You don\'t have permission to execute this command!');
+		if (reason == 'hierarchy') return message.util!.reply('You are not high enough in the rank hierarchy to do that!');
 		return message.util!.reply('Missing permissions! `' + reason + '`');
 	}
 }

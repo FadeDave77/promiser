@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, GuildMember } from 'discord.js';
-import { OwnerId } from '../../config';
+import { checkHierarchy } from '../../structures/custom-modules';
 
 export default class BanCommand extends Command {
 	public constructor() {
@@ -39,10 +39,10 @@ export default class BanCommand extends Command {
 			],
 		});
 	}
-	public exec(message: Message, { member, reason, days }: { member: GuildMember, reason : string, days: number }): Promise<Message> {
+	public exec(message: Message, { member, reason, days }: { member: GuildMember, reason : string, days: number }): Promise<Message | void> {
 		if (days > 7) days = 7;
-		if (member.roles.highest.position >= message.member!.roles.highest.position && message.author.id !== message.guild!.ownerID && message.author.id !== OwnerId) {return message.util!.reply('The member you are trying to ban, has higher or equal roles to you!');}
-		else if (member.bannable) {
+		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
+		if (member.bannable) {
 			member.ban({ reason: 'Reason: ' + reason + ', Executor: ' + message.author.tag, days: days }).catch(() => null);
 			return message.util!.send(`User "${member}" has been banned, with reason "${reason}".`);
 		}
