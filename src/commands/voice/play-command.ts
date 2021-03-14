@@ -1,6 +1,9 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import ytdl from 'ytdl-core-discord';
+import { gapiKey } from '../../config';
+import fetch from 'node-fetch';
+import query from 'querystring';
 
 export default class PlayCommand extends Command {
 	public constructor() {
@@ -17,7 +20,7 @@ export default class PlayCommand extends Command {
 					type: 'string',
 					match: 'rest',
 					prompt: {
-						start: 'Please input a search string or a URL.',
+						start: 'Please input a search string or URL.',
 						retry: 'Please input a valid search string or URL.',
 					},
 				},
@@ -28,9 +31,15 @@ export default class PlayCommand extends Command {
 		const input = inpu[<any>'inpu']!;
 		if (!message.member?.voice.channel) return message.util!.send('Please join a voice channel first!');
 		const connection = await message.member.voice.channel.join();
-		if (!ytdl.validateURL(input)) return message.util!.send('For now only links work, please use a link.');
-		await connection.play(await ytdl(input, { filter: 'audioonly', highWaterMark: 50, liveBuffer: 50 }), { type: 'opus', highWaterMark: 50, volume: false, fec: true });
-        
+		if (!ytdl.validateURL(input)) {
+			const search = query.stringify({ command: input });
+			const data = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${search}&part=snippet&maxResults=10&key=${gapiKey}&id.kind=youtube#video`).then(res => res.json());
+			if (!data.items[0].id.videoId) return message.util!.send('No video found!');
+			await connection.play(await ytdl(data.items[0].id.videoId, { filter: 'audioonly', highWaterMark: 50, liveBuffer: 50 }), { type: 'opus', highWaterMark: 50, volume: false, fec: true });
+			// TODO fix voice disconnect bug
+		}
+		else { await connection.play(await ytdl(input, { filter: 'audioonly', highWaterMark: 50, liveBuffer: 50 }), { type: 'opus', highWaterMark: 50, volume: false, fec: true }); }
+
 		const embed = new MessageEmbed;
 		embed.setTitle('Playing ' + input + ' in voice channel ' + message.member.voice.channel.name);
 		return message.util!.send(embed);

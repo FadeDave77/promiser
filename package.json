@@ -30,6 +30,7 @@
     "mime": "^2.5.0",
     "ms": "^2.1.3",
     "node-fetch": "^2.6.1",
+    "prism-media": "github:amishshah/prism-media",
     "querystring": "^0.2.0",
     "sodium": "^3.0.2",
     "sqlite": "^4.0.19",
