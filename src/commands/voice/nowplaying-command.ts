@@ -21,7 +21,7 @@ export default class NowPlayingCommand extends Command {
 		const embed = new MessageEmbed;
 		const track = this.client.player.nowPlaying(message);
 		embed.setTitle('Playing now')
-			.setDescription(`[Link](${track.url})\nTitle: ${track.title}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks still in queue: ${track.queue.tracks.length - 1}\nProgress: ${this.client.player.createProgressBar(message)}`)
+			.setDescription(`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks still in queue: ${track.queue.tracks.length - 1}\nProgress: ${this.client.player.createProgressBar(message)}`)
 			.setThumbnail(track.thumbnail)
 			.setColor('RANDOM');
 		return message.util!.send(embed);
