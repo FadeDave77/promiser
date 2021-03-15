@@ -3,6 +3,7 @@ import { TextChannel, Message } from 'discord.js';
 import { Repository } from 'typeorm';
 import { Giveaways } from '../../models/giveaways';
 import GiveawayManager from '../../structures/giveawaymanager';
+import { OwnerId } from '../../config';
 
 
 export default class ReadyListener extends Listener {
@@ -19,6 +20,9 @@ export default class ReadyListener extends Listener {
 		this.client.setMaxListeners(30);
 
 		setTimeout(() => { this.client.user!.setActivity({ name: ';help', type: 'LISTENING' });}, 3000);
+
+		await (await this.client.users.fetch(OwnerId)).createDM();
+		(await this.client.users.fetch(OwnerId)).dmChannel!.send(` I am online on ${this.client.user!.tag} @ ${new Date().toString().substr(0, 31)} UwU`);
 
 		setInterval(async () => {
 			const giveaways: Giveaways[] = await giveawayRepo.find();
