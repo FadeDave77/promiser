@@ -1,4 +1,5 @@
 import { Command } from 'discord-akairo';
+import { Track } from 'discord-player';
 import { MessageEmbed } from 'discord.js';
 import { Message } from 'discord.js';
 
@@ -22,7 +23,7 @@ export default class QueueCommand extends Command {
 		embed.setTitle('Queue of `' + message.guild?.name + '`')
 			.setDescription('**`NOW PLAYING`**')
 			.setColor('RANDOM');
-		this.client.player.getQueue(message).tracks.forEach(e => embed.addField(`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title}`, `Channel: ${e.author}\nDuration: ${e.duration}\nRequested by: ${e.requestedBy.tag}`));
+		this.client.player.getQueue(message).tracks.forEach((e: Track) => embed.addField(`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title}`, `Channel: ${e.author}\nDuration: ${e.duration}\nRequested by: ${e.requestedBy.tag}`));
 		return message.util!.send(embed);
 	}
 }
