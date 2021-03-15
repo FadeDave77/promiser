@@ -19,9 +19,9 @@ export default class InfoCommand extends Command {
 			.setColor('RANDOM')
 			.setDescription(`
         Creator: **FadeDave#7005(${OwnerId})**
-        Version: **0.7.0**
-        
-        
+        Version: **0.8.0**
+
+
         Shards: **${this.client.ws.shards.size}**
         `)
 			.setThumbnail(OwnerAvatar);

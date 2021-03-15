@@ -5,6 +5,7 @@ import { Connection } from 'typeorm';
 import { OwnerId, dbName, Prefix as defaultPrefix } from '../config';
 import Database from '../structures/database';
 import { Prefix } from '../models/prefix';
+import { Player } from 'discord-player';
 
 declare module 'discord-akairo' {
 	interface AkairoClient {
@@ -12,6 +13,7 @@ declare module 'discord-akairo' {
 		listenerHandler: ListenerHandler;
 		inhibitorHandler: InhibitorHandler;
 		db: Connection;
+		player: Player;
 	}
 }
 
@@ -47,10 +49,10 @@ export default class BotClient extends AkairoClient {
 		aliasReplacement: /-/g,
 		commandUtil: true,
 		commandUtilLifetime: 3e5,
-		storeMessages: true,
+		storeMessages: false,
 		defaultCooldown: 1000,
 		automateCategories: true,
-		fetchMembers: true,
+		fetchMembers: false,
 		argumentDefaults: {
 			prompt:  {
 				cancelWord: 'exit',
@@ -65,6 +67,16 @@ export default class BotClient extends AkairoClient {
 			otherwise: '',
 		},
 		ignorePermissions: OwnerId,
+	});
+	public player = new Player(this, {
+		leaveOnEmpty: true,
+		leaveOnEmptyCooldown: 10000,
+		leaveOnStop: false,
+		leaveOnEnd: false,
+		quality: 'high',
+		enableLive: false,
+		ytdlRequestOptions: { filter: 'audioonly', quality: 'highestaudio' },
+		autoSelfDeaf: false,
 	});
 	public constructor(config: BotOptions) {
 		super({
@@ -82,6 +94,7 @@ export default class BotClient extends AkairoClient {
 			inhibitorHandler: this.inhibitorHandler,
 			commandHandler: this.commandHandler,
 			listenerHandler: this.listenerHandler,
+			player: this.player,
 			process,
 		});
 		this.inhibitorHandler.loadAll();

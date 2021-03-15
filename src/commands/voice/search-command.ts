@@ -1,10 +1,10 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-export default class PlayCommand extends Command {
+export default class SearchCommand extends Command {
 	public constructor() {
-		super('play', {
-			aliases: ['play', 'p'],
+		super('search', {
+			aliases: ['search'],
 			description: {
 				content: 'Play music in the user\'s voice channel.',
 				usage: 'play <search or link from youtube/spotify/soundcloud>',
@@ -26,9 +26,6 @@ export default class PlayCommand extends Command {
 	}
 	public async exec(message: Message, { query }: {query: string}): Promise<any> {
 		if (!message.member?.voice.channel) return message.util!.send('Please join a voice channel first!');
-		return await this.client.player.play(message, query, true);
-
-		// const data = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${input}&part=snippet&maxResults=10&key=${gapiKey}&id.kind=youtube#video`).then(res => res.json());
-		// await connection?.play(await ytdl(data.items[0].id.videoId, { filter: 'audioonly', quality: 'highestaudio' }), { type: 'opus', highWaterMark: 250, volume: false, fec: true, bitrate: 'auto' });
+		return await this.client.player.play(message, query);
 	}
 }

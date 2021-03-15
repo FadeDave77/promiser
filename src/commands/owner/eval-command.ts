@@ -6,11 +6,11 @@ import { OwnerId, OwnerAvatar, Prefix } from '../../config';
 export default class EvalCommand extends Command {
 	public constructor() {
 		super('eval', { // name
-			aliases: ['eval'], // aliases
+			aliases: ['eval', 'neval'], // aliases
 			description: {
 				content: 'Evaluate an expression', // description
-				usage: '', // how to use
-				examples: [], // exampleArray
+				usage: 'eval <command>', // how to use
+				examples: ['neval message.channel.send(\'cock\')', 'eval 2+2'], // exampleArray
 			},
 			ownerOnly: true,
 			args: [
@@ -32,7 +32,7 @@ export default class EvalCommand extends Command {
 		try {
 			let evaled = await eval(code);
 			if (typeof evaled !== 'string') evaled = util.inspect(evaled);
-			if (!message.content.includes('-n')) return message.util!.send(clean(evaled), { code:'xl' }).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);});
+			if (message.util!.parsed!.alias == 'eval') return message.util!.send(clean(evaled), { code:'xl' }).catch((err)=>{message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);});
 		}
 		catch (err) {message.util!.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);}
 	}
