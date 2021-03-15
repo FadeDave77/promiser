@@ -1,9 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
-import ytdl from 'ytdl-core-discord';
 import { gapiKey } from '../../config';
+import ytdl from 'ytdl-core-discord';
 import fetch from 'node-fetch';
-import query from 'querystring';
 
 export default class PlayCommand extends Command {
 	public constructor() {
@@ -14,6 +13,7 @@ export default class PlayCommand extends Command {
 				usage: 'play <search or link>',
 				examples: ['play cute cats and kittens', 'play https://youtu.be/dQw4w9WgXcQ'],
 			},
+			channel: 'guild',
 			args:[
 				{
 					id: 'inpu',
@@ -27,21 +27,16 @@ export default class PlayCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, inpu: string): Promise<Message> {
+	public async exec(message: Message, inpu: string): Promise<Message | void> {
 		const input = inpu[<any>'inpu']!;
 		if (!message.member?.voice.channel) return message.util!.send('Please join a voice channel first!');
-		const connection = await message.member.voice.channel.join();
-		if (!ytdl.validateURL(input)) {
-			const search = query.stringify({ command: input });
-			const data = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${search}&part=snippet&maxResults=10&key=${gapiKey}&id.kind=youtube#video`).then(res => res.json());
-			if (!data.items[0].id.videoId) return message.util!.send('No video found!');
-			await connection.play(await ytdl(data.items[0].id.videoId, { filter: 'audioonly', highWaterMark: 50, liveBuffer: 50 }), { type: 'opus', highWaterMark: 50, volume: false, fec: true });
-			// TODO fix voice disconnect bug
-		}
-		else { await connection.play(await ytdl(input, { filter: 'audioonly', highWaterMark: 50, liveBuffer: 50 }), { type: 'opus', highWaterMark: 50, volume: false, fec: true }); }
-
+		if (!this.client.voice.connections.find(e => e.channel === message.member?.voice.channel)) await message.member.voice.channel.join();
+		const connection = await this.client.voice.connections.find(e => e.channel === message.member?.voice.channel);
+		const data = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${input}&part=snippet&maxResults=10&key=${gapiKey}&id.kind=youtube#video`).then(res => res.json());
+		if (!data.items[0].id.videoId) return message.util!.send('No video found!');
+		await connection?.play(await ytdl(data.items[0].id.videoId, { filter: 'audioonly', quality: 'highestaudio' }), { type: 'opus', highWaterMark: 250, volume: false, fec: true, bitrate: 'auto' });
 		const embed = new MessageEmbed;
-		embed.setTitle('Playing ' + input + ' in voice channel ' + message.member.voice.channel.name);
+		embed.setTitle('Playing `' + data.items[0].snippet.title + '` in voice channel `' + message.member.voice.channel.name + '`');
 		return message.util!.send(embed);
 	}
 }
