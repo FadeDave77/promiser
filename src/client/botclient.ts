@@ -28,7 +28,7 @@ export default class BotClient extends AkairoClient {
 	public inhibitorHandler: InhibitorHandler = new InhibitorHandler(this, {
 		directory: join(__dirname, '..', 'inhibitors'),
 		automateCategories: true,
-	})
+	});
 	public listenerHandler: ListenerHandler = new ListenerHandler(this, {
 		directory: join(__dirname, '..', 'listeners'),
 		automateCategories: true,
@@ -37,7 +37,13 @@ export default class BotClient extends AkairoClient {
 		directory: join(__dirname, '..', 'commands'),
 		prefix: async (message) => {
 			if (message.guild) {
-				const newPrefix = await this.db.getRepository(Prefix).findOne({ guild: message.guild.id }).then(e=> {return e!.value;}).catch(()=> null);
+				const newPrefix = await this.db
+					.getRepository(Prefix)
+					.findOne({ guild: message.guild.id })
+					.then((e) => {
+						return e?.value;
+					})
+					.catch(() => null);
 				return newPrefix ? newPrefix : defaultPrefix;
 			}
 			return defaultPrefix;
@@ -54,11 +60,11 @@ export default class BotClient extends AkairoClient {
 		automateCategories: true,
 		fetchMembers: false,
 		argumentDefaults: {
-			prompt:  {
+			prompt: {
 				cancelWord: 'exit',
 				modifyStart: (_: Message, str: string): string => `${str}\n\nType \`exit\` to exit the prompt.`,
 				modifyRetry: (_: Message, str: string): string => `${str}\n\nType \`exit\` to exit the prompt.`,
-				timeout: 'You didn\'t answer in time, the prompt exited automatically.',
+				timeout: "You didn't answer in time, the prompt exited automatically.",
 				ended: 'You have exceeded the maximum amount of tries, the command exited.',
 				cancel: 'Command cancelled.',
 				retries: 3,
@@ -73,6 +79,7 @@ export default class BotClient extends AkairoClient {
 		leaveOnEmptyCooldown: 10000,
 		leaveOnStop: false,
 		leaveOnEnd: false,
+		leaveOnEndCooldown: 6e5,
 		quality: 'high',
 		enableLive: false,
 		ytdlRequestOptions: { filter: 'audioonly', quality: 'highestaudio' },

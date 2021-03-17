@@ -12,7 +12,7 @@ export default class /* command*/ extends Command {
 			},
 		});
 	}
-	public exec(message: Message): Promise<Message> {
+	public async exec(message: Message): Promise<Message> {
 
 		return message.util!.send();
 	}

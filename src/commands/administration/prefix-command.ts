@@ -7,7 +7,8 @@ import { Prefix } from '../../models/prefix';
 
 export default class PrefixCommand extends Command {
 	public constructor() {
-		super('prefix', { // name
+		super('prefix', {
+			// name
 			aliases: ['prefix'], // aliases
 			regex: /<*776129398834331700>/gi,
 			description: {
@@ -26,15 +27,21 @@ export default class PrefixCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { prefix }: { prefix : string }): Promise<Message> {
-		const newPrefix = await this.client.db.getRepository(Prefix).findOne({ guild: message.guild!.id }).then(e=> {return e!.value;}).catch(()=> null);
-		if (!prefix) return message.util!.send(`Current prefix is "${newPrefix ? newPrefix : defaultPrefix}".`);
+	public async exec(message: Message, { prefix }: { prefix: string }): Promise<Message | undefined> {
+		const newPrefix = await this.client.db
+			.getRepository(Prefix)
+			.findOne({ guild: message.guild?.id })
+			.then((e) => {
+				return e?.value;
+			})
+			.catch(() => null);
+		if (!prefix) return message.util?.send(`Current prefix is "${newPrefix ? newPrefix : defaultPrefix}".`);
 		const prefixRepo: Repository<Prefix> = this.client.db.getRepository(Prefix);
-		prefixRepo.delete({ guild: message.guild!.id }).catch(()=> null);
+		prefixRepo.delete({ guild: message.guild?.id }).catch(() => null);
 		await prefixRepo.insert({
-			guild: message.guild!.id,
+			guild: message.guild?.id,
 			value: prefix,
 		});
-		return message.util!.send(`Changed prefix to "${prefix}".`);
+		return message.util?.send(`Changed prefix to "${prefix}".`);
 	}
 }

@@ -6,7 +6,8 @@ import { Blacklist } from '../../models/blacklist';
 
 export default class BlacklistCommand extends Command {
 	public constructor() {
-		super('blacklist', { // name
+		super('blacklist', {
+			// name
 			aliases: ['blacklist', 'blist', 'unblist', 'unblacklist'], // aliases
 			description: {
 				content: 'Blacklist users.', // description
@@ -28,13 +29,13 @@ export default class BlacklistCommand extends Command {
 	}
 	public async exec(message: Message, { user }: { user: string }): Promise<Message | void> {
 		const blacklistRepo: Repository<Blacklist> = this.client.db.getRepository(Blacklist);
-		if (message.util!.parsed!.alias == 'unblist' || message.util!.parsed!.alias == 'unblacklist') {
+		if (message.util?.parsed?.alias == 'unblist' || message.util?.parsed?.alias == 'unblacklist') {
 			await blacklistRepo.delete({ user: user });
-			return message.util!.reply(user + ' has been un-blacklisted!');
+			return message.util?.reply(user + ' has been un-blacklisted!');
 		}
 		await blacklistRepo.insert({
 			user: user,
 		});
-		return message.util!.reply(user + ' has been blacklisted.');
+		return message.util?.reply(user + ' has been blacklisted.');
 	}
 }

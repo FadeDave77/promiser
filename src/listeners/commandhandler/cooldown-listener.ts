@@ -8,7 +8,7 @@ export default class CoolDownListener extends Listener {
 			event: 'cooldown',
 		});
 	}
-	public async exec(message: Message, command: string, time: number): Promise<void> {
-		message.util!.reply(`Please wait for ${time / 1000} seconds before using this command again!`);
+	public async exec(message: Message, command: string, time: number): Promise<Message | undefined> {
+		return message.util?.reply(`Please wait for ${time / 1000} seconds before using this command again!`);
 	}
 }

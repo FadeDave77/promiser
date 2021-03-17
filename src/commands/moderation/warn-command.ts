@@ -7,7 +7,8 @@ import { Warns } from '../../models/warns';
 
 export default class WarnCommand extends Command {
 	public constructor() {
-		super('warn', { // name
+		super('warn', {
+			// name
 			aliases: ['warn', 'warning'], // aliases
 			description: {
 				content: 'Warn users who are doing bad things.', // description
@@ -34,16 +35,16 @@ export default class WarnCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { member, reason }: { member: GuildMember, reason : string }): Promise<Message | void> {
+	public async exec(message: Message, { member, reason }: { member: GuildMember; reason: string }): Promise<Message | void> {
 		const warnRepo: Repository<Warns> = this.client.db.getRepository(Warns);
 		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
 		await warnRepo.insert({
-			guild: message.guild!.id,
+			guild: message.guild?.id,
 			user: member.id,
 			moderator: message.author.id,
-			time: (Math.round((Date.now()) / 1000)),
+			time: Math.round(Date.now() / 1000),
 			reason: reason,
 		});
-		return message.util!.send(`**${member.user.tag}** has been warned by **${message.author.tag}**, with reason \`${reason}\`.`);
+		return message.util?.send(`**${member.user.tag}** has been warned by **${message.author.tag}**, with reason \`${reason}\`.`);
 	}
 }

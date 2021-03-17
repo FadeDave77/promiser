@@ -2,4 +2,4 @@ import { Token, OwnerId } from './config';
 import BotClient from './client/botclient';
 
 const client: BotClient = new BotClient({ Token, OwnerId });
-client.start();
+void client.start();

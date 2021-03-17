@@ -14,9 +14,9 @@ export default class SkipCommand extends Command {
 			channel: 'guild',
 		});
 	}
-	public async exec(message: Message): Promise<MessageReaction | Message | void> {
-		if (!this.client.player.getQueue(message)?.tracks) return message.util!.send('You can\'t skip in an empty queue!');
-		if (this.client.player.getQueue(message).currentStreamTime <= 500) return message.util!.send('The song just started, please wait a moment!');
+	public async exec(message: Message): Promise<MessageReaction | Message | undefined> {
+		if (!this.client.player.getQueue(message)?.tracks) return message.util?.send("You can't skip in an empty queue!");
+		if (this.client.player.getQueue(message).currentStreamTime <= 500) return message.util?.send('The song just started, please wait a moment!');
 		this.client.player.skip(message);
 		return message.react('👌');
 	}

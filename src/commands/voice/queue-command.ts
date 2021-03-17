@@ -16,14 +16,22 @@ export default class QueueCommand extends Command {
 		});
 	}
 
-	public async exec(message: Message): Promise<Message> {
-		if (!this.client.player.getQueue(message)) return message.util!.send('There is no queue in this server!');
+	public async exec(message: Message): Promise<Message | undefined> {
+		if (!this.client.player.getQueue(message)) return message.util?.send('There is no queue in this server!');
 
-		const embed = new MessageEmbed;
-		embed.setTitle('Queue of `' + message.guild?.name + '`')
+		const embed = new MessageEmbed();
+		embed
+			.setTitle('Queue of `' + String(message.guild?.name) + '`')
 			.setDescription('**`NOW PLAYING`**')
 			.setColor('RANDOM');
-		this.client.player.getQueue(message).tracks.forEach((e: Track) => embed.addField(`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title}`, `Channel: ${e.author}\nDuration: ${e.duration}\nRequested by: ${e.requestedBy.tag}`));
-		return message.util!.send(embed);
+		this.client.player
+			.getQueue(message)
+			.tracks.forEach((e: Track) =>
+				embed.addField(
+					`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title}`,
+					`Channel: ${e.author}\nDuration: ${e.duration}\nRequested by: ${e.requestedBy.tag}`,
+				),
+			);
+		return message.util?.send(embed);
 	}
 }

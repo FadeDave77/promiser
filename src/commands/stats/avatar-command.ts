@@ -3,10 +3,11 @@ import { Message, MessageEmbed, ImageSize, User } from 'discord.js';
 
 export default class AvatarCommand extends Command {
 	public constructor() {
-		super('avatar', { // name
+		super('avatar', {
+			// name
 			aliases: ['avatar', 'pfp'], // aliases
 			description: {
-				content: 'Get a user\'s avatar', // description
+				content: "Get a user's avatar", // description
 				usage: 'avatar <user> (size 16--2048)', // how to use
 				examples: ['avatar @FadeDave#7005', 'pfp 347822600136949763 512'], // exampleArray
 			},
@@ -30,11 +31,12 @@ export default class AvatarCommand extends Command {
 			],
 		});
 	}
-	public exec(message: Message, { user, size }: {user: User, size: number}): Promise<Message> {
-		return message.util!.send(new MessageEmbed()
-			.setTitle(`Avatar for ${user.tag}`)
-			.setColor('RANDOM')
-			.setImage(user.displayAvatarURL({ size: size as ImageSize }))
+	public async exec(message: Message, { user, size }: { user: User; size: number }): Promise<Message | undefined> {
+		return message.util?.send(
+			new MessageEmbed()
+				.setTitle(`Avatar for ${user.tag}`)
+				.setColor('RANDOM')
+				.setImage(user.displayAvatarURL({ size: size as ImageSize })),
 		);
 	}
 }

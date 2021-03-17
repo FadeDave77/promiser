@@ -3,7 +3,8 @@ import { Message } from 'discord.js';
 
 export default class UnbanCommand extends Command {
 	public constructor() {
-		super('unban', { // name
+		super('unban', {
+			// name
 			aliases: ['unban', 'unyeet'], // aliases
 			description: {
 				content: 'Remove a previous ban.', // description
@@ -14,8 +15,8 @@ export default class UnbanCommand extends Command {
 			channel: 'guild',
 			args: [
 				{
-					id:'user',
-					type:'string',
+					id: 'user',
+					type: 'string',
 					match: 'rest',
 					prompt: {
 						start: (msg: Message) => `Provide a user to unban, ${msg.author}:`,
@@ -25,12 +26,18 @@ export default class UnbanCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { user }: {user: string}): Promise<any> {
-		await message.guild!.fetchBans().then(async bans=> {
-			if(bans.size == 0) {return message.util!.send('This guild doesn\'t have any bans.');}
-			else if (bans.find(u=> u.user.id === user)) {message.guild!.members.unban(user); return message.channel.send(`${bans.find(u=> u.user.id === user)!.user.tag} unbanned successfully.`);}
-			else if (bans.find(u=> u.user.tag == user)) {message.guild!.members.unban(bans.find(u=> u.user.tag == user)!.user.id); return message.channel.send(`${bans.find(u=> u.user.tag == user)!.user.tag} unbanned successfully.`);}
-			else {return message.util!.send('No ban with the specified search term exists.');}
+	public async exec(message: Message, { user }: { user: string }): Promise<Message | undefined> {
+		await message.guild?.fetchBans().then(async (bans) => {
+			if (bans.size == 0) {
+				return message.util?.send("This guild doesn't have any bans.");
+			} else if (bans.find((u) => u.user.id === user)) {
+				void message.guild?.members.unban(user);
+				return message.util?.send(`${bans.find((u) => u.user.id === user)?.user.tag} unbanned successfully.`);
+			} else if (bans.find((u) => u.user.tag == user)) {
+				void message.guild?.members.unban(bans.find((u) => u.user.tag == user)!.user.id);
+				return message.util?.send(`${bans.find((u) => u.user.tag == user)!.user.tag} unbanned successfully.`);
+			}
 		});
+		return message.util?.send('No ban with the specified search term exists.');
 	}
 }

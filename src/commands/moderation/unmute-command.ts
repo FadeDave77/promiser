@@ -4,7 +4,8 @@ import { checkHierarchy } from '../../structures/custom-modules';
 
 export default class UnMuteCommand extends Command {
 	public constructor() {
-		super('unmute', { // name
+		super('unmute', {
+			// name
 			aliases: ['unmute'], // aliases
 			description: {
 				content: 'Unmute a member, guild wide.', // description
@@ -17,7 +18,7 @@ export default class UnMuteCommand extends Command {
 			cooldown: 10000,
 			args: [
 				{
-					id:'member',
+					id: 'member',
 					type: 'member',
 					prompt: {
 						start: (msg: Message) => `Provide a member to unmute, ${msg.author}:`,
@@ -27,10 +28,10 @@ export default class UnMuteCommand extends Command {
 			],
 		});
 	}
-	public exec(message: Message, { member }: {member: GuildMember}): Promise<Message | void> {
-		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
-        message.guild!.channels.cache.forEach(c=> c.permissionOverwrites.get(member.id)?.delete());
+	public async exec(message: Message, { member }: { member: GuildMember }): Promise<Message | void> {
+		if (checkHierarchy(this.client, message, member) != undefined) return Promise.resolve();
+		message.guild?.channels.cache.forEach((c) => void c.permissionOverwrites.get(member.id)?.delete());
 
-        return message.util!.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
+		return message.util?.send(`**${member.user.tag}** has been unmuted by **${message.author.tag}**.`);
 	}
 }

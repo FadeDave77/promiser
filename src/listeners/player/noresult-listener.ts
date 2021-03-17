@@ -9,7 +9,7 @@ export default class NoResultListener extends Listener {
 		});
 	}
 
-	public async exec(message: Message, query: string): Promise<Message> {
-		return message.util!.send('No results found for ' + query);
+	public async exec(message: Message, query: string): Promise<Message | undefined> {
+		return message.util?.send('No results found for ' + query);
 	}
 }

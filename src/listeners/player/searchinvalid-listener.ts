@@ -11,11 +11,11 @@ export default class SearchInvalidListener extends Listener {
 		});
 	}
 
-	public async exec(message: Message, query: string, tracks: Track[], content: string, collector: Collector< any, any>): Promise<Message> {
+	public async exec(message: Message, query: string, tracks: Track[], content: string, collector: Collector<any, any>): Promise<Message | undefined> {
 		if (content === 'exit') {
 			collector.stop();
-			return message.util!.send('Search cancelled!');
+			return message.util?.send('Search cancelled!');
 		}
-		return message.util!.sendNew('Reply with a valid number between 1 and ' + tracks.length!);
+		return message.util?.sendNew('Reply with a valid number between 1 and ' + tracks.length.toString());
 	}
 }

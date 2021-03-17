@@ -5,7 +5,8 @@ import query from 'querystring';
 
 export default class WynnGuild extends Command {
 	public constructor() {
-		super('wynnguild', { // name
+		super('wynnguild', {
+			// name
 			aliases: ['wguild', 'wynnguild'], // aliases
 			description: {
 				content: 'Get info on a wynncraft guild', // description
@@ -25,21 +26,100 @@ export default class WynnGuild extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { guild }: {guild: string}): Promise<Message> {
-		const search = query.stringify({ command:guild });
+	public async exec(message: Message, { guild }: { guild: string }): Promise<Message | undefined> {
+		const search = query.stringify({ command: guild });
 		try {
-			const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(res => res.json());
+			type guildQuery = {
+				name: string;
+				prefix: string;
+				members: [guildMember];
+				xp: number;
+				level: number;
+				created: string;
+				createdFriendly: string;
+				territories: number;
+				banner: {
+					base: string;
+					tier: number;
+					layers: [
+						{
+							colour: string;
+							pattern: string;
+						},
+					];
+				};
+				request: {
+					timestamp: number;
+					version: number;
+				};
+			};
+			type guildMember = {
+				name: string;
+				uuid: string;
+				rank: string;
+				contributed: number;
+				joined: string;
+				joinedFriendly: string;
+			};
+			const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(async (res) => (await res.json()) as guildQuery);
 			const embed = new MessageEmbed()
 				.setTitle('Data for ' + guild)
-				.setDescription(`Name: ${data.name} \n Tag: ${data.prefix} \n Xp: ${data.xp * 10}% \n Level: ${data.level} \n Created: ${data.createdFriendly} \n Territories: ${data.territories} \n BannerTier: ${data.banner.tier} \n\n **Members: ${data.members.length}**`)
-				.addField('Rank Name', data.members.map((u: any) => { switch (u.rank) { case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``; } }).slice(0, Math.floor(data.members.length / 2)), true)
-				.addField('Contributed', data.members.map((u: any) => `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
-				.addField('Joined', data.members.map((u: any) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
-				.addField('Rank Names', data.members.map((u: any) => { switch (u.rank) { case 'OWNER': return `\`*****${u.name}\``; case 'CHIEF': return `\`**** ${u.name}\``; case 'STRATEGIST': return `\`***  ${u.name}\``; case 'CAPTAIN': return `\`**   ${u.name}\``; case 'RECRUITER': return `\`*    ${u.name}\``; case 'RECRUIT': return `\`     ${u.name}\``; } }).slice(Math.floor(data.members.length / 2)), true)
-				.addField('Contributed', data.members.map((u: any) => `\`${u.contributed}\``).slice(Math.floor(data.members.length / 2)), true)
-				.addField('Joined', data.members.map((u: any) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(Math.floor(data.members.length / 2)), true);
-			return message.util!.send(embed);
+				.setDescription(
+					`Name: ${data.name} \n Tag: ${data.prefix} \n Xp: ${data.xp * 10}% \n Level: ${data.level} \n Created: ${data.createdFriendly} \n Territories: ${
+						data.territories
+					} \n BannerTier: ${data.banner.tier} \n\n **Members: ${data.members.length}**`,
+				)
+				.addField(
+					'Rank Name',
+					data.members
+						.map((u: guildMember) => {
+							switch (u.rank) {
+								case 'OWNER':
+									return `\`*****${u.name}\``;
+								case 'CHIEF':
+									return `\`**** ${u.name}\``;
+								case 'STRATEGIST':
+									return `\`***  ${u.name}\``;
+								case 'CAPTAIN':
+									return `\`**   ${u.name}\``;
+								case 'RECRUITER':
+									return `\`*    ${u.name}\``;
+								case 'RECRUIT':
+									return `\`     ${u.name}\``;
+							}
+						})
+						.slice(0, Math.floor(data.members.length / 2)),
+					true,
+				)
+				.addField('Contributed', data.members.map((u: guildMember) => `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
+				.addField('Joined', data.members.map((u: guildMember) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
+				.addField(
+					'Rank Names',
+					data.members
+						.map((u: guildMember) => {
+							switch (u.rank) {
+								case 'OWNER':
+									return `\`*****${u.name}\``;
+								case 'CHIEF':
+									return `\`**** ${u.name}\``;
+								case 'STRATEGIST':
+									return `\`***  ${u.name}\``;
+								case 'CAPTAIN':
+									return `\`**   ${u.name}\``;
+								case 'RECRUITER':
+									return `\`*    ${u.name}\``;
+								case 'RECRUIT':
+									return `\`     ${u.name}\``;
+							}
+						})
+						.slice(Math.floor(data.members.length / 2)),
+					true,
+				)
+				.addField('Contributed', data.members.map((u: guildMember) => `\`${u.contributed}\``).slice(Math.floor(data.members.length / 2)), true)
+				.addField('Joined', data.members.map((u: guildMember) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(Math.floor(data.members.length / 2)), true);
+			return message.util?.send(embed);
+		} catch {
+			return message.util?.send('This guild does not exist. Please use the full name of the guild.');
 		}
-		catch { return message.util!.send('This guild does not exist. Please use the full name of the guild.');}
 	}
 }

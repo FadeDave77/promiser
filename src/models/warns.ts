@@ -2,21 +2,21 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('warns')
 export class Warns {
-    @PrimaryGeneratedColumn()
-    id!: number;
+	@PrimaryGeneratedColumn()
+	id!: number;
 
-    @Column()
-    time!: number;
+	@Column()
+	time!: number;
 
-    @Column({ type: 'varchar', length: 22 })
-    guild!:string;
+	@Column({ type: 'varchar', length: 22 })
+	guild!: string;
 
-    @Column({ type: 'varchar', length: 22 })
-    user!:string;
+	@Column({ type: 'varchar', length: 22 })
+	user!: string;
 
-    @Column({ type: 'varchar', length: 22 })
-    moderator!:string;
+	@Column({ type: 'varchar', length: 22 })
+	moderator!: string;
 
-    @Column({ type: 'text' })
-    reason!:string;
+	@Column({ type: 'text' })
+	reason!: string;
 }

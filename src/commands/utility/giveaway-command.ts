@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import { Message, MessageEmbed, User } from 'discord.js';
+import { Message, MessageEmbed, User, MessageReaction } from 'discord.js';
 import ms from 'ms';
 import { Repository } from 'typeorm';
 
@@ -8,7 +8,8 @@ import GiveawayManager from '../../structures/giveawaymanager';
 
 export default class GiveawayCommand extends Command {
 	public constructor() {
-		super('giveaway', { // name
+		super('giveaway', {
+			// name
 			aliases: ['giveaway', 'gaway'], // aliases
 			description: {
 				content: 'Start a giveaway', // description
@@ -56,28 +57,35 @@ export default class GiveawayCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { time, item, winners, from }: {time: number, item: string, winners: any, from: User}): Promise<any> {
+	public async exec(message: Message, { time, item, winners, from }: { time: number; item: string; winners: number; from: User }): Promise<MessageReaction> {
 		const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
 		const end: number = Date.now() + time;
-		const msg: Message = await message.channel.send(new MessageEmbed()
-			.setAuthor('Giveaway!')
-			.setColor(0x00ff00)
-			.setDescription(winners == 1 ? `${from} is giving away **${item}**! React below for a chance to win!` : `${from} is giving away **${item}** to ${winners} winners! React below for a chance to win!`)
-			.setFooter(`Giveaway will end at ${(new Date(end)).toString().substr(4, 27)}`)
+		const msg: Message = await message.util!.send(
+			new MessageEmbed()
+				.setAuthor('Giveaway!')
+				.setColor(0x00ff00)
+				.setDescription(
+					winners == 1
+						? `${from} is giving away **${item}**! React below for a chance to win!`
+						: `${from} is giving away **${item}** to ${winners} winners! React below for a chance to win!`,
+				)
+				.setFooter(`Giveaway will end at ${new Date(end).toString().substr(4, 27)}`),
 		);
-		msg.react('🎉');
-		giveawayRepo.insert({
-			channel:msg.channel.id,
+		void giveawayRepo.insert({
+			channel: msg.channel.id,
 			message: msg.id,
-			time: (Math.round((Date.now()) / 1000)),
+			time: Math.round(Date.now() / 1000),
 			end: Math.round(end / 1000),
 			winners: winners,
 			from: from.id,
 			item: item,
 		});
-		setTimeout(() => {message.delete().catch(() => null);}, 5000);
 		setTimeout(() => {
-			GiveawayManager.end(giveawayRepo, msg);
+			message.delete().catch(() => null);
+		}, 5000);
+		setTimeout(() => {
+			void GiveawayManager.end(giveawayRepo, msg);
 		}, time);
+		return msg.react('🎉');
 	}
 }

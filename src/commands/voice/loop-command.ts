@@ -15,8 +15,14 @@ export default class LoopCommand extends Command {
 	}
 
 	public async exec(message: Message): Promise<Message | undefined> {
-		if (!this.client.player.getQueue(message)) return message.util!.send('There is no queue in this server!');
-		if (this.client.player.getQueue(message).loopMode) { this.client.player.setLoopMode(message, false); return message.util!.send('Disabled loop mode.');}
-		if (!this.client.player.getQueue(message).loopMode) { this.client.player.setLoopMode(message, true); return message.util!.send('Enabled loop mode.');}
+		if (!this.client.player.getQueue(message)) return message.util?.send('There is no queue in this server!');
+		if (this.client.player.getQueue(message).loopMode) {
+			this.client.player.setLoopMode(message, false);
+			return message.util?.send('Disabled loop mode.');
+		}
+		if (!this.client.player.getQueue(message).loopMode) {
+			this.client.player.setLoopMode(message, true);
+			return message.util?.send('Enabled loop mode.');
+		}
 	}
 }

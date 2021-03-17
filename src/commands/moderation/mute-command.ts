@@ -4,7 +4,8 @@ import { checkHierarchy } from '../../structures/custom-modules';
 
 export default class MuteCommand extends Command {
 	public constructor() {
-		super('mute', { // name
+		super('mute', {
+			// name
 			aliases: ['mute'], // aliases
 			description: {
 				content: 'Mute a member, guild wide.', // description
@@ -17,7 +18,7 @@ export default class MuteCommand extends Command {
 			cooldown: 10000,
 			args: [
 				{
-					id:'member',
+					id: 'member',
 					type: 'member',
 					prompt: {
 						start: (msg: Message) => `Provide a member to mute, ${msg.author}:`,
@@ -27,10 +28,10 @@ export default class MuteCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { member }: {member: GuildMember }): Promise<Message | void> {
-		if (checkHierarchy(this.client, message, member) != null) return Promise.resolve();
-		await message.guild!.channels.cache.forEach(c=> c.updateOverwrite(member, { SEND_MESSAGES: false, SPEAK: false }));
+	public async exec(message: Message, { member }: { member: GuildMember }): Promise<Message | void> {
+		if (checkHierarchy(this.client, message, member) != undefined) return Promise.resolve();
+		message.guild?.channels.cache.forEach((c) => void c.updateOverwrite(member, { SEND_MESSAGES: false, SPEAK: false }));
 
-		return message.util!.send(`**${member.user.tag}** has been muted by **${message.author.tag}**.`);
+		return message.util?.send(`**${member.user.tag}** has been muted by **${message.author.tag}**.`);
 	}
 }

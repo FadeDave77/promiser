@@ -3,7 +3,8 @@ import { Message, MessageEmbed, User } from 'discord.js';
 
 export default class UserCommand extends Command {
 	public constructor() {
-		super('user', { // name
+		super('user', {
+			// name
 			aliases: ['user', 'member'], // aliases
 			description: {
 				content: 'Get the stats of a user.', // description
@@ -20,18 +21,20 @@ export default class UserCommand extends Command {
 			],
 		});
 	}
-	public exec(message: Message, { user }: {user: User}): Promise<Message> {
+	public async exec(message: Message, { user }: { user: User }): Promise<Message | undefined> {
 		const embed = new MessageEmbed()
 			.setTitle(`Userinfo for \`${user.tag}\``)
 			.setColor('RANDOM')
-			.setDescription(`
+			.setDescription(
+				`
         **Created at:** ${user.createdAt.toString().substr(4, 27)}\n
         **UserID:** ${user.id}\n
         **IsBot:** ${user.bot}\n
         **Status:** ${user.presence.status}
-        
-        **Avatar:**`)
+
+        **Avatar:**`,
+			)
 			.setImage(user.avatarURL() as string);
-		return message.util!.send(embed);
+		return message.util?.send(embed);
 	}
 }

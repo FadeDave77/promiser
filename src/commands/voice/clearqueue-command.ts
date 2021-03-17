@@ -2,21 +2,21 @@ import { Command } from 'discord-akairo';
 import { MessageReaction } from 'discord.js';
 import { Message } from 'discord.js';
 
-export default class StopCommand extends Command {
+export default class ClearCommand extends Command {
 	public constructor() {
-		super('stop', {
-			aliases: ['stop'],
+		super('clear', {
+			aliases: ['clear'],
 			description: {
-				content: 'Stop the player.',
-				usage: 'stop',
-				examples: ['stop'],
+				content: 'Clear the queue.',
+				usage: 'clear',
+				examples: ['clear'],
 			},
 			channel: 'guild',
 		});
 	}
 	public async exec(message: Message): Promise<Message | MessageReaction | undefined> {
-		if (!this.client.player.isPlaying(message)) return message.util?.send('The bot is not playing anything!');
-		this.client.player.stop(message);
+		if (!this.client.player.getQueue(message)) return message.util?.send('There is no queue to clear!');
+		this.client.player.clearQueue(message);
 		return message.react('👌');
 	}
 }

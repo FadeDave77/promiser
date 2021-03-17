@@ -8,7 +8,7 @@ export default class /* name */ extends Inhibitor {
 		});
 	}
 
-	public exec(message: Message) {
+	public async exec(message: Message): Promise<any> {
 
 		return true;
 	}
