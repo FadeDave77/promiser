@@ -25,6 +25,7 @@ export default class SearchCommand extends Command {
 		});
 	}
 	public async exec(message: Message, { query }: { query: string }): Promise<Message | void> {
+		if (this.client.voice.connections.find(e => e.channel.guild === message.guild) && !this.client.voice.connections.find(e=> e.channel === message.member?.voice.channel)) return message.util?.send('You are not in the same voice channel as the bot, you cannot control it!');
 		if (!message.member?.voice.channel) return message.util?.send('Please join a voice channel first!');
 		return await this.client.player.play(message, query);
 	}

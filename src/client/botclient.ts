@@ -70,14 +70,13 @@ export default class BotClient extends AkairoClient {
 	});
 	public player = new Player(this, {
 		leaveOnEmpty: true,
-		leaveOnEmptyCooldown: 10000,
-		leaveOnStop: false,
-		leaveOnEnd: false,
+		leaveOnStop: true,
+		leaveOnEnd: true,
 		leaveOnEndCooldown: 6e5,
 		quality: 'high',
 		enableLive: false,
 		ytdlRequestOptions: { filter: 'audioonly', quality: 'highestaudio' },
-		autoSelfDeaf: false,
+		autoSelfDeaf: true,
 	});
 	public constructor(config: BotOptions) {
 		super({

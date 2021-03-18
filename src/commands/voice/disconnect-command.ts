@@ -15,7 +15,8 @@ export default class DisconnectCommand extends Command {
 		});
 	}
 	public async exec(message: Message): Promise<Message | MessageReaction | undefined> {
-		if (!message.member?.voice.channel) return message.util?.send('You are not in a voice channel!');
+		if (!this.client.voice.connections.find(e=> e.channel.guild === message.guild)) return message.util?.send('The bot is not connected!');
+		if (!this.client.voice.connections.find(e=> e.channel === message.member?.voice.channel)) return message.util?.send('You are not in the same voice channel as the bot, you cannot control it!');
 		this.client.voice.connections.find((e) => e.channel === message.member?.voice.channel)?.disconnect();
 		return message.react('👌');
 	}

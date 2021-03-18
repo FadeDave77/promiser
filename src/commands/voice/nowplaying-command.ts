@@ -16,7 +16,7 @@ export default class NowPlayingCommand extends Command {
 	}
 
 	public async exec(message: Message): Promise<Message | undefined> {
-		if (!this.client.player.getQueue(message).playing) return message.util?.send('Nothing is playing in this server!');
+		if (!this.client.voice.connections.find(e=> e.channel.guild === message.guild)) return message.util?.send('The bot is not connected!');
 
 		const embed = new MessageEmbed();
 		const track = this.client.player.nowPlaying(message);
