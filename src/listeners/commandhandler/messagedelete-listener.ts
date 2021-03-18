@@ -18,7 +18,6 @@ export default class MessageDeleteListener extends Listener {
 		const entry = logs.entries.find(
 			(a: GuildAuditLogsEntry) => (a.target as User).id == message.author.id && (a.extra as Message).channel.id === message.channel.id && Date.now() - a.createdTimestamp < 200000,
 		);
-		console.log(entry);
 		const executor = entry ? entry.executor : null;
 		const executortag = entry ? entry.executor.tag : null;
 		const executorid = entry ? entry.executor.id : null;

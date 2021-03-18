@@ -37,13 +37,7 @@ export default class BotClient extends AkairoClient {
 		directory: join(__dirname, '..', 'commands'),
 		prefix: async (message) => {
 			if (message.guild) {
-				const newPrefix = await this.db
-					.getRepository(Prefix)
-					.findOne({ guild: message.guild.id })
-					.then((e) => {
-						return e?.value;
-					})
-					.catch(() => null);
+				const newPrefix = await this.db.getRepository(Prefix).findOne({ guild: message.guild.id }).then((e) => {return e?.value;}).catch(() => null);
 				return newPrefix ? newPrefix : defaultPrefix;
 			}
 			return defaultPrefix;
