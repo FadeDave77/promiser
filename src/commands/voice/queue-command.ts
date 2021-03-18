@@ -26,12 +26,13 @@ export default class QueueCommand extends Command {
 			.setColor('RANDOM');
 		this.client.player
 			.getQueue(message)
-			.tracks.forEach((e: Track) =>
+			.tracks.slice(0, 20).forEach((e: Track) =>
 				embed.addField(
 					`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title}`,
 					`Channel: ${e.author}\nDuration: ${e.duration}\nRequested by: ${e.requestedBy.tag}`,
 				),
 			);
+		embed.addField('And more:', `${this.client.player.getQueue(message).tracks.length - 20} more songs in queue.`);
 		return message.util?.send(embed);
 	}
 }
