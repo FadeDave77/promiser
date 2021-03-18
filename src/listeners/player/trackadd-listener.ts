@@ -15,7 +15,7 @@ export default class TrackAddListener extends Listener {
 		embed
 			.setTitle('Track added to queue')
 			.setDescription(
-				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks still in queue: ${
+				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks before this: ${
 					track.queue.tracks.length - 1
 				}`,
 			)

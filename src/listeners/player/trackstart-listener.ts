@@ -15,7 +15,7 @@ export default class TrackStartListener extends Listener {
 		embed
 			.setTitle('Now Playing')
 			.setDescription(
-				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks still in queue: ${
+				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks after this: ${
 					track.queue.tracks.length - 1
 				}`,
 			)
