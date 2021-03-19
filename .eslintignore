@@ -7,4 +7,5 @@ botlog
 dist
 package-lock.json
 .git
+.husky
 src/examples

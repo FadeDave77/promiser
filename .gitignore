@@ -56,4 +56,5 @@ botlog
 dist
 package-lock.json
 .git
+.husky
 #i know the .git folder is ignored by git, but it look weird in vscode
