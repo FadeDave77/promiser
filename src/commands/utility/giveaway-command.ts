@@ -22,9 +22,7 @@ export default class GiveawayCommand extends Command {
 				{
 					id: 'time',
 					type: (msg: Message, str: string) => {
-						if (str) {
-							if (!isNaN(Number(ms(str)))) return Number(ms(str));
-						}
+						if (str) if (!isNaN(Number(ms(str)))) return Number(ms(str));
 					},
 					prompt: {
 						start: (msg: Message) => `${msg.author}, you need to provide a time when the giveaway will end!`,

@@ -6,15 +6,18 @@
 	"scripts": {
 		"test": "echo \"No test specified\"",
 		"lint": "eslint . --ext .ts",
-		"lintfix": "eslint . --ext .ts --fix"
+		"lintfix": "eslint . --ext .ts --fix",
+		"prepare": "husky install",
+		"prett": "prettier --check .",
+		"prettfix": "prettier --write ."
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "lint-staged"
+			"pre-commit": "lint-staged && gaa"
 		}
 	},
 	"lint-staged": {
-		"**/*": "eslint . --ext .ts --fix; prettier --write --ignore-unknown"
+		"**/*": "eslint . --ext .ts --fix && prettier --write --ignore-unknown"
 	},
 	"repository": {
 		"type": "git",

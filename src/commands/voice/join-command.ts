@@ -16,7 +16,7 @@ export default class JoinCommand extends Command {
 	}
 	public async exec(message: Message): Promise<Message | MessageReaction | undefined> {
 		if (!message.member?.voice.channel) return message.util?.send('Please join a voice channel first!');
-		if (Number(this.client.voice.connections.find(e => e.channel.guild === message.guild)?.channel.members.size) > 1) return message.util?.send("Don't steal the music!");
+		if (Number(this.client.voice.connections.find((e) => e.channel.guild === message.guild)?.channel.members.size) > 1) return message.util?.send("Don't steal the music!");
 		await message.member.voice.channel.join();
 		return message.react('👌');
 	}

@@ -14,9 +14,8 @@ export default class BlacklistInhibitor extends Inhibitor {
 
 	public async exec(message: Message): Promise<boolean> {
 		const blacklistRepo: Repository<Blacklist> = this.client.db.getRepository(Blacklist);
-		if (await blacklistRepo.findOne({ user: message.author.id })) {
-			return true;
-		}
+		if (await blacklistRepo.findOne({ user: message.author.id })) return true;
+
 		return false;
 	}
 }

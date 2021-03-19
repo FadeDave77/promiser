@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import util from 'util';
-import { OwnerId, OwnerAvatar, Prefix } from '../../config';
+import { OwnerId } from '../../config';
 
 export default class EvalCommand extends Command {
 	public constructor() {
@@ -25,7 +25,7 @@ export default class EvalCommand extends Command {
 	}
 	public async exec(message: Message, { code }: { code: string }): Promise<void | Message> {
 		if (code.toLowerCase().includes('token')) return message.util?.send('bro you think I would give you my token? fuck off');
-		OwnerId; OwnerAvatar; Prefix;
+		OwnerId;
 		const clean = (text: string) => {
 			if (typeof text === 'string') return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));
 			else return text;

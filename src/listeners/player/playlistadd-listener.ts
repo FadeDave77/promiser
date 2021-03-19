@@ -16,9 +16,9 @@ export default class PlaylistAddListener extends Listener {
 		embed
 			.setTitle('Playlist added to queue')
 			.setDescription(
-				`[Link](${playlist.url})\nTitle: ${playlist.title}\nChannel: ${playlist.channel?.name}\nRequested by: ${playlist.requestedBy.tag}\nSongs added: ${playlist.videoCount}\nTracks still in queue: ${
-					queue.tracks.length - 1
-				}`,
+				`[Link](${playlist.url})\nTitle: ${playlist.title}\nChannel: ${playlist.channel?.name}\nRequested by: ${playlist.requestedBy.tag}\nSongs added: ${
+					playlist.videoCount
+				}\nTracks still in queue: ${queue.tracks.length - 1}`,
 			)
 			.setThumbnail(playlist.thumbnail)
 			.setColor('RANDOM');
