@@ -11,7 +11,7 @@ export default class SearchInvalidListener extends Listener {
 		});
 	}
 
-	public async exec(message: Message, query: string, tracks: Track[], content: string, collector: Collector<any, any>): Promise<Message | undefined> {
+	public async exec(message: Message, query: string, tracks: Track[], content: string, collector: Collector<Track, Track>): Promise<Message | undefined> {
 		if (content === 'exit') {
 			collector.stop();
 			return message.util?.send('Search cancelled!');

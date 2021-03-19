@@ -55,10 +55,11 @@ export default class GiveawayCommand extends Command {
 			],
 		});
 	}
-	public async exec(message: Message, { time, item, winners, from }: { time: number; item: string; winners: number; from: User }): Promise<MessageReaction> {
+	public async exec(message: Message, { time, item, winners, from }: { time: number; item: string; winners: number; from: User }): Promise<MessageReaction | undefined> {
 		const giveawayRepo: Repository<Giveaways> = this.client.db.getRepository(Giveaways);
 		const end: number = Date.now() + time;
-		const msg: Message = await message.util!.send(
+		if (!message.util) return;
+		const msg: Message = await message.util.send(
 			new MessageEmbed()
 				.setAuthor('Giveaway!')
 				.setColor(0x00ff00)

@@ -33,7 +33,9 @@ export default class UnbanCommand extends Command {
 			void message.guild?.members.unban(user);
 			return message.util?.send(`${bans.find((u) => u.user.id === user)?.user.tag} unbanned successfully.`);
 		} else if (bans.find((u) => u.user.tag == user)) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			void message.guild?.members.unban(bans.find((u) => u.user.tag == user)!.user.id);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			return message.util?.send(`${bans.find((u) => u.user.tag == user)!.user.tag} unbanned successfully.`);
 		}
 		return message.util?.send('No ban with the specified search term exists.');

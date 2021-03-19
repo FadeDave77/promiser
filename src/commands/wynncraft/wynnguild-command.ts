@@ -32,7 +32,16 @@ export default class WynnGuild extends Command {
 			type guildQuery = {
 				name: string;
 				prefix: string;
-				members: [guildMember];
+				members: [
+					{
+						name: string;
+						uuid: string;
+						rank: string;
+						contributed: string;
+						joined: string;
+						joinedFriendly: string;
+					},
+				];
 				xp: number;
 				level: number;
 				created: string;
@@ -53,14 +62,6 @@ export default class WynnGuild extends Command {
 					version: number;
 				};
 			};
-			type guildMember = {
-				name: string;
-				uuid: string;
-				rank: string;
-				contributed: number;
-				joined: string;
-				joinedFriendly: string;
-			};
 			const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(async (res) => (await res.json()) as guildQuery);
 			const embed = new MessageEmbed()
 				.setTitle('Data for ' + guild)
@@ -72,7 +73,7 @@ export default class WynnGuild extends Command {
 				.addField(
 					'Rank Name',
 					data.members
-						.map((u: guildMember) => {
+						.map((u) => {
 							switch (u.rank) {
 								case 'OWNER':
 									return `\`*****${u.name}\``;
@@ -91,12 +92,12 @@ export default class WynnGuild extends Command {
 						.slice(0, Math.floor(data.members.length / 2)),
 					true,
 				)
-				.addField('Contributed', data.members.map((u: guildMember) => `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
-				.addField('Joined', data.members.map((u: guildMember) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
+				.addField('Contributed', data.members.map((u) => `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
+				.addField('Joined', data.members.map((u) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
 				.addField(
 					'Rank Names',
 					data.members
-						.map((u: guildMember) => {
+						.map((u) => {
 							switch (u.rank) {
 								case 'OWNER':
 									return `\`*****${u.name}\``;
@@ -115,8 +116,8 @@ export default class WynnGuild extends Command {
 						.slice(Math.floor(data.members.length / 2)),
 					true,
 				)
-				.addField('Contributed', data.members.map((u: guildMember) => `\`${u.contributed}\``).slice(Math.floor(data.members.length / 2)), true)
-				.addField('Joined', data.members.map((u: guildMember) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(Math.floor(data.members.length / 2)), true);
+				.addField('Contributed', data.members.map((u) => `\`${u.contributed}\``).slice(Math.floor(data.members.length / 2)), true)
+				.addField('Joined', data.members.map((u) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(Math.floor(data.members.length / 2)), true);
 			return message.util?.send(embed);
 		} catch {
 			return message.util?.send('This guild does not exist. Please use the full name of the guild.');

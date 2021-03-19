@@ -25,7 +25,6 @@ export default class VoiceRemoveCommand extends Command {
 	}
 
 	public async exec(message: Message, { toremove }: { toremove: number }): Promise<Message | undefined> {
-		if (!this.client.voice.connections.find((e) => e.channel.guild === message.guild)) return message.util?.send('The bot is not connected!');
 		if (!this.client.voice.connections.find((e) => e.channel === message.member?.voice.channel))
 			return message.util?.send('You are not in the same voice channel as the bot, you cannot control it!');
 		if (!this.client.player.getQueue(message)) return message.util?.send('There is no queue in this server!');

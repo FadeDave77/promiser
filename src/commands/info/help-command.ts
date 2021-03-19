@@ -24,11 +24,16 @@ export default class HelpCommand extends Command {
 		});
 	}
 	public async exec(message: Message, { command }: { command: Command }): Promise<Message | undefined> {
+		type Description = {
+			content: string;
+			usage: string;
+			examples: string[];
+		};
 		if (command) {
 			return message.util?.send(
 				new MessageEmbed().setAuthor(`Help for ${command}`, this.client.user?.displayAvatarURL()).setColor('RANDOM').setDescription(stripIndents`
 					**Description:**
-					${command.description.content || '*No description provided.*'}
+					${(command.description as Description).content || '*No description provided.*'}
 
 					**Aliases:**
 					${command.aliases.join(', ')}
@@ -37,10 +42,10 @@ export default class HelpCommand extends Command {
 					${command.category}
 
 					**Usage:**
-					${command.description.usage || '*No usage provided.*'}
+					${(command.description as Description).usage || '*No usage provided.*'}
 
 					**Examples:**
-					${command.description.examples ? command.description.examples.map((p: string) => `\`${p}\``).join('\n') : '*No examples provided*.'}
+					${(command.description as Description).examples ? (command.description as Description).examples.map((p: string) => `\`${p}\``).join('\n') : '*No examples provided*.'}
 				`),
 			);
 		}
@@ -57,7 +62,7 @@ export default class HelpCommand extends Command {
 				.setColor('RANDOM')
 				.setFooter(`${newPrefix ? newPrefix : defaultPrefix}help [command] for more info on a specific command`)
 				.setDescription(
-					`\n**An all rounder discord bot written by FadeDave#7005**\n\nUse commands in this guild like:\n\`${
+					`\n**An all rounder discord bot written by FadeDave#7005**\n\nCommand usage:\n\`${
 						newPrefix ? newPrefix : defaultPrefix
 					} [command] <required arg> (optional arg)\`\n\n**Available commands:**\n`,
 				)
@@ -84,7 +89,7 @@ export default class HelpCommand extends Command {
 				.setFooter(`${defaultPrefix}help [command] for more info on a specific command`)
 				.setDescription(
 					`\n**An all rounder discord bot written by FadeDave#7005**\n
-            \nUse commands like:\n\`${defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Commands:**\n`,
+            \nCommand usage:\n\`${defaultPrefix} [command] <required arg> (optional arg)\`\n\n**Commands:**\n`,
 				)
 				.setThumbnail(OwnerAvatar);
 			for (const category of this.handler.categories.values()) {

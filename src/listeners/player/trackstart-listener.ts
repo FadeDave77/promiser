@@ -16,7 +16,7 @@ export default class TrackStartListener extends Listener {
 			.setTitle('Now Playing')
 			.setDescription(
 				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks after this: ${
-					track.queue.tracks.length - 1
+					track.queue?.tracks.length - 1
 				}`,
 			)
 			.setThumbnail(track.thumbnail)

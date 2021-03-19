@@ -31,6 +31,7 @@ export default class EvalCommand extends Command {
 			else return text;
 		};
 		try {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			let evaled = await eval(code);
 			if (typeof evaled !== 'string') evaled = util.inspect(evaled);
 			if (message.util?.parsed?.alias == 'eval') {
