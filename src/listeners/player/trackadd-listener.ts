@@ -16,7 +16,7 @@ export default class TrackAddListener extends Listener {
 			.setTitle('Track added to queue')
 			.setDescription(
 				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks before this: ${
-					track.queue.tracks.length - 1
+					queue.tracks.length - 1
 				}`,
 			)
 			.setThumbnail(track.thumbnail)

@@ -22,8 +22,8 @@ export default class NowPlayingCommand extends Command {
 		embed
 			.setTitle('Playing now')
 			.setDescription(
-				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${
-					track.requestedBy.tag
+				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nRemaining tracks: ${
+					this.client.player.getQueue(message).tracks.length - 1
 				}\nProgress: ${this.client.player.createProgressBar(message)}`,
 			)
 			.setThumbnail(track.thumbnail)
