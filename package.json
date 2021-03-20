@@ -4,7 +4,7 @@
 	"description": "An all rounder discord bot by FadeDave#7005, written in TypeScript.",
 	"main": "bot.ts",
 	"scripts": {
-		"test": "echo \"No test specified\"",
+		"test": "tsc",
 		"lint": "eslint . --ext .ts",
 		"lintfix": "eslint . --ext .ts --fix",
 		"prepare": "husky install",
