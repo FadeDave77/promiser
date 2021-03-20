@@ -19,6 +19,8 @@ export default class ClearCommand extends Command {
 			return message.util?.send('You are not in the same voice channel as the bot, you cannot control it!');
 		if (!this.client.player.getQueue(message)) return message.util?.send('There is no queue to clear!');
 		this.client.player.clearQueue(message);
+		this.client.player.setLoopMode(message, false);
+		this.client.player.skip(message);
 		return message.react('👌');
 	}
 }

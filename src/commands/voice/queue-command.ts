@@ -21,7 +21,7 @@ export default class QueueCommand extends Command {
 		const embed = new MessageEmbed();
 		embed
 			.setTitle('Queue of `' + String(message.guild?.name) + '`')
-			.setDescription('**`NOW PLAYING`**')
+			.setDescription('\u2193 Now playing \u2193')
 			.setColor('RANDOM');
 		this.client.player
 			.getQueue(message)

@@ -17,14 +17,13 @@ export default class NowPlayingCommand extends Command {
 
 	public async exec(message: Message): Promise<Message | undefined> {
 		if (!this.client.voice.connections.find((e) => e.channel.guild === message.guild)) return message.util?.send('The bot is not connected!');
-
 		const embed = new MessageEmbed();
 		const track = this.client.player.nowPlaying(message);
 		embed
 			.setTitle('Playing now')
 			.setDescription(
-				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks still in queue: ${
-					track.queue.tracks.length - 1
+				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${
+					track.requestedBy.tag
 				}\nProgress: ${this.client.player.createProgressBar(message)}`,
 			)
 			.setThumbnail(track.thumbnail)

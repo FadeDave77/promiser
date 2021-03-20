@@ -22,7 +22,6 @@ export default class MessageDeleteListener extends Listener {
 		const entry = logs?.entries.find(
 			(a: GuildAuditLogsEntry) => (a.target as User).id == message.author.id && (a.extra as Extra).channel.id === message.channel.id && Date.now() - a.createdTimestamp < 200000,
 		);
-		console.log((await message.guild?.fetchAuditLogs({ type: 72, limit: 6 }))?.entries.first());
 
 		const channel: TextChannel | undefined = message.guild?.channels.cache.find((c) => c.name.toLowerCase() === 'bot-log') as TextChannel;
 		if (!channel) return;
