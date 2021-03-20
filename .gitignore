@@ -57,3 +57,8 @@ dist
 .husky/**
 .husky
 .git
+package-lock.json
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
