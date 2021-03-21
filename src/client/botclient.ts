@@ -78,7 +78,7 @@ export default class BotClient extends AkairoClient {
 		leaveOnEmpty: true,
 		leaveOnStop: true,
 		leaveOnEnd: true,
-		leaveOnEndCooldown: 600000,
+		leaveOnEndCooldown: 900000,
 		quality: 'high',
 		enableLive: false,
 		ytdlRequestOptions: { filter: 'audioonly', quality: 'highestaudio' },
