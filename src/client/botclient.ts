@@ -62,8 +62,8 @@ export default class BotClient extends AkairoClient {
 		argumentDefaults: {
 			prompt: {
 				cancelWord: 'exit',
-				modifyStart: (_: Message, str: string): string => `${str}\nPlease enter a value.\nType \`exit\` to exit the prompt.`,
-				modifyRetry: (_: Message, str: string): string => `${str}\nPlease enter a value.\nType \`exit\` to exit the prompt.`,
+				modifyStart: (_: Message, str: string): string => `${str}\n\nType \`exit\` to exit the prompt.`,
+				modifyRetry: (_: Message, str: string): string => `${str}\n\nType \`exit\` to exit the prompt.`,
 				timeout: "You didn't answer in time, the prompt exited automatically.",
 				ended: 'You have exceeded the maximum amount of tries, the command exited.',
 				cancel: 'Command cancelled.',

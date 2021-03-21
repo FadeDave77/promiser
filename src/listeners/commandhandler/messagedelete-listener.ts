@@ -1,6 +1,5 @@
 import { Listener } from 'discord-akairo';
-import { Message, MessageEmbed, TextChannel, GuildAuditLogsEntry, User } from 'discord.js';
-import Discord from 'discord.js';
+import { Message, MessageEmbed, TextChannel, GuildAuditLogsEntry, User, Util } from 'discord.js';
 
 export default class MessageDeleteListener extends Listener {
 	public constructor() {
@@ -16,7 +15,7 @@ export default class MessageDeleteListener extends Listener {
 		};
 
 		if (message.partial || message.author.bot) return;
-		await Discord.Util.delayFor(1000);
+		await Util.delayFor(1000);
 
 		const logs = await message.guild?.fetchAuditLogs({ type: 72, limit: 6 });
 		const entry = logs?.entries.find(

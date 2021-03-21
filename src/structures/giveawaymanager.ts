@@ -31,7 +31,7 @@ export default {
 		void msg.edit(embed);
 
 		if (winners) {
-			void msg.util?.send(
+			void msg.channel.send(
 				`Giveaway has ended for the item **${entry.item}** from **<@${entry.from}>**, ${
 					winnera.length == 1 ? `the winner is: ${winners}.` : `the winners are: ${winners}.`
 				} https://discord.com/channels/${msg.guild?.id}/${entry.channel}/${entry.message}`,

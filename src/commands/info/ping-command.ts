@@ -1,6 +1,5 @@
 import { Command } from 'discord-akairo';
-import { Message, MessageEmbed } from 'discord.js';
-import Discord from 'discord.js';
+import { Message, MessageEmbed, Util } from 'discord.js';
 
 export default class PingCommand extends Command {
 	public constructor() {
@@ -20,7 +19,7 @@ export default class PingCommand extends Command {
 		const timeDiff = (Number(sent.editedAt) || Number(sent.createdAt)) - (Number(message.editedAt) || Number(message.createdAt));
 		const embed = new MessageEmbed().setTitle('Bonk! :flushed:').setColor('RANDOM');
 		const start = Date.now();
-		await Discord.Util.delayFor(100);
+		await Util.delayFor(100);
 		let nd = Date.now() - start - 100;
 		if (nd < 0) nd = 0;
 		const end = nd.toString() + 'ms';

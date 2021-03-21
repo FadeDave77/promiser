@@ -1,6 +1,5 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, Util } from 'discord.js';
 import { Listener } from 'discord-akairo';
-import Discord from 'discord.js';
 import { Track, Queue } from 'discord-player';
 
 export default class TrackStartListener extends Listener {
@@ -23,7 +22,7 @@ export default class TrackStartListener extends Listener {
 			.setThumbnail(track.thumbnail)
 			.setColor('RANDOM');
 		const msg = message.util?.sendNew(embed);
-		await Discord.Util.delayFor(240000);
+		await Util.delayFor(240000);
 		void (await msg)?.delete();
 	}
 }
