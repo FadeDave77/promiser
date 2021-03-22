@@ -10,6 +10,6 @@ export default class NoResultListener extends Listener {
 	}
 
 	public async exec(message: Message, query: string): Promise<Message | undefined> {
-		return message.util?.send('No results found for ' + query);
+		return message.util?.send('No results found for ' + query + '\nPlease try again, if you believe that there should have been a result.');
 	}
 }

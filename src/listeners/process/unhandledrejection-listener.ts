@@ -10,6 +10,7 @@ export default class UnhandledRejectionListener extends Listener {
 		});
 	}
 	public async exec(error: string): Promise<Message | undefined> {
+		// eslint-disable-next-line no-console
 		console.error(error);
 		void (await this.client.users.fetch(OwnerId)).dmChannel?.send(` I have encountered an error on ${this.client.user?.tag} @ ${new Date().toString().substr(0, 31)} o.O`);
 		if (error.length >= 2000) {

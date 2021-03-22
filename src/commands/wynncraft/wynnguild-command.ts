@@ -95,7 +95,7 @@ export default class WynnGuild extends Command {
 				.addField('Contributed', data.members.map((u) => `\`${u.contributed}\``).slice(0, Math.floor(data.members.length / 2)), true)
 				.addField('Joined', data.members.map((u) => `\`${u.joined.slice(0, 10).replaceAll('-', '/')}\``).slice(0, Math.floor(data.members.length / 2)), true)
 				.addField(
-					'Rank Names',
+					'Rank Name',
 					data.members
 						.map((u) => {
 							switch (u.rank) {

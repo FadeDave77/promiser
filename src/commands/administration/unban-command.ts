@@ -29,20 +29,9 @@ export default class UnbanCommand extends Command {
 	public async exec(message: Message, { user }: { user: string }): Promise<Message | undefined> {
 		const bans = await message.guild?.fetchBans();
 		if (!bans || bans.size === 0) return message.util?.send('There are no bans in this guild!');
-		if (bans.find((u) => u.user.id === user)) {
-			void message.guild?.members.unban(user);
-			return message.util?.send(`${bans.find((u) => u.user.id === user)?.user.tag} unbanned successfully.`);
-		} else if (bans.find((u) => u.user.tag == user)) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			void message.guild?.members.unban(bans.find((u) => u.user.tag == user)!.user.id);
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			return message.util?.send(`${bans.find((u) => u.user.tag == user)!.user.tag} unbanned successfully.`);
-		} else if (bans.find((u) => u.user.username == user)) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			void message.guild?.members.unban(bans.find((u) => u.user.username == user)!.user.id);
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			return message.util?.send(`${bans.find((u) => u.user.username == user)!.user.tag} unbanned successfully.`);
-		}
-		return message.util?.send('No ban with the specified search term exists.');
+		const usr = bans.find((u) => u.user.id === user) ?? bans.find((u) => u.user.tag === user) ?? bans.find((u) => u.user.username === user);
+		if (!usr) return message.util?.send('No ban with the specified search term exists.');
+		void message.guild?.members.unban(usr.user.id);
+		return message.util?.send(usr.user.tag + ' unbanned successfully.');
 	}
 }
