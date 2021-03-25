@@ -15,9 +15,7 @@ export default class TrackAddListener extends Listener {
 		embed
 			.setTitle('Track added to queue')
 			.setDescription(
-				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks before this: ${
-					queue.tracks.length - 1
-				}`,
+				`[${track.title}](${track.url}) \`${track.duration}\`\nFrom ${track.author}\nRequested by ${track.requestedBy.tag}\n${queue.tracks.length - 1} tracks before this`,
 			)
 			.setThumbnail(track.thumbnail)
 			.setColor('RANDOM');

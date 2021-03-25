@@ -15,9 +15,7 @@ export default class PlaylistParseEndListener extends Listener {
 			const embed = new MessageEmbed();
 			embed
 				.setTitle('Playlist added to queue')
-				.setDescription(
-					`[Link](${playlist.url})\nTitle: ${playlist.title}\nChannel: ${playlist.channel?.name}\nRequested by: ${playlist.requestedBy.tag}\nSongs added: ${playlist.videoCount}`,
-				)
+				.setDescription(`[${playlist.title}](${playlist.url})\nFrom ${playlist.channel?.name}\nRequested by ${playlist.requestedBy.tag}\nSongs added: ${playlist.videoCount}`)
 				.setThumbnail(playlist.thumbnail)
 				.setColor('RANDOM');
 			return message.util?.send(embed);
@@ -25,7 +23,7 @@ export default class PlaylistParseEndListener extends Listener {
 			const embed = new MessageEmbed();
 			embed
 				.setTitle('Playlist added to queue')
-				.setDescription(`Requested by: ${playlist.requestedBy.tag}\nSongs added: ${playlist.tracks.length}`)
+				.setDescription(`Requested by ${playlist.requestedBy.tag}\nSongs added: ${playlist.tracks.length}`)
 				.setThumbnail(playlist.thumbnail)
 				.setColor('RANDOM');
 			return message.util?.send(embed);

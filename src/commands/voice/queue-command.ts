@@ -27,10 +27,7 @@ export default class QueueCommand extends Command {
 			.getQueue(message)
 			.tracks.slice(0, 20)
 			.forEach((e: Track) =>
-				embed.addField(
-					`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title}`,
-					`Channel: ${e.author}\nDuration: ${e.duration}\nRequested by: ${e.requestedBy.tag}`,
-				),
+				embed.addField(`\`${this.client.player.getQueue(message).tracks.indexOf(e) + 1}\` ${e.title} \`${e.duration}\``, `From ${e.author}\nRequested by ${e.requestedBy.tag}`),
 			);
 		if (this.client.player.getQueue(message).tracks.length > 21) embed.addField('And more:', `${this.client.player.getQueue(message).tracks.length - 20} more songs in queue.`);
 		if (this.client.player.getQueue(message).tracks.length == 21) embed.addField('And more:', 'One more song in queue.');

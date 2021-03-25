@@ -13,11 +13,9 @@ export default class TrackStartListener extends Listener {
 	public async exec(message: Message, track: Track, queue: Queue): Promise<void> {
 		const embed = new MessageEmbed();
 		embed
-			.setTitle('Now Playing')
+			.setTitle('Playing now')
 			.setDescription(
-				`[Link](${track.url})\nTitle: ${track.title}\nChannel: ${track.author}\nDuration: ${track.duration}\nRequested by: ${track.requestedBy.tag}\nTracks after this: ${
-					queue.tracks.length - 1
-				}`,
+				`[${track.title}](${track.url}) \`${track.duration}\`\nFrom ${track.author}\nRequested by ${track.requestedBy.tag}\n${queue.tracks.length - 1} remaining tracks`,
 			)
 			.setThumbnail(track.thumbnail)
 			.setColor('RANDOM');
