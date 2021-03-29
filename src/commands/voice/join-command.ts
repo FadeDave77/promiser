@@ -20,7 +20,6 @@ export default class JoinCommand extends Command {
 		if (
 			Number(this.client.voice.connections.find((e) => e.channel.guild === message.guild)?.channel.members.size) > 1 &&
 			message.author.id != OwnerId &&
-			!message.member.permissions.has('ADMINISTRATOR') &&
 			!message.member.permissions.has('MOVE_MEMBERS')
 		)
 			return message.util?.send("Don't steal the music!");
