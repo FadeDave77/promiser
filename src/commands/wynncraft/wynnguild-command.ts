@@ -2,6 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
 import query from 'querystring';
+import { wynnGuildQuery } from '../../typings';
 
 export default class WynnGuild extends Command {
 	public constructor() {
@@ -29,40 +30,7 @@ export default class WynnGuild extends Command {
 	public async exec(message: Message, { guild }: { guild: string }): Promise<Message | undefined> {
 		const search = query.stringify({ command: guild });
 		try {
-			type guildQuery = {
-				name: string;
-				prefix: string;
-				members: [
-					{
-						name: string;
-						uuid: string;
-						rank: string;
-						contributed: string;
-						joined: string;
-						joinedFriendly: string;
-					},
-				];
-				xp: number;
-				level: number;
-				created: string;
-				createdFriendly: string;
-				territories: number;
-				banner: {
-					base: string;
-					tier: number;
-					layers: [
-						{
-							colour: string;
-							pattern: string;
-						},
-					];
-				};
-				request: {
-					timestamp: number;
-					version: number;
-				};
-			};
-			const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(async (res) => (await res.json()) as guildQuery);
+			const data = await fetch(`https://api.wynncraft.com/public_api.php?action=guildStats&${search}`).then(async (res) => (await res.json()) as wynnGuildQuery);
 			const embed = new MessageEmbed()
 				.setTitle('Data for ' + guild)
 				.setDescription(

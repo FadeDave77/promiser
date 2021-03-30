@@ -9,18 +9,10 @@ export default class UnhandledErrorListener extends Listener {
 			emitter: 'process',
 		});
 	}
-	public async exec(error: string): Promise<Message | undefined> {
+	public async exec(error: string): Promise<Message[] | undefined> {
 		// eslint-disable-next-line no-console
 		console.error(error);
 		void (await this.client.users.fetch(OwnerId)).dmChannel?.send(` I have encountered an error on ${this.client.user?.tag} @ ${new Date().toString().substr(0, 31)} o.O`);
-		if (error.length >= 2000) {
-			const err1 = error.slice(0, error.length / 2);
-			const err2 = error.slice(error.length / 2, error.length);
-			const channel = (await this.client.users.fetch(OwnerId)).dmChannel;
-			void channel?.send(err1);
-			return channel?.send(err2);
-		} else {
-			return (await this.client.users.fetch(OwnerId)).dmChannel?.send('`' + error + '`');
-		}
+		return (await this.client.users.fetch(OwnerId)).dmChannel?.send('`' + error + '`', { split: true });
 	}
 }

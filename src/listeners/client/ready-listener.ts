@@ -26,16 +26,17 @@ export default class ReadyListener extends Listener {
 		await (await this.client.users.fetch(OwnerId)).createDM();
 		void (await this.client.users.fetch(OwnerId)).dmChannel?.send(` I am online on ${this.client.user?.tag} @ ${new Date().toString().substr(0, 31)} UwU`);
 
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
-		setInterval(async () => {
-			const giveaways: Giveaways[] = await giveawayRepo.find();
-			giveaways
-				.filter((g) => g.end <= Math.round(Date.now()) / 1000)
-				.map(async (g) => {
-					const msg: Message | undefined = await ((await this.client.channels?.fetch(g?.channel)) as TextChannel)?.messages?.fetch(g.message);
-					if (!msg) return giveawayRepo.delete(g);
-					void GiveawayManager.end(giveawayRepo, msg);
-				});
+		setInterval(() => {
+			async () => {
+				const giveaways: Giveaways[] = await giveawayRepo.find();
+				giveaways
+					.filter((g) => g.end <= Math.round(Date.now()) / 1000)
+					.map(async (g) => {
+						const msg: Message | undefined = await ((await this.client.channels?.fetch(g?.channel)) as TextChannel)?.messages?.fetch(g.message);
+						if (!msg) return giveawayRepo.delete(g);
+						void GiveawayManager.end(giveawayRepo, msg);
+					});
+			};
 		}, 6e4);
 	}
 }
