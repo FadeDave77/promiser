@@ -24,7 +24,7 @@ export default class ReadyListener extends Listener {
 		}, 3000);
 
 		await (await this.client.users.fetch(OwnerId)).createDM();
-		void (await this.client.users.fetch(OwnerId)).dmChannel?.send(` I am online on ${this.client.user?.tag} @ ${new Date().toString().substr(0, 31)} UwU`);
+		void (await this.client.users.fetch(OwnerId)).dmChannel?.send(`+ Up on ${this.client.user?.tag} @ ${new Date().toString().substr(0, 31)}`, { code: 'diff' });
 
 		setInterval(() => {
 			async () => {

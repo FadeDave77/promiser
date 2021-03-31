@@ -34,13 +34,9 @@ export default class EvalCommand extends Command {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			let evaled = await eval(code);
 			if (typeof evaled !== 'string') evaled = util.inspect(evaled);
-			if (message.util?.parsed?.alias == 'eval') {
-				return message.util?.send(clean(evaled), { code: 'xl' }).catch((err) => {
-					return message.util?.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-				});
-			}
+			if (message.util?.parsed?.alias == 'eval') return message.util?.send(clean(evaled), { split: true, code: 'js' });
 		} catch (err) {
-			return message.util?.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+			return message.util?.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``, { split: true });
 		}
 	}
 }
