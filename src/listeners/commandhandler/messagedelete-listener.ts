@@ -14,6 +14,8 @@ export default class MessageDeleteListener extends Listener {
 			count: number;
 		};
 
+		const channel: TextChannel | undefined = message.guild?.channels.cache.find((c) => c.name.toLowerCase() === 'bot-log') as TextChannel;
+		if (!channel) return;
 		if (message.partial || message.author.bot) return;
 		await Util.delayFor(1000);
 
@@ -22,7 +24,6 @@ export default class MessageDeleteListener extends Listener {
 			(a: GuildAuditLogsEntry) => (a.target as User).id == message.author.id && (a.extra as Extra).channel.id === message.channel.id && Date.now() - a.createdTimestamp < 200000,
 		);
 
-		const channel: TextChannel | undefined = message.guild?.channels.cache.find((c) => c.name.toLowerCase() === 'bot-log') as TextChannel;
 		if (!channel) return;
 		const attachments = message.attachments?.map((e) => e.proxyURL);
 		const embed = new MessageEmbed().setAuthor('Message Deleted | Content:', message.author.displayAvatarURL({ dynamic: true })).setDescription(message.content);
