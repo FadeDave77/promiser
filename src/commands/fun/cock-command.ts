@@ -1,5 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed, User } from 'discord.js';
+import { OwnerId } from '../../config';
 
 export default class CockCommand extends Command {
 	public constructor() {
@@ -26,6 +27,7 @@ export default class CockCommand extends Command {
 			.setTitle(`Oh, i see you got a cock there ${user.username} :eyes:`)
 			.setColor('RANDOM')
 			.setDescription(`It is **${Math.floor(Math.random() * 250) / 10}cm** long :hushed:`);
+		if (message.author.id == OwnerId) embed.setDescription(`It is **${Math.floor(Math.random() * 500) / 10}cm** long :hushed:`);
 
 		return message.util?.send(embed);
 	}
