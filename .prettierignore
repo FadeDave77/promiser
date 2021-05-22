@@ -1,0 +1,17 @@
+config.ts
+.vscode
+config.js
+node_modules/**
+node_modules
+botlog
+dist
+package-lock.json
+.git
+.github
+.husky
+src/examples
+.eslintrc
+.prettierrc
+package.json
+tsconfig.json
+README.md

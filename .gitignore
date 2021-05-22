@@ -54,11 +54,4 @@ node_modules/**
 node_modules
 botlog
 dist
-.husky/**
-.husky
 .git
-package-lock.json
-.eslintrc
-.eslintignore
-.prettierrc
-.prettierignore
